@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 13, 2026 at 11:17 AM
+-- Generation Time: May 20, 2026 at 12:06 PM
 -- Server version: 10.11.15-MariaDB-cll-lve
--- PHP Version: 8.4.19
+-- PHP Version: 8.4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,32 +38,54 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('adminerp-cache-drive_vehicle:CAD-7412', 'a:3:{s:6:\"reg_no\";s:8:\"CAD-7412\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"PRIUS\";}', 1778671416),
-('adminerp-cache-drive_vehicle:CAE-4853', 'a:3:{s:6:\"reg_no\";s:8:\"CAE-4853\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AQUA\";}', 1778669912),
+('adminerp-cache-drive_vehicle:CAD-7412', 'a:3:{s:6:\"reg_no\";s:8:\"CAD-7412\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"PRIUS\";}', 1778687998),
+('adminerp-cache-drive_vehicle:CAE-4853', 'a:3:{s:6:\"reg_no\";s:8:\"CAE-4853\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AQUA\";}', 1779279846),
 ('adminerp-cache-drive_vehicle:CAI-1848', 'a:3:{s:6:\"reg_no\";s:8:\"CAI-1848\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:9:\"PRADO 150\";}', 1778248925),
-('adminerp-cache-drive_vehicle:CAP-5023', 'a:3:{s:6:\"reg_no\";s:8:\"CAP-5023\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AQUA\";}', 1778669707),
+('adminerp-cache-drive_vehicle:CAO-9712', 'a:3:{s:6:\"reg_no\";s:8:\"CAO-9712\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AXIO\";}', 1779273600),
+('adminerp-cache-drive_vehicle:CAP-0853', 'a:3:{s:6:\"reg_no\";s:8:\"CAP-0853\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"PRIUS\";}', 1779261096),
+('adminerp-cache-drive_vehicle:CAP-5023', 'a:3:{s:6:\"reg_no\";s:8:\"CAP-5023\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AQUA\";}', 1778679001),
 ('adminerp-cache-drive_vehicle:CAX-4197', 'a:3:{s:6:\"reg_no\";s:8:\"CAX-4197\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:9:\"PRADO 150\";}', 1777969632),
-('adminerp-cache-drive_vehicle:CAX-7637', 'a:3:{s:6:\"reg_no\";s:8:\"CAX-7637\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AXIO\";}', 1778575810),
+('adminerp-cache-drive_vehicle:CAX-7637', 'a:3:{s:6:\"reg_no\";s:8:\"CAX-7637\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"AXIO\";}', 1779273739),
 ('adminerp-cache-drive_vehicle:CAY-3385', 'a:3:{s:6:\"reg_no\";s:8:\"CAY-3385\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1777614518),
 ('adminerp-cache-drive_vehicle:CAZ-2284', 'a:3:{s:6:\"reg_no\";s:8:\"CAZ-2284\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"vitz\";}', 1777555966),
 ('adminerp-cache-drive_vehicle:CBB-8740', 'a:3:{s:6:\"reg_no\";s:8:\"CBB-8740\";s:4:\"make\";s:10:\"LAND ROVER\";s:5:\"model\";s:17:\"RANGE ROVER SPORT\";}', 1777555958),
-('adminerp-cache-drive_vehicle:CBF-6651', 'a:3:{s:6:\"reg_no\";s:8:\"CBF-6651\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"vitz\";}', 1778669913),
-('adminerp-cache-drive_vehicle:CBM-5684', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5684\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1778669913),
+('adminerp-cache-drive_vehicle:CBC-3319', 'a:3:{s:6:\"reg_no\";s:8:\"CBC-3319\";s:4:\"make\";s:6:\"Nissan\";s:5:\"model\";s:4:\"DAYZ\";}', 1779274767),
+('adminerp-cache-drive_vehicle:CBD-8266', 'a:3:{s:6:\"reg_no\";s:8:\"CBD-8266\";s:4:\"make\";s:5:\"Honda\";s:5:\"model\";s:5:\"GRACE\";}', 1779279846),
+('adminerp-cache-drive_vehicle:CBF-6651', 'a:3:{s:6:\"reg_no\";s:8:\"CBF-6651\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"vitz\";}', 1779277556),
+('adminerp-cache-drive_vehicle:CBF-9182', 'a:3:{s:6:\"reg_no\";s:8:\"CBF-9182\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:4:\"WIGO\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBM-5684', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5684\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779279891),
+('adminerp-cache-drive_vehicle:CBM-5687', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5687\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779277648),
+('adminerp-cache-drive_vehicle:CBM-5703', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5703\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779279845),
 ('adminerp-cache-drive_vehicle:CBM-5706', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5706\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1777620974),
 ('adminerp-cache-drive_vehicle:CBM-5707', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5707\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1778238685),
-('adminerp-cache-drive_vehicle:CBM-5708', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5708\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1778575810),
-('adminerp-cache-drive_vehicle:CBM-5709', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5709\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1778669913),
-('adminerp-cache-drive_vehicle:CBM-5712', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5712\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1777557066),
-('adminerp-cache-drive_vehicle:CBM-5718', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5718\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1778669913),
+('adminerp-cache-drive_vehicle:CBM-5708', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5708\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBM-5709', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5709\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1779277647),
+('adminerp-cache-drive_vehicle:CBM-5712', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5712\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779086216),
+('adminerp-cache-drive_vehicle:CBM-5715', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5715\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779279845),
+('adminerp-cache-drive_vehicle:CBM-5718', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5718\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779279846),
+('adminerp-cache-drive_vehicle:CBM-5720', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5720\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1779279846),
 ('adminerp-cache-drive_vehicle:CBM-5723', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5723\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:4:\"Axia\";}', 1777472402),
-('adminerp-cache-drive_vehicle:CBM-8143', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-8143\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1778670645),
-('adminerp-cache-drive_vehicle:CBQ-8861', 'a:3:{s:6:\"reg_no\";s:8:\"CBQ-8861\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1778669912),
+('adminerp-cache-drive_vehicle:CBM-5725', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-5725\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBM-8143', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-8143\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1778861593),
+('adminerp-cache-drive_vehicle:CBM-8155', 'a:3:{s:6:\"reg_no\";s:8:\"CBM-8155\";s:4:\"make\";s:7:\"Perodua\";s:5:\"model\";s:5:\"Bezza\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBQ-8851', 'a:3:{s:6:\"reg_no\";s:8:\"CBQ-8851\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBQ-8861', 'a:3:{s:6:\"reg_no\";s:8:\"CBQ-8861\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779277647),
 ('adminerp-cache-drive_vehicle:CBQ-9481', 'a:3:{s:6:\"reg_no\";s:8:\"CBQ-9481\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"ROOMY\";}', 1777555966),
-('adminerp-cache-drive_vehicle:CBS-9860', 'a:3:{s:6:\"reg_no\";s:8:\"CBS-9860\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1778666080),
-('adminerp-cache-drive_vehicle:CBT-2241', 'a:3:{s:6:\"reg_no\";s:8:\"CBT-2241\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"RAIZE\";}', 1778669913),
-('adminerp-cache-drive_vehicle:CBT-4751', 'a:3:{s:6:\"reg_no\";s:8:\"CBT-4751\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1778669913),
-('adminerp-cache-drive_vehicle:CBV-8252', 'a:3:{s:6:\"reg_no\";s:8:\"CBV-8252\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1778646096),
-('adminerp-cache-drive_vehicle:PD-9606', 'a:3:{s:6:\"reg_no\";s:7:\"PD-9606\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:3:\"KDH\";}', 1778669913);
+('adminerp-cache-drive_vehicle:CBS-0870', 'a:3:{s:6:\"reg_no\";s:8:\"CBS-0870\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBS-9859', 'a:3:{s:6:\"reg_no\";s:8:\"CBS-9859\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1779280028),
+('adminerp-cache-drive_vehicle:CBS-9860', 'a:3:{s:6:\"reg_no\";s:8:\"CBS-9860\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1779280028),
+('adminerp-cache-drive_vehicle:CBS-9861', 'a:3:{s:6:\"reg_no\";s:8:\"CBS-9861\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1779279846),
+('adminerp-cache-drive_vehicle:CBS-9863', 'a:3:{s:6:\"reg_no\";s:8:\"CBS-9863\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBT-2241', 'a:3:{s:6:\"reg_no\";s:8:\"CBT-2241\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"RAIZE\";}', 1779279845),
+('adminerp-cache-drive_vehicle:CBT-4751', 'a:3:{s:6:\"reg_no\";s:8:\"CBT-4751\";s:4:\"make\";s:6:\"JETOUR\";s:5:\"model\";s:8:\"X70 PLUS\";}', 1779279891),
+('adminerp-cache-drive_vehicle:CBV-8252', 'a:3:{s:6:\"reg_no\";s:8:\"CBV-8252\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBV-8253', 'a:3:{s:6:\"reg_no\";s:8:\"CBV-8253\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779279891),
+('adminerp-cache-drive_vehicle:CBV-8254', 'a:3:{s:6:\"reg_no\";s:8:\"CBV-8254\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779279845),
+('adminerp-cache-drive_vehicle:CBV-8255', 'a:3:{s:6:\"reg_no\";s:8:\"CBV-8255\";s:4:\"make\";s:2:\"MG\";s:5:\"model\";s:2:\"ZS\";}', 1779279843),
+('adminerp-cache-drive_vehicle:CBV-8397', 'a:3:{s:6:\"reg_no\";s:8:\"CBV-8397\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:5:\"ROOMY\";}', 1778776506),
+('adminerp-cache-drive_vehicle:PC-1058', 'a:3:{s:6:\"reg_no\";s:7:\"PC-1058\";s:4:\"make\";s:6:\"NISSAN\";s:5:\"model\";s:7:\"CARAVAN\";}', 1779279846),
+('adminerp-cache-drive_vehicle:PD-9606', 'a:3:{s:6:\"reg_no\";s:7:\"PD-9606\";s:4:\"make\";s:6:\"Toyota\";s:5:\"model\";s:3:\"KDH\";}', 1779279891),
+('adminerp-cache-drive_vehicle:PE-6837', 'a:3:{s:6:\"reg_no\";s:7:\"PE-6837\";s:4:\"make\";s:6:\"Nissan\";s:5:\"model\";s:7:\"CARAVAN\";}', 1779255377);
 
 -- --------------------------------------------------------
 
@@ -147,7 +169,7 @@ INSERT INTO `employees` (`employee_id`, `employee_code`, `employment_status`, `d
 (24, 'EV-000024', 'Active', '2026-03-30 12:55:35', 'Manuwel Arachchigae Navodya Divyanjali', 'Navodya  Divyanjali', '2002-04-20', 'Female', 'Single', 'Sri Lankan', 'B+', '79', 'Fingerprint', '1', '12', '2026-05-12 23:42:38'),
 (25, 'EV-000025', 'Active', '2026-03-30 13:01:57', 'Kuruwita Bandaralage Yuwanee Ahinsika Jayasena', 'Yuwanee Ahinsika', '2000-05-20', 'Female', 'Single', 'Sri Lankan', 'B+', NULL, 'Manual', '1', '12', '2026-05-12 23:46:24'),
 (26, 'EV-000026', 'Active', '2026-03-30 13:09:10', 'Wadu Arachchilage Induru Udantha Waduarachchi', 'Induru Udantha', '2001-05-22', 'Male', 'Single', 'Sri Lankan', 'AB+', NULL, 'Manual', '1', '12', '2026-05-12 23:46:02'),
-(27, 'EV-000027', 'Active', '2026-03-30 13:25:51', 'Thisaru Nadeeshana Meemanage', 'Thisaru', '1999-08-03', 'Male', 'Married', 'Sri Lankan', NULL, '78', 'Fingerprint', '12', '12', '2026-05-12 23:41:54'),
+(27, 'EV-000027', 'Active', '2026-03-30 13:25:51', 'Thisaru Nadeeshana Meemanage', 'Thisaru', '1999-08-03', 'Male', 'Married', 'Sri Lankan', NULL, '78', 'Fingerprint', '12', '12', '2026-05-14 10:00:22'),
 (28, 'EV-000028', 'Active', '2026-03-30 14:13:56', 'Chandrasekara Mudiyanselage Hasitha Lakmal Chandrasekara', 'Hasitha Chandrasekara', '1995-11-04', 'Male', 'Single', 'Sri Lankan', 'O+', '050', 'Fingerprint', '12', '12', '2026-05-12 23:31:10'),
 (29, 'EV-000029', 'Active', '2026-03-30 14:31:47', 'Kuranage Primali Verjinia Muthumali Perera', 'Primali Perera', '1989-04-06', 'Female', 'Single', 'Sri Lankan', 'O+', '48', 'Fingerprint', '12', '12', '2026-05-13 15:11:59'),
 (30, 'EV-000030', 'Active', '2026-03-30 18:02:38', 'Rankiri Hetti Arachchige Dona Shalinika Nilakshi Perera', 'Shalinika Nilakshi', '1992-07-31', 'Female', 'Married', 'Sri Lankan', 'O+', '035', 'Fingerprint', '12', '12', '2026-05-12 23:21:39'),
@@ -170,19 +192,19 @@ INSERT INTO `employees` (`employee_id`, `employee_code`, `employment_status`, `d
 (48, 'EV-000048', 'Active', '2026-04-01 18:20:28', 'Sembu Arachchilage Ajith', 'Sembu Ajith', '1969-09-21', 'Male', 'Married', 'Sri Lankan', NULL, '29', 'Fingerprint', '12', '12', '2026-05-12 16:54:12'),
 (49, 'EV-000049', 'Active', '2026-04-01 18:25:34', 'Nissanka Kaplia Silva', 'Kapila Silva', '1980-06-01', 'Male', 'Married', 'Sri Lankan', NULL, '50', 'Fingerprint', '12', '12', '2026-05-12 17:11:02'),
 (50, 'EV-000050', 'Active', '2026-04-01 18:31:11', 'Hodamuni Sahan Madusanka Mendis', 'Sahan Mendis', '1996-10-25', 'Male', 'Married', 'Sri Lankan', NULL, '56', 'Fingerprint', '12', '12', '2026-05-12 17:38:41'),
-(51, 'EV-000051', 'Active', '2026-04-01 19:41:59', 'Mohottige Moshin Glenter Fernando', 'Moshin  Fernando', '1989-01-10', 'Male', 'Other', 'Sri Lankan', 'B+', '80', 'Fingerprint', '1', '12', '2026-05-12 23:43:23'),
-(52, 'EV-000052', 'Active', '2026-04-01 20:22:40', 'Wickramasuriya Murthawalage Tharindu Sriyan', 'Tharindu  Sriyan', '1995-01-12', 'Male', 'Single', 'Sri Lankan', 'A+', '0076', 'Fingerprint', '1', '1', '2026-04-01 20:22:40'),
+(51, 'EV-000051', 'Active', '2026-04-01 19:41:59', 'Mohottige Moshin Glenter Fernando', 'Moshin  Fernando', '1989-01-10', 'Male', 'Other', 'Sri Lankan', 'B+', '80', 'Fingerprint', '1', '12', '2026-05-18 11:36:22'),
+(52, 'EV-000052', 'Active', '2026-04-01 20:22:40', 'Wickramasuriya Murthawalage Tharindu Sriyan', 'Tharindu  Sriyan', '1995-01-12', 'Male', 'Single', 'Sri Lankan', 'A+', '0076', 'Fingerprint', '1', '1', '2026-05-19 10:27:20'),
 (53, 'EV-000053', 'Active', '2026-04-01 22:21:28', 'Balasuriya Arachchilage Asanka Sujeewa Amarasiri', 'Sujeewa Amarasiri', '1980-12-05', 'Male', 'Married', 'Sri Lankan', NULL, '69', 'Fingerprint', '12', '12', '2026-05-12 17:48:10'),
 (54, 'EV-000054', 'Active', '2026-04-01 22:30:42', 'Garaduwa Weerakkodige Roshan Pradeep', 'Roshan Pradeep', '1980-12-08', 'Male', 'Married', 'Sri Lankan', NULL, '068', 'Fingerprint', '12', '12', '2026-05-12 17:40:21'),
 (55, 'EV-000055', 'Active', '2026-04-01 22:50:46', 'Kachchakaduge Lalin Amitha', 'Lalin Amith', '1991-08-14', 'Male', 'Married', 'Sri Lankan', NULL, '044', 'Fingerprint', '12', '12', '2026-05-12 23:28:07'),
 (56, 'EV-000056', 'Active', '2026-04-01 22:59:51', 'Nisanka Achintha Lankesh De Silva', 'Lankesh De Silva', '1977-05-23', 'Male', 'Single', 'Sri Lankan', NULL, '46', 'Fingerprint', '12', '12', '2026-05-12 23:29:00'),
 (57, 'EV-000057', 'Active', '2026-04-01 23:11:24', 'Don Nipun Buddhi Susanga Watawala', 'Nipun Watawala', '1997-11-29', 'Male', 'Single', 'Sri Lankan', NULL, '47', 'Fingerprint', '12', '12', '2026-05-12 23:29:40'),
 (58, 'EV-000058', 'Active', '2026-04-01 23:39:53', 'Basthiyan Koralalage Milan Madushanka Rodrigo', 'Milan Rodrigo', '1989-02-27', 'Male', 'Married', 'Sri Lankan', NULL, '57', 'Fingerprint', '12', '12', '2026-05-12 23:32:52'),
-(59, 'EV-000059', 'Active', '2026-04-01 23:48:12', 'Atampola Arachchige Dona Nimeshi Tharuka Sewwandi', 'Tharuka Sewwandi', '1997-05-09', 'Female', 'Married', 'Sri Lankan', NULL, '53', 'Fingerprint', '12', '12', '2026-04-01 23:48:12'),
-(60, 'EV-000060', 'Active', '2026-04-01 23:56:04', 'Thiruckeswaran Keshika', 'Keshika', '2005-10-12', 'Female', 'Single', 'Sri Lankan', NULL, '075', 'Fingerprint', '12', '12', '2026-05-12 23:39:19'),
+(59, 'EV-000059', 'Active', '2026-04-01 23:48:12', 'Atampola Arachchige Dona Nimeshi Tharuka Sewwandi', 'Tharuka Sewwandi', '1997-05-09', 'Female', 'Married', 'Sri Lankan', NULL, '53', 'Fingerprint', '12', '1', '2026-05-19 11:44:27'),
+(60, 'EV-000060', 'Active', '2026-04-01 23:56:04', 'Thiruckeswaran Keshika', 'Keshika', '2005-10-12', 'Female', 'Single', 'Sri Lankan', NULL, '075', 'Fingerprint', '12', '12', '2026-05-19 09:41:50'),
 (61, 'EV-000061', 'Active', '2026-04-02 00:05:53', 'Rajapaksha Walhenage Lakshitha Sandaruwan Rajapaksha', 'Lakshitha  Sandaruwan', '2000-01-05', 'Male', 'Single', 'Sri Lankan', NULL, '082', 'Fingerprint', '12', '12', '2026-05-12 15:22:07'),
 (62, 'EV-000062', 'Active', '2026-04-02 00:11:36', 'Kuruwa Vithanage Shama Neranjala', 'Shama Neranjala', '1972-07-07', 'Female', 'Married', 'Sri Lankan', NULL, '66', 'Fingerprint', '12', '12', '2026-05-12 23:36:36'),
-(63, 'EV-000063', 'Active', '2026-04-02 00:20:04', 'Manueldura Shaun Leon Perera', 'Shaun Perera', '2000-01-01', 'Male', 'Single', 'Sri Lankan', NULL, '1', 'Fingerprint', '12', '12', '2026-04-02 00:20:04'),
+(63, 'EV-000063', 'Active', '2026-04-02 00:20:04', 'Manueldura Shaun Leon Perera', 'Shaun Perera', '2000-01-01', 'Male', 'Single', 'Sri Lankan', NULL, '1', 'Fingerprint', '12', '1', '2026-05-19 11:46:05'),
 (64, 'EV-000064', 'Active', '2026-04-02 00:37:36', 'Disanayaka Mudiyanselage Pubudu Hiroshan Wickramasinghe', 'Pubudu Wickramasinghe', '1989-08-06', 'Male', 'Married', 'Sri Lankan', NULL, '002', 'Fingerprint', '12', '12', '2026-05-12 14:54:12'),
 (65, 'EV-000065', 'Active', '2026-04-02 00:50:46', 'Alawa Dewarage Jagath Wijesingha', 'Jagath Wijesingha', '1986-06-13', 'Male', 'Married', 'Sri Lankan', NULL, '04', 'Fingerprint', '12', '12', '2026-05-12 14:58:08'),
 (66, 'EV-000066', 'Active', '2026-04-02 00:56:05', 'Kuvendran Lashen Dilash', 'Lashen Dilash', '2007-01-25', 'Male', 'Single', 'Sri Lankan', NULL, '00', 'Fingerprint', '12', '12', '2026-05-12 15:19:44'),
@@ -190,7 +212,7 @@ INSERT INTO `employees` (`employee_id`, `employee_code`, `employment_status`, `d
 (68, 'EV-000068', 'Active', '2026-04-02 05:34:23', 'Hasthimuni Priyan Prasad De Silva', 'Prasad De Silva', '1980-01-05', 'Male', 'Married', 'Sri Lankan', NULL, '078', 'Fingerprint', '12', '12', '2026-05-12 16:37:13'),
 (69, 'EV-000069', 'Active', '2026-04-02 05:43:15', 'Ravindu Lakshmana Abesinhalage Niyangoda', 'Ravindu Niyangoda', '2000-12-27', 'Male', 'Single', 'Sri Lankan', NULL, '079', 'Fingerprint', '12', '12', '2026-05-12 15:22:52'),
 (70, 'EV-000070', 'Active', '2026-04-02 05:50:32', 'Hettige Boniface Mangala Perera', 'Boniface Mangala', '1958-08-27', 'Male', 'Single', 'Sri Lankan', NULL, '034', 'Fingerprint', '12', '12', '2026-05-12 16:55:06'),
-(71, 'EV-000071', 'Active', '2026-04-02 05:56:36', 'Kurukulasooriya Dicsion Kumara Fernando', 'Dicsion Kumara', '2006-12-31', 'Male', 'Married', 'Sri Lankan', NULL, '039', 'Fingerprint', '12', '12', '2026-05-13 15:13:09'),
+(71, 'EV-000071', 'Active', '2026-04-02 05:56:36', 'Kurukulasooriya Dicsion Kumara Fernando', 'Dicsion Kumara', '2006-12-31', 'Male', 'Married', 'Sri Lankan', NULL, '039', 'Fingerprint', '12', '12', '2026-05-20 11:23:53'),
 (72, 'EV-000072', 'Active', '2026-04-02 06:03:11', 'Rajapaksha Mudiyanselage Heshan Sandaruwan Ariyarathna', 'Heshan Sandaruwan', '1999-02-27', 'Male', 'Single', 'Sri Lankan', NULL, '042', 'Fingerprint', '12', '12', '2026-05-12 17:05:48'),
 (73, 'EV-000073', 'Active', '2026-04-02 06:11:05', 'Konda Gamage Suran Chamara Grero', 'Chamara Grero', '1990-01-26', 'Male', 'Married', 'Sri Lankan', NULL, '45', 'Fingerprint', '12', '12', '2026-05-13 10:39:11'),
 (74, 'EV-000074', 'Active', '2026-04-02 06:17:47', 'Mandadige Rasika Sampath Fernando', 'Sampath Fernando', '1979-11-05', 'Male', 'Married', 'Sri Lankan', NULL, '053', 'Fingerprint', '12', '12', '2026-05-12 17:12:34'),
@@ -203,7 +225,7 @@ INSERT INTO `employees` (`employee_id`, `employee_code`, `employment_status`, `d
 (81, 'EV-000081', 'Active', '2026-04-02 07:05:51', 'Kulakulasuriyage Augustin Ajith Kumar Fernando', 'Kumara Fernando', '1975-06-07', 'Male', 'Married', 'Sri Lankan', NULL, '061', 'Fingerprint', '12', '12', '2026-05-12 17:41:41'),
 (82, 'EV-000082', 'Active', '2026-04-02 07:12:17', 'Kangana Mudiyanselage Lahiru Dhipthi Kumara', 'Lahiru Kumara', '2003-10-25', 'Male', 'Single', 'Sri Lankan', NULL, '063', 'Fingerprint', '12', '12', '2026-05-12 17:42:49'),
 (83, 'EV-000083', 'Active', '2026-04-02 07:17:13', 'Rupasingha Dewage Ashan Madushanka Fernando', 'Ashen Fernando', '1997-02-02', 'Male', 'Married', 'Sri Lankan', NULL, '065', 'Fingerprint', '12', '12', '2026-05-13 11:17:17'),
-(84, 'EV-000084', 'Active', '2026-04-16 12:05:51', 'Oswattaliyanage Dhilhara Sudharshi Perera', 'Dhilhara', '1986-04-16', 'Female', 'Single', 'Sri Lankan', NULL, NULL, 'Fingerprint', '12', '12', '2026-04-16 12:05:51');
+(84, 'EV-000084', 'Active', '2026-04-16 12:05:51', 'Oswattaliyanage Dhilhara Sudharshi Perera', 'Dhilhara', '1986-04-16', 'Female', 'Single', 'Sri Lankan', NULL, NULL, 'Fingerprint', '12', '12', '2026-05-18 13:29:59');
 
 -- --------------------------------------------------------
 
@@ -227,12 +249,8 @@ CREATE TABLE `employee_addresses` (
 --
 
 INSERT INTO `employee_addresses` (`employee_address_id`, `employee_id`, `address_type`, `address_line_1`, `city`, `country`, `postal_code`, `is_current`) VALUES
-(102, 52, 'Residential', '199/1 Balabowa Develapola', 'Gampaha', 'Sri Lanka', NULL, 1),
-(112, 59, 'Residential', '248/11 Morakelewaththa ,Hendiyagala,Sandalankawa', 'Sandalankawa', 'Sri Lanka', NULL, 1),
-(117, 63, 'Residential', 'Null', 'Null', 'Sri Lanka', NULL, 1),
 (168, 10, 'Residential', 'Ihala Kottaramulla', 'Nattandiya', 'Sri Lanka', NULL, 1),
 (176, 11, 'Residential', '685 C Nimsalamariya mawatha Thewatha Road Ragama', 'Ragama', 'Sri Lanka', NULL, 1),
-(177, 84, 'Residential', 'Weligampitiya', 'Ja Ela', 'Sri Lanka', NULL, 1),
 (211, 64, 'Residential', '83/4/2 Vijaya Mawatha Veyangoda', 'Veyangoda', 'Sri Lanka', NULL, 1),
 (212, 65, 'Residential', '368/2, Madapitina, Negombo.', 'Negombo', 'Sri Lanka', NULL, 1),
 (214, 18, 'Residential', '127, Winston Park, Kadirana, Negombo', 'Negombo', 'Sri Lanka', '11500', 1),
@@ -278,11 +296,8 @@ INSERT INTO `employee_addresses` (`employee_address_id`, `employee_id`, `address
 (272, 19, 'Residential', 'No:228/B/1B, Kondagammulla,Miriswatta', 'Negombo', 'Sri Lanka', NULL, 1),
 (273, 62, 'Residential', '155/39A, Amuna Rd, South Seeduwa,Seeduwa.', 'Seeduwa', 'Sri Lanka', NULL, 1),
 (274, 32, 'Residential', 'No. 101/10 Melrose Park Seeduwa Road Kotugoda', 'Kotugoda', 'Sri Lanka', NULL, 1),
-(275, 60, 'Residential', 'No,195,Sea Street, Negombo.', 'Negombo', 'Sri Lanka', NULL, 1),
 (276, 35, 'Residential', '478/D, Raddoluwa Raddolugama', 'Raddoluwa', 'Sri Lanka', NULL, 1),
-(277, 27, 'Residential', '70/1 F sama mawatha, padiliyathuduwa road, hunupitiya', 'wattala', 'Sri Lanka', NULL, 1),
 (278, 24, 'Residential', '109/1 Andhimulla Katana', 'Katana', 'Sri Lanka', NULL, 1),
-(279, 51, 'Residential', '65,Bandarawatta Seeduwa', 'Seeduwa', 'Sri Lanka', NULL, 1),
 (280, 46, 'Residential', '354,Halgasthota,Katunayake', 'Katunayake', 'Sri Lanka', '11450', 1),
 (281, 80, 'Residential', '461/9 Melwatta Mukalangamuwa ,seeduwa', 'Seeduwa', 'Sri Lanka', NULL, 1),
 (282, 26, 'Residential', 'No 251, Ihala Kottaramulla, Pahala Kottaramulla', 'Nattandiya', 'Sri Lanka', NULL, 1),
@@ -295,7 +310,14 @@ INSERT INTO `employee_addresses` (`employee_address_id`, `employee_id`, `address
 (291, 83, 'Residential', '461/34 ,Melwatha,Mukalangamuwa, Seeduwa.', 'Seeduwa', 'Sri Lanka', NULL, 1),
 (292, 39, 'Residential', '209/ St. Nicholas Road, Munnakkaraya', 'Negombo', 'Sri Lanka', NULL, 1),
 (293, 29, 'Residential', 'No.105/A2, St Annes Road, Thimbirigaskatuwa', 'Negombo', 'Sri Lanka', NULL, 1),
-(294, 71, 'Residential', '217/18, Siriwardana Pedesa Munnakkaraya, Negombo.', 'Negombo', 'Sri Lanka', NULL, 1);
+(295, 27, 'Residential', '70/1 F sama mawatha, padiliyathuduwa road, hunupitiya', 'wattala', 'Sri Lanka', NULL, 1),
+(298, 51, 'Residential', '65,Bandarawatta Seeduwa', 'Seeduwa', 'Sri Lanka', NULL, 1),
+(300, 84, 'Residential', 'Weligampitiya', 'Ja Ela', 'Sri Lanka', NULL, 1),
+(301, 60, 'Residential', 'No,195,Sea Street, Negombo.', 'Negombo', 'Sri Lanka', NULL, 1),
+(303, 52, 'Residential', '199/1 Balabowa Develapola', 'Gampaha', 'Sri Lanka', NULL, 1),
+(304, 59, 'Residential', '248/11 Morakelewaththa ,Hendiyagala,Sandalankawa', 'Sandalankawa', 'Sri Lanka', NULL, 1),
+(305, 63, 'Residential', 'Null', 'Null', 'Sri Lanka', NULL, 1),
+(306, 71, 'Residential', '217/18, Siriwardana Pedesa Munnakkaraya, Negombo.', 'Negombo', 'Sri Lanka', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -316,12 +338,8 @@ CREATE TABLE `employee_bank_accounts` (
 --
 
 INSERT INTO `employee_bank_accounts` (`bank_account_id`, `employee_id`, `bank_name`, `bank_branch_name`, `bank_account_number`) VALUES
-(100, 52, 'Hatton National Bank', 'Seeduwa', '209020150983'),
-(110, 59, 'Hatton National Bank', 'Sandalankawa', '00000000000'),
-(115, 63, 'Hatton National Bank', 'Seeduwa', '000000000000'),
 (165, 10, 'Nations Trust Bank', 'Seeduwa', '45689156156'),
 (173, 11, 'Hatton National Bank', 'M A S Perera', '102020014889'),
-(174, 84, 'Commercial Bank', 'Nill', '000000000000'),
 (208, 64, 'Hatton National Bank', 'Seeduwa', '000000000000'),
 (209, 65, 'Hatton National Bank', 'Seeduwa', '000000000000'),
 (211, 18, 'Hatton National Bank', 'Seeduwa', '209020074385'),
@@ -367,11 +385,8 @@ INSERT INTO `employee_bank_accounts` (`bank_account_id`, `employee_id`, `bank_na
 (269, 19, 'Hatton National Bank', 'Negombo', '024020684176'),
 (270, 62, 'Hatton National Bank', 'Seeduwa', '00000000000'),
 (271, 32, 'Hatton National Bank', 'Negombo', '024020667577'),
-(272, 60, 'Hatton National Bank', 'Negombo', '000000000000'),
 (273, 35, 'Hatton National Bank', 'Seeduwa', '209020141672'),
-(274, 27, 'Hatton National Bank', 'Kiribathgoda', '500020017441'),
 (275, 24, 'Hatton National Bank', 'Negombo', '024020742018'),
-(276, 51, 'Hatton National Bank', 'Seeduwa', '209020138207'),
 (277, 46, 'Hatton National Bank', 'Seeduwa', '209020164813'),
 (278, 80, 'Hatton National Bank', 'Seeduwa', '000000000000'),
 (279, 26, 'People\'s Bank', 'Nattandiya', '083200150043028'),
@@ -383,7 +398,14 @@ INSERT INTO `employee_bank_accounts` (`bank_account_id`, `employee_id`, `bank_na
 (287, 83, 'Hatton National Bank', 'Seeduwa', '000000000000'),
 (288, 39, 'Commercial Bank', 'Negombo Main', '8026636111'),
 (289, 29, 'Hatton National Bank', 'Seeduwa', '209020089952'),
-(290, 71, 'Hatton National Bank', 'Negombo', '000000000000');
+(291, 27, 'Hatton National Bank', 'Kiribathgoda', '500020017441'),
+(294, 51, 'Hatton National Bank', 'Seeduwa', '209020138207'),
+(296, 84, 'Commercial Bank', 'Nill', '000000000000'),
+(297, 60, 'Hatton National Bank', 'Negombo', '000000000000'),
+(299, 52, 'Hatton National Bank', 'Seeduwa', '209020150983'),
+(300, 59, 'Hatton National Bank', 'Sandalankawa', '00000000000'),
+(301, 63, 'Hatton National Bank', 'Seeduwa', '000000000000'),
+(302, 71, 'Hatton National Bank', 'Negombo', '000000000000');
 
 -- --------------------------------------------------------
 
@@ -416,7 +438,7 @@ INSERT INTO `employee_compensation` (`comp_id`, `employee_id`, `salary_currency`
 (23, 24, 'LKR', 'Monthly', NULL, NULL),
 (24, 25, 'LKR', 'Monthly', NULL, NULL),
 (25, 26, 'LKR', 'Monthly', NULL, NULL),
-(26, 27, 'LKR', 'Monthly', '2026-02-18', '2026-03-19'),
+(26, 27, 'LKR', 'Monthly', '2026-02-17', '2026-03-18'),
 (27, 28, 'LKR', 'Monthly', '2026-02-17', '2026-03-16'),
 (28, 29, 'LKR', 'Monthly', '2026-02-16', '2026-03-17'),
 (29, 30, 'LKR', 'Monthly', '2026-02-18', '2026-03-17'),
@@ -439,19 +461,19 @@ INSERT INTO `employee_compensation` (`comp_id`, `employee_id`, `salary_currency`
 (47, 48, 'LKR', 'Monthly', '2026-02-18', '2026-03-17'),
 (48, 49, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (49, 50, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
-(50, 51, 'LKR', 'Monthly', '2026-02-17', '2026-03-16'),
-(51, 52, 'LKR', 'Monthly', '2026-02-21', '2026-03-20'),
+(50, 51, 'LKR', 'Monthly', '2026-02-14', '2026-03-13'),
+(51, 52, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (52, 53, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (53, 54, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (54, 55, 'LKR', 'Monthly', '2026-02-15', '2026-03-14'),
 (55, 56, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (56, 57, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (57, 58, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
-(58, 59, 'LKR', 'Monthly', '2026-02-21', '2026-03-20'),
-(59, 60, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
+(58, 59, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
+(59, 60, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (60, 61, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (61, 62, 'LKR', 'Monthly', '2026-02-17', '2026-03-16'),
-(62, 63, 'LKR', 'Monthly', '2026-02-21', '2026-03-20'),
+(62, 63, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (63, 64, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (64, 65, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (65, 66, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
@@ -459,7 +481,7 @@ INSERT INTO `employee_compensation` (`comp_id`, `employee_id`, `salary_currency`
 (67, 68, 'LKR', 'Monthly', '2026-02-18', '2026-03-17'),
 (68, 69, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (69, 70, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
-(70, 71, 'LKR', 'Monthly', '2026-02-18', '2026-03-17'),
+(70, 71, 'LKR', 'Monthly', '2026-02-17', '2026-03-16'),
 (71, 72, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
 (72, 73, 'LKR', 'Monthly', '2026-02-15', '2026-03-14'),
 (73, 74, 'LKR', 'Monthly', '2026-02-20', '2026-03-19'),
@@ -472,7 +494,7 @@ INSERT INTO `employee_compensation` (`comp_id`, `employee_id`, `salary_currency`
 (80, 81, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (81, 82, 'LKR', 'Monthly', '2026-02-19', '2026-03-18'),
 (82, 83, 'LKR', 'Monthly', '2026-02-17', '2026-03-16'),
-(83, 84, 'LKR', 'Monthly', '2026-03-20', '2026-04-21');
+(83, 84, 'LKR', 'Monthly', '2026-03-18', '2026-04-19');
 
 -- --------------------------------------------------------
 
@@ -493,13 +515,8 @@ CREATE TABLE `employee_compensation_components` (
 --
 
 INSERT INTO `employee_compensation_components` (`component_id`, `comp_id`, `component_type`, `component_name`, `amount`) VALUES
-(176, 51, 'Basic', 'Basic Salary', 60000.00),
-(177, 51, 'Allowance', 'Fuel', 4999.00),
-(187, 58, 'Basic', 'Basic Salary', 0.00),
-(192, 62, 'Basic', 'Basic Salary', 0.00),
 (246, 10, 'Basic', 'Basic Salary', 1000.00),
 (258, 11, 'Basic', 'Basic Salary', 311781.00),
-(259, 83, 'Basic', 'Basic Salary', 100000.00),
 (331, 63, 'Basic', 'Basic Salary', 0.00),
 (332, 64, 'Basic', 'Basic Salary', 0.00),
 (336, 17, 'Basic', 'Basic Salary', 116925.00),
@@ -572,18 +589,13 @@ INSERT INTO `employee_compensation_components` (`component_id`, `comp_id`, `comp
 (432, 31, 'Basic', 'Basic Salary', 38000.00),
 (433, 31, 'Allowance', 'Fuel', 5000.00),
 (434, 31, 'Allowance', 'Attendance', 2000.00),
-(435, 59, 'Basic', 'Basic Salary', 0.00),
 (436, 34, 'Basic', 'Basic Salary', 46000.00),
 (437, 34, 'Allowance', 'Fuel', 5000.00),
 (438, 34, 'Allowance', 'Attendance', 2000.00),
-(439, 26, 'Basic', 'Basic Salary', 119000.00),
 (440, 23, 'Basic', 'Basic Salary', 71400.00),
 (441, 23, 'Allowance', 'Fuel Incentive', 5000.00),
 (442, 23, 'Allowance', 'Attendance Incentive', 2000.00),
 (443, 23, 'Deduction', 'EPF 8%', 5712.00),
-(444, 50, 'Basic', 'Basic Salary', 67000.00),
-(445, 50, 'Allowance', 'Fuel', 5000.00),
-(446, 50, 'Allowance', 'Attendance', 2000.00),
 (447, 45, 'Basic', 'Basic Salary', 0.00),
 (448, 79, 'Basic', 'Basic Salary', 0.00),
 (449, 25, 'Allowance', 'Basic Salary', 30000.00),
@@ -599,7 +611,17 @@ INSERT INTO `employee_compensation_components` (`component_id`, `comp_id`, `comp
 (461, 28, 'Basic', 'Basic Salary', 85002.00),
 (462, 28, 'Allowance', 'Fuel Allowance', 6000.00),
 (463, 28, 'Allowance', 'Attendance Allowance', 2000.00),
-(464, 70, 'Basic', 'Basic Salary', 0.00);
+(465, 26, 'Basic', 'Basic Salary', 119000.00),
+(472, 50, 'Basic', 'Basic Salary', 67000.00),
+(473, 50, 'Allowance', 'Fuel', 5000.00),
+(474, 50, 'Allowance', 'Attendance', 2000.00),
+(476, 83, 'Basic', 'Basic Salary', 100000.00),
+(477, 59, 'Basic', 'Basic Salary', 0.00),
+(479, 51, 'Basic', 'Basic Salary', 60000.00),
+(480, 51, 'Allowance', 'Fuel', 4999.00),
+(481, 58, 'Basic', 'Basic Salary', 0.00),
+(482, 62, 'Basic', 'Basic Salary', 0.00),
+(483, 70, 'Basic', 'Basic Salary', 0.00);
 
 -- --------------------------------------------------------
 
@@ -620,18 +642,10 @@ CREATE TABLE `employee_contacts` (
 --
 
 INSERT INTO `employee_contacts` (`contact_id`, `employee_id`, `contact_type`, `contact_value`, `is_primary`) VALUES
-(198, 52, 'Personal Email', 'tharindu19950112@gmail.com', 1),
-(199, 52, 'Whatsapp Number', '0777707750', 1),
-(219, 59, 'Work Email', 'travels@explorevacations.lk', 1),
-(220, 59, 'Whatsapp Number', '076 141 4554', 1),
-(229, 63, 'Work Email', 'shaun@eliterentacar.lk', 1),
-(230, 63, 'Whatsapp Number', '0777777777', 1),
 (330, 10, 'Work Email', 'test@gmail.com', 1),
 (331, 10, 'Whatsapp Number', '0769304365', 1),
 (347, 11, 'Work Email', 'shermal@explorevacations.lk', 1),
 (348, 11, 'Whatsapp Number', '0773207107', 1),
-(349, 84, 'Work Email', 'dhilhara@explorevacations.lk', 1),
-(350, 84, 'Whatsapp Number', '0775555555', 1),
 (417, 64, 'Work Email', 'asst.manager@eliterentacar.lk', 1),
 (418, 64, 'Whatsapp Number', '076 141 4555', 1),
 (419, 65, 'Work Email', 'Jagath@eliterentacar.lk', 1),
@@ -722,16 +736,10 @@ INSERT INTO `employee_contacts` (`contact_id`, `employee_id`, `contact_type`, `c
 (542, 62, 'Whatsapp Number', '0741087730', 1),
 (543, 32, 'Work Email', 'sewmini@explorevacations.lk', 1),
 (544, 32, 'Whatsapp Number', '0778742883', 1),
-(545, 60, 'Work Email', 'reservations@explorevacations.lk', 1),
-(546, 60, 'Whatsapp Number', '077 200 9110', 1),
 (547, 35, 'Work Email', 'victoria@explorevacations.lk', 1),
 (548, 35, 'Whatsapp Number', '0764801145', 1),
-(549, 27, 'Work Email', 'nadeeshana@explorevacations.lk', 1),
-(550, 27, 'Whatsapp Number', '0762990124', 1),
 (551, 24, 'Work Email', 'navoda@explorevacations.lk', 1),
 (552, 24, 'Whatsapp Number', '0761278989', 1),
-(553, 51, 'Personal Email', 'omega11410@gmail.com', 1),
-(554, 51, 'Whatsapp Number', '0787358598', 1),
 (555, 46, 'Work Email', 'admin.executive@explorevacations.lk', 1),
 (556, 46, 'Whatsapp Number', '075-7159099', 1),
 (557, 80, 'Work Email', 'gayan@srrentacar.lk', 1),
@@ -755,8 +763,22 @@ INSERT INTO `employee_contacts` (`contact_id`, `employee_id`, `contact_type`, `c
 (579, 39, 'Whatsapp Number', '0763603667', 1),
 (580, 29, 'Work Email', 'acc.ex@explorevacations.lk', 1),
 (581, 29, 'Whatsapp Number', '0766197274', 1),
-(582, 71, 'Work Email', 'dicsion@srrentacar.lk', 1),
-(583, 71, 'Whatsapp Number', '0761414555', 1);
+(584, 27, 'Work Email', 'nadeeshana@explorevacations.lk', 1),
+(585, 27, 'Whatsapp Number', '0762990124', 1),
+(590, 51, 'Personal Email', 'omega11410@gmail.com', 1),
+(591, 51, 'Whatsapp Number', '0787358598', 1),
+(594, 84, 'Work Email', 'dhilhara@explorevacations.lk', 1),
+(595, 84, 'Whatsapp Number', '0775555555', 1),
+(596, 60, 'Work Email', 'reservations@explorevacations.lk', 1),
+(597, 60, 'Whatsapp Number', '077 200 9110', 1),
+(600, 52, 'Personal Email', 'tharindu19950112@gmail.com', 1),
+(601, 52, 'Whatsapp Number', '0777707750', 1),
+(602, 59, 'Work Email', 'travels@explorevacations.lk', 1),
+(603, 59, 'Whatsapp Number', '076 141 4554', 1),
+(604, 63, 'Work Email', 'shaun@eliterentacar.lk', 1),
+(605, 63, 'Whatsapp Number', '0777777777', 1),
+(606, 71, 'Work Email', 'dicsion@srrentacar.lk', 1),
+(607, 71, 'Whatsapp Number', '0761414555', 1);
 
 -- --------------------------------------------------------
 
@@ -843,12 +865,8 @@ CREATE TABLE `employee_emergency_contacts` (
 --
 
 INSERT INTO `employee_emergency_contacts` (`emergency_contact_id`, `employee_id`, `name`, `relationship`, `phone`) VALUES
-(100, 52, 'Sriya', 'Mother', '0770195418'),
-(110, 59, 'Null', 'Null', 'Null'),
-(115, 63, 'Null', 'Null', 'Null'),
 (165, 10, 'Induru Udantha', 'Relationship', '0763904365'),
 (173, 11, 'Shone', 'Son', '0773207107'),
-(174, 84, 'Nill', 'Nill', 'Nill'),
 (208, 64, 'Null', 'Null', 'Null'),
 (209, 65, 'Null', 'Null', 'Null'),
 (211, 18, 'Chamila Gunawardena', 'Mother', '0771299701'),
@@ -894,11 +912,8 @@ INSERT INTO `employee_emergency_contacts` (`emergency_contact_id`, `employee_id`
 (269, 19, 'Arusha', 'Brother', '0719400013'),
 (270, 62, 'Null', 'Null', 'Null'),
 (271, 32, 'Ashoka Chandrasiri', 'Farther', '0779971049'),
-(272, 60, 'Null', 'Null', 'Null'),
 (273, 35, 'Susanthi Priyadarshani', 'Mother', '0770629643'),
-(274, 27, 'Dilmi Manoja', 'Wife', '076330975'),
 (275, 24, 'Roshan Meerium', 'Father', '0770206336'),
-(276, 51, 'Moshe Dilmi Fernando', 'Sister', '0716978015'),
 (277, 46, 'Ramya', 'Mother', '0719931357'),
 (278, 80, 'Null', 'Null', 'Null'),
 (279, 26, 'R Vajira Kanthi', 'Mother', '0767241365'),
@@ -910,7 +925,14 @@ INSERT INTO `employee_emergency_contacts` (`emergency_contact_id`, `employee_id`
 (287, 83, 'Null', 'Null', 'Null'),
 (288, 39, 'Niranjani Fernando', 'Sister', '0776117707'),
 (289, 29, 'E A Jayasinghe', 'Mother', '0763548209'),
-(290, 71, 'Null', 'Null', 'Null');
+(291, 27, 'Dilmi Manoja', 'Wife', '076330975'),
+(294, 51, 'Moshe Dilmi Fernando', 'Sister', '0716978015'),
+(296, 84, 'Nill', 'Nill', 'Nill'),
+(297, 60, 'Null', 'Null', 'Null'),
+(299, 52, 'Sriya', 'Mother', '0770195418'),
+(300, 59, 'Null', 'Null', 'Null'),
+(301, 63, 'Null', 'Null', 'Null'),
+(302, 71, 'Null', 'Null', 'Null');
 
 -- --------------------------------------------------------
 
@@ -930,9 +952,6 @@ CREATE TABLE `employee_experience` (
 --
 
 INSERT INTO `employee_experience` (`experience_id`, `employee_id`, `previous_employer`, `total_years`) VALUES
-(105, 52, 'Rajagiriya Tours Pvt Ltd', 2.00),
-(114, 59, 'Null', 0.00),
-(120, 63, 'Null', 0.00),
 (228, 64, 'Null', 0.00),
 (229, 65, 'Null', 0.00),
 (231, 18, 'Explore Vacations & Travels (Pvt) Ltd', 6.00),
@@ -992,14 +1011,8 @@ INSERT INTO `employee_experience` (`experience_id`, `employee_id`, `previous_emp
 (309, 32, 'ADE Lanka (Pvt) Ltd', 1.00),
 (310, 32, 'Advanced Cleaning Service (Pvt) Ltd', 1.00),
 (311, 32, 'Explore Vacations & Travels (Pvt) Ltd', 1.50),
-(312, 60, 'Null', 0.00),
 (313, 35, 'Spillburg Vacations (Pvt) Ltd', 0.80),
-(314, 27, 'BDO partners', 6.00),
-(315, 27, 'Idea Group limited', 1.00),
 (316, 24, 'Pixzarloop (Pvt) Ltd', 1.00),
-(317, 51, 'Lanka Sports Reizen Pvt Ltd', 2.50),
-(318, 51, 'Dilaksha Fashions - Seeduwa', 5.00),
-(319, 51, 'Fits Express Pvt Ltd', 2.00),
 (320, 46, 'Mas Holding', 12.00),
 (321, 80, 'Null', 0.00),
 (322, 78, 'Null', 0.00),
@@ -1013,7 +1026,16 @@ INSERT INTO `employee_experience` (`experience_id`, `employee_id`, `previous_emp
 (332, 29, 'Ammirato Foods', 3.00),
 (333, 29, 'Formula Express Pvt Ltd', 3.00),
 (334, 29, 'Explore Vacations and Travels Pvt Ltd', 3.50),
-(335, 71, 'Null', 0.00);
+(336, 27, 'BDO partners', 6.00),
+(337, 27, 'Idea Group limited', 1.00),
+(344, 51, 'Lanka Sports Reizen Pvt Ltd', 2.50),
+(345, 51, 'Dilaksha Fashions - Seeduwa', 5.00),
+(346, 51, 'Fits Express Pvt Ltd', 2.00),
+(347, 60, 'Null', 0.00),
+(349, 52, 'Rajagiriya Tours Pvt Ltd', 2.00),
+(350, 59, 'Null', 0.00),
+(351, 63, 'Null', 0.00),
+(352, 71, 'Null', 0.00);
 
 -- --------------------------------------------------------
 
@@ -1049,7 +1071,7 @@ INSERT INTO `employee_job` (`employee_id`, `department_id`, `job_title_id`, `emp
 (24, 24, 22, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-08-13', NULL, 19),
 (25, 24, 21, 'Full-Time', 'Fixed- Contract', 'Explore Vacations (Pvt) Ltd', '2026-02-12', '2027-02-12', 19),
 (26, 24, 21, 'Full-Time', 'Fixed- Contract', 'Explore Vacations (Pvt) Ltd', '2026-01-15', NULL, 19),
-(27, 18, 23, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-08-02', NULL, 17),
+(27, 18, 23, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-08-01', NULL, 17),
 (28, 17, 24, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2023-01-07', NULL, 11),
 (29, 17, 24, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2022-05-05', NULL, 11),
 (30, 17, 25, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2019-02-17', NULL, 11),
@@ -1072,19 +1094,19 @@ INSERT INTO `employee_job` (`employee_id`, `department_id`, `job_title_id`, `emp
 (48, 21, 10, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2019-08-18', NULL, 14),
 (49, 21, 10, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2023-11-04', NULL, 14),
 (50, 21, 10, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2024-06-26', NULL, 14),
-(51, 2, 35, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-08-23', NULL, NULL),
-(52, 19, 10, 'Full-Time', 'Probation', 'SR Rent a Car (Pvt) Ltd', '2026-01-05', NULL, 20),
+(51, 2, 35, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-08-20', NULL, 84),
+(52, 19, 10, 'Full-Time', 'Probation', 'SR Rent a Car (Pvt) Ltd', '2026-01-04', NULL, 20),
 (53, 2, 10, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2025-03-02', NULL, 14),
 (54, 21, 10, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2025-03-02', NULL, 14),
 (55, 17, 40, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2022-03-01', NULL, 18),
 (56, 26, 42, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2017-09-30', NULL, 14),
 (57, 26, 41, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2019-01-10', NULL, 14),
 (58, 26, 41, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2023-08-20', NULL, 14),
-(59, 22, 45, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2023-03-31', NULL, 14),
-(60, 22, 43, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-05-25', NULL, 14),
+(59, 16, 45, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2023-03-30', NULL, 14),
+(60, 22, 43, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2025-05-24', NULL, 14),
 (61, 23, 44, 'Full-Time', 'Probation', 'Explore Vacations (Pvt) Ltd', '2026-03-09', NULL, 14),
 (62, 2, 39, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2022-12-11', NULL, 45),
-(63, 16, 46, 'Full-Time', 'Permanent', 'Elite Rent a Car (Pvt) Ltd', '2025-01-01', NULL, 11),
+(63, 26, 46, 'Full-Time', 'Permanent', 'Elite Rent a Car (Pvt) Ltd', '2024-12-30', NULL, 11),
 (64, 26, 48, 'Full-Time', 'Permanent', 'Elite Rent a Car (Pvt) Ltd', '2024-06-30', NULL, 14),
 (65, 25, 47, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2024-08-07', NULL, 64),
 (66, 26, 27, 'Full-Time', 'Probation', 'Elite Rent a Car (Pvt) Ltd', '2025-07-19', NULL, 64),
@@ -1092,7 +1114,7 @@ INSERT INTO `employee_job` (`employee_id`, `department_id`, `job_title_id`, `emp
 (68, 2, 38, 'Full-Time', 'Probation', 'SR Rent a Car (Pvt) Ltd', '2025-11-14', NULL, 45),
 (69, 25, 49, 'Full-Time', 'Probation', 'SR Rent a Car (Pvt) Ltd', '2026-03-08', NULL, 21),
 (70, 20, 32, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2021-05-20', NULL, 21),
-(71, 25, 47, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2022-03-29', NULL, 21),
+(71, 25, 47, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2022-03-28', NULL, 21),
 (72, 19, 27, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2022-03-31', NULL, 20),
 (73, 20, 32, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2022-03-01', NULL, 21),
 (74, 19, 27, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2023-02-18', NULL, 20),
@@ -1105,7 +1127,7 @@ INSERT INTO `employee_job` (`employee_id`, `department_id`, `job_title_id`, `emp
 (81, 20, 50, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2024-06-26', NULL, 21),
 (82, 25, 51, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2024-02-10', NULL, 21),
 (83, 25, 51, 'Full-Time', 'Permanent', 'SR Rent a Car (Pvt) Ltd', '2023-03-02', NULL, 21),
-(84, 2, 16, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2026-04-06', NULL, 45);
+(84, 2, 16, 'Full-Time', 'Permanent', 'Explore Vacations (Pvt) Ltd', '2026-04-04', NULL, 45);
 
 -- --------------------------------------------------------
 
@@ -1127,7 +1149,26 @@ CREATE TABLE `employee_leave_balances` (
 --
 
 INSERT INTO `employee_leave_balances` (`leave_balance_id`, `employee_id`, `leave_policy_id`, `total_taken`, `remaining`, `updated_at`) VALUES
-(1, 24, 2, 1.00, 13.00, '2026-04-06 07:57:41');
+(1, 24, 2, 1.00, 13.00, '2026-04-06 07:57:41'),
+(2, 36, 2, 1.00, 9.00, '2026-05-14 06:22:31'),
+(3, 37, 2, 1.00, 9.00, '2026-05-14 10:30:51'),
+(4, 27, 3, 1.00, 2.00, '2026-05-14 13:34:38'),
+(5, 19, 3, 0.50, 6.50, '2026-05-15 04:44:47'),
+(6, 17, 3, 1.00, 1.50, '2026-05-15 04:45:01'),
+(7, 36, 3, 1.00, 5.00, '2026-05-15 07:37:08'),
+(8, 38, 2, 1.00, 10.00, '2026-05-15 13:12:28'),
+(9, 26, 3, 1.00, 3.50, '2026-05-17 17:45:25'),
+(10, 27, 1, 3.00, 4.00, '2026-05-19 06:38:59'),
+(11, 14, 3, 0.50, 3.50, '2026-05-19 08:08:26'),
+(12, 35, 3, 1.00, 3.00, '2026-05-19 09:47:18'),
+(13, 47, 1, 1.00, 9.00, '2026-05-19 12:10:45'),
+(14, 60, 2, 1.00, 8.00, '2026-05-19 12:10:53'),
+(15, 60, 3, 1.00, 3.50, '2026-05-19 12:10:58'),
+(16, 54, 2, 2.00, 12.00, '2026-05-19 12:11:12'),
+(17, 50, 1, 1.00, 11.00, '2026-05-19 12:11:18'),
+(18, 48, 1, 2.00, 12.00, '2026-05-19 12:11:25'),
+(19, 20, 3, 1.00, 4.00, '2026-05-20 06:46:22'),
+(20, 40, 3, 1.00, 6.00, '2026-05-20 10:36:34');
 
 -- --------------------------------------------------------
 
@@ -1152,7 +1193,13 @@ INSERT INTO `employee_personal_vehicle_usage` (`id`, `employee_id`, `usage_count
 (1, 81, 1, 0.00, '2026-04-02 11:18:37', '2026-04-02 11:18:37'),
 (2, 82, 1, 0.00, '2026-04-09 12:29:20', '2026-04-09 12:29:20'),
 (3, 74, 1, 0.00, '2026-04-16 06:10:56', '2026-04-16 06:10:56'),
-(4, 24, 1, 0.00, '2026-04-16 06:50:28', '2026-04-16 06:50:28');
+(6, 43, 1, 0.00, '2026-05-09 17:35:22', '2026-05-13 12:05:37'),
+(7, 70, 1, 0.00, '2026-04-24 17:36:10', '2026-05-13 12:06:13'),
+(8, 48, 1, 0.00, '2026-05-17 17:36:37', '2026-05-13 12:06:54'),
+(11, 47, 1, 0.00, '2026-04-17 17:36:37', '2026-05-13 12:08:30'),
+(12, 55, 2, 0.00, '2026-04-15 17:37:05', '2026-05-20 10:11:20'),
+(13, 67, 1, 0.00, '2026-05-13 13:08:58', '2026-05-13 13:08:58'),
+(16, 21, 1, 0.00, '2026-05-15 13:40:16', '2026-05-15 13:40:16');
 
 -- --------------------------------------------------------
 
@@ -1354,7 +1401,9 @@ INSERT INTO `employee_yearly_leave_balance` (`employee_id`, `leave_policy_id`, `
 (83, 1, 14.00),
 (83, 2, 12.00),
 (83, 3, 4.50),
-(84, 1, 14.00);
+(84, 1, 14.00),
+(84, 2, 7.00),
+(84, 3, 7.00);
 
 -- --------------------------------------------------------
 
@@ -1516,15 +1565,37 @@ CREATE TABLE `leave_requests` (
 --
 
 INSERT INTO `leave_requests` (`leave_request_id`, `employee_id`, `leave_policy_id`, `leave_start_date`, `leave_end_date`, `number_of_days`, `reason`, `oversee_member_id`, `half_day_session`, `manager_comment`, `reliever_comment`, `is_special_request`, `address`, `status`, `requested_at`, `updated_at`) VALUES
-(23, 25, 3, '2026-04-02', '2026-04-02', 1.00, 'leave', 10, NULL, NULL, 'Accept', 0, 'Negombo', 'RELIEVER ACCEPTED', '2026-04-01 15:11:10', '2026-04-02 04:51:02'),
-(24, 26, 3, '2026-04-02', '2026-04-03', 2.00, 'Apply Leave..', 10, NULL, NULL, 'Accepted', 0, '', 'RELIEVER ACCEPTED', '2026-04-02 04:49:51', '2026-04-02 04:50:52'),
+(23, 25, 3, '2026-04-02', '2026-04-02', 1.00, 'leave', 10, NULL, 'Test', 'Accept', 0, 'Negombo', 'REJECTED', '2026-04-01 15:11:10', '2026-05-17 04:21:57'),
+(24, 26, 3, '2026-04-02', '2026-04-03', 2.00, 'Apply Leave..', 10, NULL, 'Test', 'Accepted', 0, '', 'REJECTED', '2026-04-02 04:49:51', '2026-05-17 04:21:45'),
 (26, 24, 2, '2026-04-06', '2026-04-06', 1.00, 'severe neck pain and needed to go for a follow-up treatment on Tuesday.', 26, NULL, NULL, 'Accept..', 0, '', 'APPROVED', '2026-04-05 13:49:21', '2026-04-06 07:57:41'),
 (29, 74, 1, '2026-04-17', '2026-04-19', 3.00, 'for new year', 77, NULL, NULL, NULL, 0, '', 'PENDING', '2026-04-08 03:35:57', '2026-04-08 03:35:57'),
-(39, 48, 1, '2026-04-14', '2026-04-15', 2.00, 'New Year', 40, NULL, NULL, NULL, 0, '', 'PENDING', '2026-04-09 08:12:45', '2026-04-09 08:12:45'),
+(39, 48, 1, '2026-04-14', '2026-04-15', 2.00, 'New Year', 40, NULL, NULL, '', 0, '', 'APPROVED', '2026-04-09 08:12:45', '2026-05-19 12:11:25'),
 (40, 64, 3, '2026-04-15', '2026-04-16', 2.00, 'personal', 67, NULL, NULL, NULL, 0, '', 'PENDING', '2026-04-14 12:16:49', '2026-04-14 12:16:49'),
 (43, 44, 3, '2026-04-21', '2026-04-21', 1.00, 'Family Plan', 43, NULL, NULL, NULL, 0, 'No 17/2A Madama Rd, Wewala Kapuwatta', 'PENDING', '2026-04-17 09:56:33', '2026-04-17 09:56:33'),
 (45, 64, 2, '2026-05-08', '2026-05-08', 1.00, 'ankle sprain', 67, NULL, NULL, NULL, 0, '', 'PENDING', '2026-05-08 03:25:04', '2026-05-08 03:25:04'),
-(47, 50, 1, '2026-05-30', '2026-05-30', 1.00, 'personal things', 40, NULL, NULL, NULL, 0, '', 'PENDING', '2026-05-12 15:31:47', '2026-05-12 15:31:47');
+(47, 50, 1, '2026-05-30', '2026-05-30', 1.00, 'personal things', 40, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-12 15:31:47', '2026-05-19 12:11:18'),
+(49, 17, 3, '2026-05-15', '2026-05-15', 1.00, 'Baby\'s hospital visit', 35, NULL, NULL, 'I will all the responsibility', 0, '', 'APPROVED', '2026-05-14 04:33:14', '2026-05-15 04:45:01'),
+(52, 36, 2, '2026-05-13', '2026-05-13', 1.00, 'I had caught a cold and needed a day to recover', 61, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-14 06:19:18', '2026-05-14 06:22:31'),
+(53, 37, 2, '2026-05-13', '2026-05-13', 1.00, 'kindly note that due to heavy rain and feeling unwell,I was unable to attend work', 61, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-14 06:20:59', '2026-05-14 10:30:51'),
+(54, 27, 3, '2026-05-15', '2026-05-15', 1.00, 'Personal Reason', 35, NULL, NULL, 'ok I acceppt', 0, 'Home', 'APPROVED', '2026-05-14 09:21:58', '2026-05-14 13:34:38'),
+(55, 19, 4, '2026-05-15', '2026-05-15', 1.00, 'Personal Requirement', 24, 'MORNING', NULL, '', 0, '', 'APPROVED', '2026-05-15 02:42:37', '2026-05-15 04:44:47'),
+(56, 36, 2, '2026-05-15', '2026-05-15', 1.00, 'I caught a cold and need a day to recover', 37, NULL, 'reason is not acceptable', '', 0, '', 'REJECTED', '2026-05-15 03:43:10', '2026-05-15 03:51:33'),
+(57, 70, 2, '2026-05-15', '2026-05-15', 1.00, 'Fever informed Mr Nilantha', 79, NULL, NULL, NULL, 0, '', 'PENDING', '2026-05-15 03:45:32', '2026-05-15 03:45:32'),
+(58, 36, 3, '2026-05-15', '2026-05-15', 1.00, 'The area is flooded', 37, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-15 04:14:39', '2026-05-15 07:37:08'),
+(59, 38, 2, '2026-05-14', '2026-05-14', 1.00, 'sick', 37, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-15 09:58:17', '2026-05-15 13:12:28'),
+(60, 26, 3, '2026-05-18', '2026-05-18', 1.00, 'I have my final semester exam,', 24, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-17 12:03:09', '2026-05-17 17:45:25'),
+(61, 54, 2, '2026-05-18', '2026-05-19', 2.00, 'Sick', 40, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-18 08:30:56', '2026-05-19 12:11:12'),
+(62, 40, 2, '2026-05-22', '2026-05-22', 1.00, 'Personal Reason', 41, NULL, 'you can\'t put medical leave it should be casual', '', 0, '', 'REJECTED', '2026-05-18 08:59:16', '2026-05-20 10:09:00'),
+(63, 27, 1, '2026-05-20', '2026-05-22', 3.00, 'Hospital for person reason', 35, NULL, NULL, 'I will cover all responsibilies', 0, '', 'APPROVED', '2026-05-18 09:29:58', '2026-05-19 06:38:59'),
+(65, 14, 4, '2026-05-19', '2026-05-19', 1.00, 'Personal', NULL, 'EVENING', NULL, NULL, 1, 'Home', 'APPROVED', '2026-05-19 04:42:50', '2026-05-19 08:08:26'),
+(66, 60, 3, '2026-05-13', '2026-05-13', 1.00, 'Transportation issues due to flooding', NULL, NULL, NULL, NULL, 1, '', 'APPROVED', '2026-05-19 06:17:47', '2026-05-19 12:10:58'),
+(67, 60, 2, '2026-05-18', '2026-05-18', 1.00, 'Severe Back Pain due to heat light treatment', NULL, NULL, NULL, NULL, 1, '', 'APPROVED', '2026-05-19 06:19:02', '2026-05-19 12:10:53'),
+(68, 47, 1, '2026-05-30', '2026-05-30', 1.00, 'personal matter', 40, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-19 07:57:50', '2026-05-19 12:10:45'),
+(69, 35, 3, '2026-05-20', '2026-05-20', 1.00, 'My mother\'s birthday', NULL, NULL, NULL, NULL, 1, '', 'APPROVED', '2026-05-19 09:45:29', '2026-05-19 09:47:18'),
+(70, 77, 4, '2026-04-23', '2026-04-23', 1.00, 'Personal Matter', 74, 'MORNING', NULL, NULL, 0, '', 'PENDING', '2026-05-19 13:33:23', '2026-05-19 13:33:23'),
+(71, 20, 1, '2026-05-21', '2026-05-21', 1.00, 'Personal', 78, NULL, 'One day Annual leave is possible', '', 0, '', 'REJECTED', '2026-05-20 04:30:56', '2026-05-20 06:34:25'),
+(72, 20, 3, '2026-05-21', '2026-05-21', 1.00, 'personal', 78, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-20 06:36:06', '2026-05-20 06:46:22'),
+(75, 40, 3, '2026-05-22', '2026-05-22', 1.00, 'Personal reason', 41, NULL, NULL, '', 0, '', 'APPROVED', '2026-05-20 15:42:40', '2026-05-20 10:36:34');
 
 -- --------------------------------------------------------
 
@@ -1541,6 +1612,14 @@ CREATE TABLE `leave_request_documents` (
   `file_size_bytes` bigint(20) UNSIGNED DEFAULT NULL,
   `uploaded_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `leave_request_documents`
+--
+
+INSERT INTO `leave_request_documents` (`leave_request_document_id`, `leave_request_id`, `file_name`, `file_path`, `mime_type`, `file_size_bytes`, `uploaded_at`) VALUES
+(3, 60, 'scaled_IMG-20260517-WA0003.jpg', 'uploads/leave_docs/leave_60_1779019392.jpg', 'application/octet-stream', 64639, '2026-05-17 12:03:12'),
+(4, 61, 'scaled_fbb99b1d-7b71-434e-9b3a-72d2003f1ab93956650030682717842.jpg', 'uploads/leave_docs/leave_61_1779093059.jpg', 'application/octet-stream', 747926, '2026-05-18 08:30:59');
 
 -- --------------------------------------------------------
 
@@ -1741,10 +1820,12 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('8INEVmCWB1ergJmXS5uVTWVyH0BgCuUbBqlJRq1J', 1, '159.89.203.186', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRUdBcmtXTTVtZDdYS3lhM09nM0Y5Y3FGMTc3cUZLVk9GdXZvUVAyOCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NTQ6Imh0dHBzOi8vZXhwbG9yZXN1aXRlLmxrL2hybXMvdmVoaWNsZS1yZXF1ZXN0LWRhc2hib2FyZCI7czo1OiJyb3V0ZSI7czozMDoiaHJtcy52ZWhpY2xlLXJlcXVlc3QtZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1778670649),
-('CenH98DqS2iAIYRAergyjObT9MDRcrkcMOHm4e4s', 1, '124.43.23.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidlF4c2cwclVmUDhvTXVDV0p4eEpXOTMzaEpsVm1lSjU1UEU1ZTBjaCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NTQ6Imh0dHBzOi8vZXhwbG9yZXN1aXRlLmxrL2hybXMvdmVoaWNsZS1yZXF1ZXN0LWRhc2hib2FyZCI7czo1OiJyb3V0ZSI7czozMDoiaHJtcy52ZWhpY2xlLXJlcXVlc3QtZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1778670501),
-('pkFI4NmY4EH4mFtWlBA0rDMmIdP5U2qYpKO7PC9O', NULL, '32.184.12.146', 'Mozilla/5.0 (compatible; wpbot/1.4; +https://forms.gle/ajBaxygz9jSR8p8G9)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUVlRNHZsdnlCS0hEaUNHbUJnNnA1eVRESXZQaDR0ZHJ1bWlYRWdmZSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHBzOi8vZXhwbG9yZXN1aXRlLmxrL2xvZ2luIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1778665402),
-('Wm6QClv8LwvuG7tn7rgteExpdcr14beNiE3pRB0T', 12, '124.43.23.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRE1uQWthZ2VYdmxMaUhFMzhFOXA1SGV6T1ZmSUN0VXFWQU9zakRjdiI7czozOiJ1cmwiO2E6MDp7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjEyO30=', 1778665392);
+('jUbDb00Cx9w9DRWB4YIlRNmnMS3AUquEJN8Br8K7', NULL, '198.235.24.142', 'Hello from Palo Alto Networks, find out more about our scans in https://docs-cortex.paloaltonetworks.com/r/1/Cortex-Xpanse/Scanning-activity', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZ1NnNVZxYWpRcjROQ3dBT3VCRUxqZ3M3NTVIS1JqZk9ua044VFNnWiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjM6Imh0dHBzOi8vZXhwbG9yZXN1aXRlLmxrIjtzOjU6InJvdXRlIjtOO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1779274305),
+('KXREeSbzEnGjtBFQ0ulMsjxu0cJUkfWt6iJuaikr', NULL, '198.235.24.142', 'Hello from Palo Alto Networks, find out more about our scans in https://docs-cortex.paloaltonetworks.com/r/1/Cortex-Xpanse/Scanning-activity', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZzJGWTNTUThIQnhhWEQ0cXl2ckZ6QVJXZTE0UkZmQ0NhT3VhcG9WRCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHBzOi8vZXhwbG9yZXN1aXRlLmxrL2xvZ2luIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1779274306),
+('pDes6OhKuRD3b3oRSJBBTf5VE03ItY7tB7EIfIzC', 12, '124.43.23.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiYVZ0Q2RraWVQdGVGVUdvdWNSQnkyMkN5OWZsdkVzVkNsZ1YyTlY5UiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTI7fQ==', 1779266813),
+('pHUjXyoRehkEAaMHDuyzrTXA5SkL89KYGtKBSn44', NULL, '108.129.237.63', 'Plesk screenshot bot https://support.plesk.com/hc/en-us/articles/10301006946066', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRkxsNk9Lem1XOXpGcFR3MGo0TENSUXFHalV5dGx5TVJiVUlMaHZmRSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHBzOi8vZXhwbG9yZXN1aXRlLmxrL2xvZ2luIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1779269782),
+('s5HbgXZLFVtXvSKsfOKoP4rv74AqZL3zGFccU45p', 1, '124.43.23.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMVZnc3JSZE5TY0J4MWZ4V2lFN3BMZ2ZaNEdBdmRESTEwdk9mWGV5USI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjMyOiJodHRwczovL2V4cGxvcmVzdWl0ZS5say9zZXJ2aWNlcyI7czo1OiJyb3V0ZSI7czo4OiJzZXJ2aWNlcyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1779260518),
+('Z0nUZrnTMCmSKTVhWeWJ9pTM5iV4O0rBBn2e1woT', 1, '124.43.23.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVm9xT3hyRmhtQVhrUlRYcUNvQ2tFMDRJWWFobWNlSGh0T0xCbnRuTiI7czozOiJ1cmwiO2E6MDp7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1779274168);
 
 -- --------------------------------------------------------
 
@@ -1790,10 +1871,10 @@ INSERT INTO `transport_services` (`id`, `source_id`, `type`, `vehicle_no`, `vehi
 (19, 0, 'office', 'CBM-5707', 52, NULL, NULL, 'Car', '0764724717', 'Sampath Fernando', 74, 20, 'APPROVED', NULL, '2026-04-15 00:00:00', 'Head Office', 'Kandy, Sri Lanka', '2026-04-16 23:59:59', 1, '#SAMP4416', NULL, NULL, '2026-04-05 11:54:48', '2026-04-14 08:57:09', NULL, NULL),
 (20, 0, 'office', 'CBM-5707', 52, NULL, NULL, 'Car', '0764724717', 'Sampath Fernando', 74, 20, 'APPROVED', NULL, '2026-04-15 00:00:00', 'Head Office', 'Kandy, Sri Lanka', '2026-04-16 23:59:59', 1, '#SAMP6119', NULL, NULL, '2026-04-05 11:56:56', '2026-04-14 04:31:07', NULL, NULL),
 (21, 0, 'office', 'CBM-5707', 52, NULL, NULL, 'Car', '0764724717', 'Sampath Fernando', 74, 20, 'APPROVED', NULL, '2026-04-15 00:00:00', 'Head Office', 'Kadawatha, Sri Lanka', '2026-04-16 23:59:59', 1, '#SAMP4450', NULL, NULL, '2026-04-05 12:47:32', '2026-04-14 04:30:48', NULL, NULL),
-(22, 0, 'office', 'CBS-9860', 139, NULL, NULL, 'SUV', '076 820 0093', 'Nilantha', 21, 14, 'APPROVED', NULL, '2026-04-05 00:00:00', 'Head Office', 'returned', '2026-04-05 23:59:59', 1, '#NILA8940', NULL, NULL, '2026-04-05 15:29:08', '2026-05-12 08:23:08', NULL, NULL),
-(23, 0, 'office', 'CBS-9860', 139, NULL, NULL, 'SUV', '076 820 0093', 'Nilantha', 21, 14, 'APPROVED', NULL, '2026-04-05 00:00:00', 'Head Office', 'rtn to office', '2026-04-05 23:59:59', 1, '#NILA5947', NULL, NULL, '2026-04-05 15:30:01', '2026-05-12 08:23:01', NULL, NULL),
+(22, 0, 'office', 'CBS-9860', 139, NULL, NULL, 'SUV', '076 820 0093', 'Nilantha', 21, 14, 'IN_PROGRESS', NULL, '2026-04-05 00:00:00', 'Head Office', 'returned', '2026-04-05 23:59:59', 1, '#NILA8940', NULL, NULL, '2026-04-05 15:29:08', '2026-05-15 08:27:57', NULL, NULL),
+(23, 0, 'office', 'CBS-9860', 139, NULL, NULL, 'SUV', '076 820 0093', 'Nilantha', 21, 14, 'COMPLETED', NULL, '2026-04-05 00:00:00', 'Head Office', 'rtn to office', '2026-04-05 23:59:59', 1, '#NILA5947', NULL, NULL, '2026-04-05 15:30:01', '2026-05-14 13:01:07', NULL, NULL),
 (24, 0, 'personal', 'PD-9606', 108, NULL, NULL, 'Van', '0773843033', 'Indika Acoinas', 75, 21, 'REJECTED', 'Not Available', '2026-04-14 00:00:00', 'Head Office', '', '2026-04-15 23:59:59', 1, NULL, '', NULL, '2026-04-06 12:40:59', '2026-04-16 06:10:16', NULL, NULL),
-(25, 0, 'office', 'CBS-9860', 139, NULL, NULL, 'SUV', '076 820 0093', 'Nilantha', 21, 14, 'APPROVED', NULL, '2026-04-05 00:00:00', 'Head Office', 'seeduwa to marawila', '2026-04-05 23:59:59', 1, '#NILA6638', NULL, NULL, '2026-04-05 07:14:45', '2026-05-12 08:23:13', NULL, NULL),
+(25, 0, 'office', 'CBS-9860', 139, NULL, NULL, 'SUV', '076 820 0093', 'Nilantha', 21, 14, 'IN_PROGRESS', NULL, '2026-04-05 00:00:00', 'Head Office', 'seeduwa to marawila', '2026-04-05 23:59:59', 1, '#NILA6638', NULL, NULL, '2026-04-05 07:14:45', '2026-05-18 06:50:36', NULL, NULL),
 (31, 0, 'personal', 'CBM-5726', 28, NULL, NULL, 'Car', '0753871334', 'Lahiru Kumara', 82, 21, 'COMPLETED', NULL, '2026-04-12 00:00:00', 'Head Office', '', '2026-04-19 23:59:59', 1, '#LAHI8073', '', NULL, '2026-04-07 08:49:13', '2026-04-18 12:52:04', NULL, NULL),
 (41, 8, 'transfers', 'CAC-6595', NULL, 1, NULL, 'Car', NULL, NULL, 80, NULL, 'ASSIGNED', NULL, '2026-04-09 09:15:00', 'Seeduwa Office', '10th & 11th floors, Institute of Bankers of Sri Lanka Building, 80A Elvitigala Mawatha, Colombo 00800, Sri Lanka', '2026-04-11 09:15:00', 1, NULL, NULL, NULL, '2026-04-09 14:45:26', '2026-04-09 14:46:20', '2026-04-09 14:46:20', NULL),
 (57, 0, 'personal', 'CAK-9434', 155, NULL, NULL, 'Car', '0764724717', 'Sampath Fernando', 74, 20, 'COMPLETED', NULL, '2026-04-15 00:00:00', 'Head Office', '', '2026-04-16 23:59:59', 1, '#SAMP4036', '', NULL, '2026-04-13 18:21:43', '2026-04-17 06:37:55', NULL, NULL),
@@ -1827,7 +1908,45 @@ INSERT INTO `transport_services` (`id`, `source_id`, `type`, `vehicle_no`, `vehi
 (119, 0, 'office', 'CAE-4853', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-13 00:00:00', 'Head Office', 'refuel', '2026-05-13 23:59:59', 1, '#DAMS9171', NULL, NULL, '2026-05-13 08:06:22', '2026-05-13 08:40:06', NULL, NULL),
 (120, 0, 'office', 'CBT-2241', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-13 00:00:00', 'Head Office', 'refuel and vivantha', '2026-05-13 23:59:59', 1, '#DAMS7716', NULL, NULL, '2026-05-13 09:23:55', '2026-05-13 10:29:03', NULL, NULL),
 (121, 0, 'office', 'CBQ-8861', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'APPROVED', NULL, '2026-05-13 00:00:00', 'Head Office', 'refuel', '2026-05-13 23:59:59', 1, '#DAMS2372', NULL, NULL, '2026-05-13 09:40:11', '2026-05-13 09:53:28', NULL, NULL),
-(122, 0, 'personal', 'CBM-8143', 49, NULL, NULL, 'Car', '075 688 9939', 'Wishvajith   Perera', 67, 64, 'PENDING', NULL, '2026-05-14 00:00:00', 'Head Office', '', '2026-05-15 23:59:59', 1, NULL, NULL, NULL, '2026-05-13 10:41:18', '2026-05-13 10:41:18', NULL, NULL);
+(124, 0, 'personal', 'CBM-8143', 49, NULL, NULL, 'Car', '075 688 9939', 'Wishvajith   Perera', 67, 64, 'COMPLETED', NULL, '2026-05-14 00:00:00', 'Head Office', '', '2026-05-15 23:59:59', 1, '#WISH6666', 'approved', NULL, '2026-05-13 13:07:18', '2026-05-15 15:43:36', NULL, NULL),
+(127, 0, 'office', 'CBM-5715', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'APPROVED', NULL, '2026-05-14 00:00:00', 'Head Office', 'seeduwa', '2026-05-14 23:59:59', 1, '#DAMS8012', NULL, NULL, '2026-05-14 05:00:31', '2026-05-14 05:02:02', NULL, NULL),
+(128, 0, 'office', 'CBC-3319', 0, NULL, NULL, '-', '0761414550', 'Boniface Mangala', 70, 21, 'APPROVED', NULL, '2026-05-14 00:00:00', 'Head Office', 'panchikawatta', '2026-05-14 23:59:59', 1, '#BONI9399', NULL, NULL, '2026-05-14 06:11:41', '2026-05-14 06:12:30', NULL, NULL),
+(129, 0, 'office', 'CBS-0870', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-14 00:00:00', 'Head Office', 'refuel', '2026-05-14 23:59:59', 1, '#DAMS2799', NULL, NULL, '2026-05-14 06:19:42', '2026-05-14 07:39:21', NULL, NULL),
+(130, 0, 'office', 'PC-1058', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'APPROVED', NULL, '2026-05-14 00:00:00', 'Head Office', 'refuel', '2026-05-14 23:59:59', 1, '#DAMS2904', NULL, NULL, '2026-05-14 07:46:19', '2026-05-14 07:49:37', NULL, NULL),
+(131, 0, 'office', 'PD-9606', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-14 00:00:00', 'Head Office', 'refuel', '2026-05-14 23:59:59', 1, '#DAMS4566', NULL, NULL, '2026-05-14 08:36:29', '2026-05-14 09:59:18', NULL, NULL),
+(132, 0, 'office', 'CBM-5703', 19, NULL, NULL, 'Car', '0763603667', 'Anton Niroshan', 39, 21, 'COMPLETED', NULL, '2026-05-14 00:00:00', 'Head Office', 'Micro Cars KALANIYA', '2026-05-14 23:59:59', 1, '#ANTO6891', NULL, NULL, '2026-05-14 09:39:48', '2026-05-14 12:03:29', NULL, NULL),
+(134, 0, 'office', 'CBM-5715', 29, NULL, NULL, 'Car', '0763603667', 'Anton Niroshan', 39, 21, 'COMPLETED', NULL, '2026-05-15 00:00:00', 'Head Office', 'Dunston Auto JA-ELA', '2026-05-15 23:59:59', 1, '#ANTO1024', NULL, NULL, '2026-05-15 05:12:45', '2026-05-15 06:18:11', NULL, NULL),
+(135, 0, 'office', 'CBV-8254', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-15 00:00:00', 'Head Office', 'refuel', '2026-05-15 23:59:59', 1, '#DAMS2552', NULL, NULL, '2026-05-15 05:24:24', '2026-05-15 06:26:20', NULL, NULL),
+(136, 0, 'office', 'CBD-8266', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'IN_PROGRESS', NULL, '2026-05-15 00:00:00', 'Head Office', 'refuel', '2026-05-15 23:59:59', 1, '#DAMS7101', NULL, NULL, '2026-05-15 06:40:26', '2026-05-15 07:01:56', NULL, NULL),
+(138, 0, 'office', 'CBV-8253', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'IN_PROGRESS', NULL, '2026-05-15 00:00:00', 'Head Office', 'refuel', '2026-05-15 23:59:59', 1, '#DAMS5880', NULL, NULL, '2026-05-15 08:32:03', '2026-05-15 08:45:48', NULL, NULL),
+(139, 0, 'office', 'CBM-5703', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-15 00:00:00', 'Head Office', 'refuel', '2026-05-15 23:59:59', 1, '#DAMS9716', NULL, NULL, '2026-05-15 10:51:42', '2026-05-15 11:25:29', NULL, NULL),
+(141, 0, 'personal', 'CBM-5703', 19, NULL, NULL, 'Car', '076 820 0093', 'Nilantha', 21, 14, 'IN_PROGRESS', NULL, '2026-05-15 00:00:00', 'Head Office', '', '2026-05-16 23:59:59', 1, '#NILA6495', NULL, NULL, '2026-05-15 13:39:12', '2026-05-15 13:41:26', NULL, NULL),
+(142, 0, 'office', 'CBM-5750', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'kushan kumara', '2026-05-18 23:59:59', 1, '#DAMS7641', NULL, NULL, '2026-05-18 03:18:21', '2026-05-18 03:34:52', NULL, NULL),
+(143, 0, 'office', 'CBC-3319', 0, NULL, NULL, '-', '0761414550', 'Boniface Mangala', 70, 21, 'IN_PROGRESS', NULL, '2026-05-18 00:00:00', 'Head Office', 'jaela', '2026-05-18 23:59:59', 1, '#BONI7200', NULL, NULL, '2026-05-18 04:20:47', '2026-05-18 04:35:07', NULL, NULL),
+(144, 0, 'office', 'CBS-9861', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'APPROVED', NULL, '2026-05-18 00:00:00', 'Head Office', 'refuel', '2026-05-18 23:59:59', 1, '#DAMS8479', NULL, NULL, '2026-05-18 05:29:59', '2026-05-18 06:52:41', NULL, NULL),
+(145, 0, 'office', 'CBF-9182', 0, NULL, NULL, '-', '0787358598', 'Moshin  Fernando', 51, 84, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'à¶´à¶±à·Šà¶±à·’à¶´à·’à¶§à·’à¶º, Sri Lanka', '2026-05-18 23:59:59', 1, '#MOSH1769', NULL, NULL, '2026-05-18 05:51:09', '2026-05-18 12:22:27', NULL, NULL),
+(146, 0, 'office', 'CBS-9859', 0, NULL, NULL, '-', '076 820 0093', 'Nilantha', 21, 14, 'IN_PROGRESS', NULL, '2026-05-18 00:00:00', 'Head Office', 'negombo', '2026-05-18 23:59:59', 1, '#NILA9936', NULL, NULL, '2026-05-18 06:49:24', '2026-05-19 10:19:57', NULL, NULL),
+(147, 0, 'office', 'CBM-5720', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'negombo', '2026-05-18 23:59:59', 1, '#DAMS9653', NULL, NULL, '2026-05-18 07:20:45', '2026-05-18 09:09:25', NULL, NULL),
+(148, 0, 'office', 'CBM-5715', 0, NULL, NULL, '-', '0714357976', 'Srimal kamaral', 19, 14, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'Vivanta Colombo, Airport Garden, Negombo Road, Seeduwa, Sri Lanka', '2026-05-18 23:59:59', 1, '#SRIM1654', NULL, NULL, '2026-05-18 08:51:36', '2026-05-18 10:10:49', NULL, NULL),
+(149, 0, 'office', 'CBM-8155', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'seeduwa refuel', '2026-05-18 23:59:59', 1, '#DAMS9696', NULL, NULL, '2026-05-18 09:47:01', '2026-05-18 10:52:55', NULL, NULL),
+(150, 0, 'office', 'CBM-5715', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'refuel', '2026-05-18 23:59:59', 1, '#DAMS3393', NULL, NULL, '2026-05-18 10:53:29', '2026-05-18 11:28:21', NULL, NULL),
+(151, 0, 'office', 'CBM-5720', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-18 00:00:00', 'Head Office', 'vivantha', '2026-05-18 23:59:59', 1, '#DAMS3291', NULL, NULL, '2026-05-18 11:40:44', '2026-05-18 12:17:17', NULL, NULL),
+(152, 0, 'office', 'CAP-0853', 80, NULL, NULL, 'Car', '076 594 6923', 'Lalin Amith', 55, 18, 'PENDING', NULL, '2026-05-19 00:00:00', 'Head Office', 'negombo', '2026-05-19 23:59:59', 1, NULL, NULL, NULL, '2026-05-19 04:24:17', '2026-05-19 04:24:17', NULL, NULL),
+(153, 0, 'office', 'CBS-9863', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-19 00:00:00', 'Head Office', 'refuel', '2026-05-19 23:59:59', 1, '#DAMS4987', NULL, NULL, '2026-05-19 05:42:12', '2026-05-19 06:44:43', NULL, NULL),
+(154, 0, 'office', 'CBF-9182', 0, NULL, NULL, '-', '0787358598', 'Moshin  Fernando', 51, 84, 'COMPLETED', NULL, '2026-05-19 00:00:00', 'Head Office', 'Pannipitiya, Sri Lanka', '2026-05-19 23:59:59', 1, '#MOSH7089', NULL, NULL, '2026-05-19 06:38:24', '2026-05-19 12:03:39', NULL, NULL),
+(155, 0, 'office', 'CBM-5725', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-19 00:00:00', 'Head Office', 'refueÄº', '2026-05-19 23:59:59', 1, '#DAMS7615', NULL, NULL, '2026-05-19 07:01:38', '2026-05-19 07:33:47', NULL, NULL),
+(156, 0, 'office', 'CBV-8255', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-19 00:00:00', 'Head Office', 'refuel', '2026-05-19 23:59:59', 1, '#DAMS8514', NULL, NULL, '2026-05-19 08:11:26', '2026-05-19 09:19:22', NULL, NULL),
+(157, 0, 'office', 'CBM-5708', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-19 00:00:00', 'Head Office', 'refuel', '2026-05-19 23:59:59', 1, '#DAMS3364', NULL, NULL, '2026-05-19 10:04:36', '2026-05-19 10:36:40', NULL, NULL),
+(158, 0, 'office', 'CBV-8252', 0, NULL, NULL, '-', '076 820 0093', 'Nilantha', 21, 14, 'PENDING', NULL, '2026-05-19 00:00:00', 'Head Office', 'micro to office', '2026-05-19 23:59:59', 1, NULL, NULL, NULL, '2026-05-19 10:18:45', '2026-05-19 10:18:45', NULL, NULL),
+(160, 0, 'office', 'PE-6837', 0, NULL, NULL, '-', '0773843033', 'Indika Acoinas', 75, 21, 'COMPLETED', NULL, '2026-05-20 00:00:00', 'Head Office', 'Ja-Ela, Sri Lanka', '2026-05-20 23:59:59', 1, '#INDI4449', NULL, NULL, '2026-05-20 03:54:34', '2026-05-20 05:11:19', NULL, NULL),
+(161, 0, 'office', 'PE-6837', 0, NULL, NULL, '-', '0773843033', 'Indika Acoinas', 75, 21, 'APPROVED', NULL, '2026-05-20 00:00:00', 'Head Office', 'Ja-Ela, Sri Lanka', '2026-05-20 23:59:59', 1, '#INDI3406', NULL, NULL, '2026-05-20 03:58:24', '2026-05-20 04:18:42', NULL, NULL),
+(162, 0, 'office', 'CBQ-8851', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'IN_PROGRESS', NULL, '2026-05-20 00:00:00', 'Head Office', 'refuel', '2026-05-20 23:59:59', 1, '#DAMS5459', NULL, NULL, '2026-05-20 04:27:08', '2026-05-20 04:39:01', NULL, NULL),
+(163, 0, 'personal', 'CAO-9712', 103, NULL, NULL, 'Car', '076 594 6923', 'Lalin Amith', 55, 18, 'IN_PROGRESS', NULL, '2026-05-20 00:00:00', 'Head Office', '', '2026-05-20 23:59:59', 1, '#LALI6057', 'Approve & Forward.', NULL, '2026-05-20 06:40:29', '2026-05-20 10:39:17', NULL, NULL),
+(164, 0, 'office', 'CBM-5703', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-20 00:00:00', 'Head Office', 'anton hardware', '2026-05-20 23:59:59', 1, '#DAMS3568', NULL, NULL, '2026-05-20 06:58:49', '2026-05-20 08:22:37', NULL, NULL),
+(165, 0, 'office', 'CBM-5687', 0, NULL, NULL, '-', '0761414550', 'Boniface Mangala', 70, 21, 'APPROVED', NULL, '2026-05-20 00:00:00', 'Head Office', 'jaela dunston', '2026-05-20 23:59:59', 1, '#BONI5145', NULL, NULL, '2026-05-20 09:16:36', '2026-05-20 09:39:55', NULL, NULL),
+(166, 0, 'office', 'CBM-5687', 0, NULL, NULL, '-', '0761414550', 'Boniface Mangala', 70, 21, 'APPROVED', NULL, '2026-05-20 00:00:00', 'Head Office', 'jaela dunston', '2026-05-20 23:59:59', 1, '#BONI1324', NULL, NULL, '2026-05-20 10:30:48', '2026-05-20 11:18:14', NULL, NULL),
+(167, 0, 'office', 'CBV-8252', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-20 00:00:00', 'Head Office', 'refuel', '2026-05-20 23:59:59', 1, '#DAMS5220', NULL, NULL, '2026-05-20 10:38:19', '2026-05-20 11:06:57', NULL, NULL),
+(168, 0, 'office', 'CBF-9182', 0, NULL, NULL, '-', '0766009719', 'Damsak De Zoysa', 79, 21, 'COMPLETED', NULL, '2026-05-20 00:00:00', 'Head Office', 'refuel', '2026-05-20 23:59:59', 1, '#DAMS3442', NULL, NULL, '2026-05-20 11:15:51', '2026-05-20 11:54:46', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1868,7 +1987,40 @@ INSERT INTO `trip_details` (`trip_detail_id`, `transport_service_id`, `trip_star
 (17, 117, '2026-05-13 07:15:34', '2026-05-13 07:37:04', 126263, 126270, 'uploads/trips/start_117_1778656534.jpg', 'uploads/trips/end_117_1778657824.jpg', 50.00, 100.00, '2026-05-13 07:15:34', '2026-05-13 07:37:04'),
 (18, 118, '2026-05-13 07:41:26', '2026-05-13 08:00:07', 40286, 40294, 'uploads/trips/start_118_1778658086.jpg', 'uploads/trips/end_118_1778659207.jpg', 90.00, 100.00, '2026-05-13 07:41:26', '2026-05-13 08:00:07'),
 (19, 119, '2026-05-13 08:12:14', '2026-05-13 08:40:06', 93031, 93039, 'uploads/trips/start_119_1778659934.jpg', 'uploads/trips/end_119_1778661606.jpg', 50.00, 100.00, '2026-05-13 08:12:14', '2026-05-13 08:40:06'),
-(20, 120, '2026-05-13 09:28:32', '2026-05-13 10:29:03', 6337, 6340, 'uploads/trips/start_120_1778664512.jpg', 'uploads/trips/end_120_1778668143.jpg', 90.00, 100.00, '2026-05-13 09:28:32', '2026-05-13 10:29:03');
+(20, 120, '2026-05-13 09:28:32', '2026-05-13 10:29:03', 6337, 6340, 'uploads/trips/start_120_1778664512.jpg', 'uploads/trips/end_120_1778668143.jpg', 90.00, 100.00, '2026-05-13 09:28:32', '2026-05-13 10:29:03'),
+(21, 124, '2026-05-13 19:25:04', '2026-05-15 15:43:36', 31719, 32027, 'uploads/trips/start_124_1778700304.jpg', 'uploads/trips/end_124_1778859816.jpg', 100.00, 100.00, '2026-05-13 19:25:04', '2026-05-15 15:43:36'),
+(22, 129, '2026-05-14 06:24:09', '2026-05-14 07:39:21', 15398, 15417, 'uploads/trips/start_129_1778739849.jpg', 'uploads/trips/end_129_1778744361.jpg', 90.00, 100.00, '2026-05-14 06:24:09', '2026-05-14 07:39:21'),
+(23, 131, '2026-05-14 08:41:19', '2026-05-14 09:59:18', 125721, 125741, 'uploads/trips/start_131_1778748079.jpg', 'uploads/trips/end_131_1778752758.jpg', 50.00, 100.00, '2026-05-14 08:41:19', '2026-05-14 09:59:18'),
+(24, 132, '2026-05-14 09:53:18', '2026-05-14 12:03:29', 32067, 32114, 'uploads/trips/start_132_1778752398.jpg', 'uploads/trips/end_132_1778760209.jpg', 100.00, 90.00, '2026-05-14 09:53:18', '2026-05-14 12:03:29'),
+(25, 23, '2026-05-14 13:00:12', '2026-05-14 13:01:07', 12233, 12238, 'uploads/trips/start_23_1778763612.jpg', 'uploads/trips/end_23_1778763667.jpg', 60.00, 60.00, '2026-05-14 13:00:12', '2026-05-14 13:01:07'),
+(26, 134, '2026-05-15 05:27:45', '2026-05-15 06:18:11', 35194, 35205, 'uploads/trips/start_134_1778822865.jpg', 'uploads/trips/end_134_1778825891.jpg', 60.00, 60.00, '2026-05-15 05:27:45', '2026-05-15 06:18:11'),
+(27, 135, '2026-05-15 05:33:33', '2026-05-15 06:26:20', 6364, 6376, 'uploads/trips/start_135_1778823213.jpg', 'uploads/trips/end_135_1778826380.jpg', 90.00, 100.00, '2026-05-15 05:33:33', '2026-05-15 06:26:20'),
+(28, 136, '2026-05-15 07:01:56', NULL, 97331, NULL, 'uploads/trips/start_136_1778828516.jpg', NULL, 40.00, NULL, '2026-05-15 07:01:56', '2026-05-15 07:01:56'),
+(29, 22, '2026-05-15 08:27:57', NULL, 9871, NULL, 'uploads/trips/start_22_1778833677.jpg', NULL, 90.00, NULL, '2026-05-15 08:27:57', '2026-05-15 08:27:57'),
+(30, 138, '2026-05-15 08:45:48', NULL, 7584, NULL, 'uploads/trips/start_138_1778834748.jpg', NULL, 60.00, NULL, '2026-05-15 08:45:48', '2026-05-15 08:45:48'),
+(31, 139, '2026-05-15 10:59:01', '2026-05-15 11:25:29', 32166, 32177, 'uploads/trips/start_139_1778842741.jpg', 'uploads/trips/end_139_1778844329.jpg', 80.00, 100.00, '2026-05-15 10:59:01', '2026-05-15 11:25:29'),
+(32, 141, '2026-05-15 13:41:26', NULL, 32177, NULL, 'uploads/trips/start_141_1778852486.jpg', NULL, 100.00, NULL, '2026-05-15 13:41:26', '2026-05-15 13:41:26'),
+(33, 142, '2026-05-18 03:20:43', '2026-05-18 03:34:52', 29142, 29149, 'uploads/trips/start_142_1779074443.jpg', 'uploads/trips/end_142_1779075292.jpg', 100.00, 100.00, '2026-05-18 03:20:43', '2026-05-18 03:34:52'),
+(34, 143, '2026-05-18 04:35:07', NULL, 1106853, NULL, 'uploads/trips/start_143_1779078907.jpg', NULL, 30.00, NULL, '2026-05-18 04:35:07', '2026-05-18 04:35:07'),
+(35, 145, '2026-05-18 06:47:07', '2026-05-18 12:22:27', 67310, 67385, 'uploads/trips/start_145_1779086827.jpg', 'uploads/trips/end_145_1779106947.jpg', 100.00, 70.00, '2026-05-18 06:47:07', '2026-05-18 12:22:27'),
+(36, 25, '2026-05-18 06:50:36', NULL, 6546, NULL, 'uploads/trips/start_25_1779087036.jpg', NULL, 80.00, NULL, '2026-05-18 06:50:36', '2026-05-18 06:50:36'),
+(37, 147, '2026-05-18 07:25:14', '2026-05-18 09:09:25', 29149, 29187, 'uploads/trips/start_147_1779089114.jpg', 'uploads/trips/end_147_1779095365.jpg', 100.00, 100.00, '2026-05-18 07:25:14', '2026-05-18 09:09:25'),
+(38, 148, '2026-05-18 09:21:06', '2026-05-18 10:10:49', 35272, 35277, 'uploads/trips/start_148_1779096066.jpg', 'uploads/trips/end_148_1779099049.jpg', 30.00, 30.00, '2026-05-18 09:21:06', '2026-05-18 10:10:49'),
+(39, 149, '2026-05-18 10:50:57', '2026-05-18 10:52:55', 34271, 34282, 'uploads/trips/start_149_1779101457.jpg', 'uploads/trips/end_149_1779101575.jpg', 60.00, 100.00, '2026-05-18 10:50:57', '2026-05-18 10:52:55'),
+(40, 150, '2026-05-18 10:59:56', '2026-05-18 11:28:21', 35277, 52285, 'uploads/trips/start_150_1779101996.jpg', 'uploads/trips/end_150_1779103701.jpg', 30.00, 100.00, '2026-05-18 10:59:56', '2026-05-18 11:28:21'),
+(41, 151, '2026-05-18 11:46:25', '2026-05-18 12:17:17', 29187, 29192, 'uploads/trips/start_151_1779104785.jpg', 'uploads/trips/end_151_1779106637.jpg', 100.00, 100.00, '2026-05-18 11:46:25', '2026-05-18 12:17:17'),
+(42, 153, '2026-05-19 06:17:06', '2026-05-19 06:44:43', 11915, 11924, 'uploads/trips/start_153_1779171426.jpg', 'uploads/trips/end_153_1779173083.jpg', 70.00, 100.00, '2026-05-19 06:17:06', '2026-05-19 06:44:43'),
+(43, 154, '2026-05-19 06:52:27', '2026-05-19 12:03:39', 67385, 67487, 'uploads/trips/start_154_1779173547.jpg', 'uploads/trips/end_154_1779192219.jpg', 70.00, 50.00, '2026-05-19 06:52:27', '2026-05-19 12:03:39'),
+(44, 155, '2026-05-19 07:06:49', '2026-05-19 07:33:47', 43155, 43167, 'uploads/trips/start_155_1779174409.jpg', 'uploads/trips/end_155_1779176027.jpg', 90.00, 100.00, '2026-05-19 07:06:49', '2026-05-19 07:33:47'),
+(45, 156, '2026-05-19 08:13:43', '2026-05-19 09:19:22', 10066, 10076, 'uploads/trips/start_156_1779178423.jpg', 'uploads/trips/end_156_1779182362.jpg', 30.00, 100.00, '2026-05-19 08:13:43', '2026-05-19 09:19:22'),
+(46, 157, '2026-05-19 10:08:07', '2026-05-19 10:36:40', 40609, 40617, 'uploads/trips/start_157_1779185287.jpg', 'uploads/trips/end_157_1779187000.jpg', 5.00, 100.00, '2026-05-19 10:08:07', '2026-05-19 10:36:40'),
+(47, 146, '2026-05-19 10:19:57', NULL, 4598, NULL, 'uploads/trips/start_146_1779185997.jpg', NULL, 90.00, NULL, '2026-05-19 10:19:57', '2026-05-19 10:19:57'),
+(48, 160, '2026-05-20 04:06:47', '2026-05-20 05:11:19', 241319, 241329, 'uploads/trips/start_160_1779250007.jpg', 'uploads/trips/end_160_1779253879.jpg', 40.00, 40.00, '2026-05-20 04:06:47', '2026-05-20 05:11:19'),
+(49, 162, '2026-05-20 04:39:01', NULL, 17090, NULL, 'uploads/trips/start_162_1779251941.jpg', NULL, 60.00, NULL, '2026-05-20 04:39:01', '2026-05-20 04:39:01'),
+(50, 164, '2026-05-20 07:01:10', '2026-05-20 08:22:37', 32379, 32387, 'uploads/trips/start_164_1779260470.jpg', 'uploads/trips/end_164_1779265357.jpg', 90.00, 100.00, '2026-05-20 07:01:10', '2026-05-20 08:22:37'),
+(51, 163, '2026-05-20 10:39:17', NULL, 79026, NULL, 'uploads/trips/start_163_1779273557.jpg', NULL, 100.00, NULL, '2026-05-20 10:39:17', '2026-05-20 10:39:17'),
+(52, 167, '2026-05-20 10:41:19', '2026-05-20 11:06:57', 4598, 4606, 'uploads/trips/start_167_1779273679.jpg', 'uploads/trips/end_167_1779275217.jpg', 90.00, 100.00, '2026-05-20 10:41:19', '2026-05-20 11:06:57'),
+(53, 168, '2026-05-20 11:18:48', '2026-05-20 11:54:46', 67487, 67497, 'uploads/trips/start_168_1779275928.jpg', 'uploads/trips/end_168_1779278086.jpg', 50.00, 100.00, '2026-05-20 11:18:48', '2026-05-20 11:54:46');
 
 -- --------------------------------------------------------
 
@@ -1898,10 +2050,10 @@ INSERT INTO `users` (`id`, `employee_id`, `name`, `email`, `role`, `email_verifi
 (1, NULL, 'Admin', 'admin@example.com', 'admin', '2026-02-24 05:58:50', '$2y$12$8IUGdN6Y/ozW5TAk1lDlYO1QV/91Vp40l97mLRFohifk9jCFFc.D6', NULL, '9GPlrte8ElI9qDOJD6fNAVnYfLaVkiXOhYSKd2vr6SiKAIEGG32asY77kOfn', '2026-02-24 05:58:50', '2026-02-24 05:58:50'),
 (12, NULL, 'Dulshan Wanigasekara', 'dulshan@explorevacations.lk', 'hr-executive', NULL, '$2y$12$A2ST8xMqsuufKmTFiTumLON.kg/zDaDfzbLPtUc0TJ3pNlKWjUw7.', NULL, 'HiuoceStGvvDgB1JypY1NyS4vOlcbB3TfvTog4pSuS17TE2N2C2NrcYDFuAu', '2026-03-13 14:43:13', '2026-03-13 14:43:13'),
 (15, 10, 'Test1 Test2', 'test@gmail.com', 'user', NULL, '$2y$12$YMpbbYfhKjO9/ebtovY/JuTYB1gLXcgaHC9GalupPr53WBDN.6xUq', 'UDANTHA', NULL, '2026-03-18 11:29:18', '2026-03-18 08:24:51'),
-(16, 11, 'Shermal', 'shermal@explorevacations.lk', 'user', NULL, '$2y$12$z2r8Bn70a8kIRKUXhe5VxOSusyGJGyjDyY8uQz8pJ.zCSYHpzeiOW', 'SHERMAL', NULL, '2026-03-24 17:43:08', '2026-04-06 09:11:16'),
+(16, 11, 'Shermal', 'shermal@explorevacations.lk', 'user', NULL, '$2y$12$aTycm3Y49lelDFcVRBAvDeP06BUn97AYK1JH1zKn6CXxrgXkXvZbS', 'SHERMAL', NULL, '2026-03-24 17:43:08', '2026-05-14 13:18:03'),
 (19, 14, 'Ralston', 'gm@explorevacations.lk', 'user', NULL, '$2y$12$P6HhbPIqDuxJe.1Qn3yA7uaomGE/Sa0MusvFt9xtzDC0aF8yd6Ciq', 'MELISSA', NULL, '2026-03-29 17:45:46', '2026-05-12 08:01:50'),
 (22, 17, 'Mihiran', 'digitalmarketing@explorevacations.lk', 'user', NULL, '$2y$12$0TyAMuVDQH47RLExSnio0ee21ZKUSQ4GZfSnvhuC2DRM1BksMOV56', 'MIHIRAN', NULL, '2026-03-29 19:44:11', '2026-04-02 06:38:14'),
-(23, 18, 'Hansi', 'finance@platinumdrive.lk', 'user', NULL, '$2y$12$ct7IbgbKhPbW44kKO2LPU.JH/TFZNTLMxvOBiAx5lPPsjtcswQctW', 'HANSIKA', NULL, '2026-03-29 19:51:51', '2026-04-10 13:02:00'),
+(23, 18, 'Hansi', 'finance@platinumdrive.lk', 'user', NULL, '$2y$12$7WTLfwnhFrxSu9TnOwGelO25mXDguYvjE3xuZdAHN/GUWmMWu7clO', 'HANSIKA', NULL, '2026-03-29 19:51:51', '2026-05-20 09:37:47'),
 (24, 19, 'Srimal kamaral', 'it@explorevacations.lk', 'user', NULL, '$2y$12$BIYXf6vJ4zj0XxOycQroduc3PGGj2Rf5s4Xtyz8mmUE13HOpxYYcC', 'SRIMAL', NULL, '2026-03-29 20:08:31', '2026-04-02 18:45:53'),
 (25, 20, 'Deshan', 'deshan@srilankarentacar.com', 'user', NULL, '$2y$12$VfjuiEvGWgDFjyFSWiC0kO7PFmzodOXgyDULSKAK3SXIewyGYwBYW', 'DESHAN', NULL, '2026-03-29 20:18:52', '2026-04-02 07:03:54'),
 (26, 21, 'Nilantha', 'fleet@srilankarentacar.lk', 'user', NULL, '$2y$12$f8cph3scMMZuVxmYRXpV/ewYTJ5J7E37X1j/eo2QXcZyUVsd.I.wm', 'KNKANTHONY', NULL, '2026-03-29 20:30:03', '2026-04-02 11:16:00'),
@@ -1915,11 +2067,11 @@ INSERT INTO `users` (`id`, `employee_id`, `name`, `email`, `role`, `email_verifi
 (36, 31, 'Tilmi Nimasha', 'acc.ass@eliterentacar.lk', 'user', NULL, '$2y$12$9TCcP927LLWo9KxYjtHhnOUs9P/FcdW3nm6lOAR1jloJAS76ToPHy', NULL, NULL, '2026-03-30 18:12:08', '2026-03-30 18:12:08'),
 (37, 32, 'Sewmini', 'sewmini@explorevacations.lk', 'user', NULL, '$2y$12$JxCzma.xtMzVeYwNVnPY0eZ9WvbWJSAsYSKd0GQUPI4lBRXRg3YRW', NULL, NULL, '2026-03-30 18:22:59', '2026-03-30 18:22:59'),
 (38, 33, 'Dewmi Sanjana', 'dewmi.sanjana@explorevacations.lk', 'user', NULL, '$2y$12$esvVMW7J.hPgxCpJWRQSGudmfOcOz6HBFxLvi9v8Ye53Fi3wmYbGq', NULL, NULL, '2026-03-30 18:38:11', '2026-03-30 18:38:11'),
-(39, NULL, 'ewr ewr', 'tharindu@gmail.com', 'user', NULL, '$2y$12$YdNXkuEXQX.S0ldVo5kETeeEdh5tkWrWBKS5zkpTvhd2cnkn8HtQW', NULL, NULL, '2026-03-31 11:44:42', '2026-03-31 11:44:42'),
-(40, 35, 'Thimansa Victoria', 'victoria@explorevacations.lk', 'user', NULL, '$2y$12$Fo5eNjZZ26kKifQXywYWDOI5dNmGhQTDDo.uCx6SflLxSPmYA7MrC', 'THIMANSA', NULL, '2026-03-31 11:47:04', '2026-04-02 06:45:53'),
-(41, 36, 'Sankalpana Arunasiri', 'rates@eliterentacar.lk', 'user', NULL, '$2y$12$no3yK4Ae276JTB6OGp7nXuq38UsbE8nwsy.mRRxzqCy6qV080c3ra', 'SANKALPANA', NULL, '2026-03-31 12:05:29', '2026-04-04 06:54:11'),
+(39, NULL, 'ewr ewr', 'tharindu@gmail.com', 'user', NULL, '$2y$12$wwROtqxK0L6AgdD8SquMxOihgrEDu6X2Y.5st0IJVEjFR3ln9ykJ2', 'THARINDU', NULL, '2026-03-31 11:44:42', '2026-05-19 04:55:41'),
+(40, 35, 'Thimansa Victoria', 'victoria@explorevacations.lk', 'user', NULL, '$2y$12$KCdkohu3KLA8yraiI0Ei7OY8m7ehOZOWE7kBP4Fy3a24mM9frKhMm', 'THIMANSA', NULL, '2026-03-31 11:47:04', '2026-05-19 04:49:00'),
+(41, 36, 'Sankalpana Arunasiri', 'rates@eliterentacar.lk', 'user', NULL, '$2y$12$3Y9S64kbrVmHj81XJZ6xEem8oiZBZUTlHq7yYmKlfK1fT47RPiX/q', 'SANKALPANA', NULL, '2026-03-31 12:05:29', '2026-05-14 06:06:22'),
 (42, 37, 'Kavinda Sandagomi', 'kavinda@srilankarentacar.com', 'user', NULL, '$2y$12$z1Xb5n6jUcCV.KlCKKFt8.N8v7ixZ4viX25mOmlQBXTNAuk1PCUum', 'KAVINDA', NULL, '2026-03-31 12:32:10', '2026-05-11 12:51:32'),
-(43, 38, 'Sanduni Guyes', 'Sandunig@srilankarentacar.com', 'user', NULL, '$2y$12$F4px3McVdfVK/XwIo4k7ZO7x4Zk9PfMd1YRmOZcILjjcvaSWCIWwm', 'SANDUNIGUYES', NULL, '2026-03-31 17:04:46', '2026-04-02 07:29:12'),
+(43, 38, 'Sanduni Guyes', 'Sandunig@srilankarentacar.com', 'user', NULL, '$2y$12$vbzNscKCwT1WJsVgcJHGqeIUcrtw8G8Nuboo5J7JDUc9sZZBPMwG6', 'SANDUNIGUYES', NULL, '2026-03-31 17:04:46', '2026-05-15 09:54:25'),
 (44, 39, 'Anton Niroshan', 'niroshan@srilankarentacar.lk', 'user', NULL, '$2y$12$MvNQyJcwf5/Kx0TWewFoFeP3PtTAgfcmY2ep/.mdj.uWaS4q4Kfte', 'BINGOAN', NULL, '2026-03-31 17:24:24', '2026-04-02 06:37:47'),
 (45, 40, 'Dilan Damitha', 'dilan@srilankarentacar.com', 'user', NULL, '$2y$12$hPHIH1Y5sKA/KcBXSYqsquEPhyEEyRtu67MCg/M0A7.Y1DOn2FZA6', 'DIYONL', NULL, '2026-03-31 17:38:30', '2026-05-07 13:00:02'),
 (46, 41, 'Lakshika', 'lakshika@srilankarentacar.com', 'user', NULL, '$2y$12$8s4OPsSLDqnUOYDkIwcBGeTpDZ9Q8d1yM26jhpnW4o9oikRLJV4uC', 'LAKSHIKAJAYAKUMAR', NULL, '2026-03-31 17:52:15', '2026-04-02 17:15:10'),
@@ -1933,39 +2085,39 @@ INSERT INTO `users` (`id`, `employee_id`, `name`, `email`, `role`, `email_verifi
 (54, 49, 'Kapila Silva', 'Kapila@srrentacar.lk', 'user', NULL, '$2y$12$78kkyfQO7y3aZBWfRDxo8u8yVGFR0od8IoWKfXYWNpHnCybiGZVwW', 'KAPILA', NULL, '2026-04-01 18:25:34', '2026-04-06 05:28:28'),
 (55, 50, 'Sahan Mendis', 'sahan@srrentacar.lk', 'user', NULL, '$2y$12$rP3F/yjniRzr8rp.ldsnS.lM88w4sxD6ID0B5IDP/No/mi1aBIpFq', 'SAJEEWANI', NULL, '2026-04-01 18:31:11', '2026-04-02 17:18:02'),
 (56, 51, 'Moshin  Fernando', 'omega11410@gmail.com', 'user', NULL, '$2y$12$GhOlN96tp.kB.bwhzxg/m.2bWXhHjEIqhmNJz4uGLgFbWCsPCtJMO', 'GLENTER', NULL, '2026-04-01 19:41:59', '2026-04-27 11:11:52'),
-(57, 52, 'Tharindu  Sriyan', 'tharindu19950112@gmail.com', 'user', NULL, '$2y$12$seTPfRNnYMDoQ6mPe8iX2.3krusJ1ZP8D5.G1LlwDa5kzeFsdsas2', NULL, NULL, '2026-04-01 20:22:40', '2026-04-01 20:22:40'),
+(57, 52, 'Tharindu  Sriyan', 'tharindu19950112@gmail.com', 'user', NULL, '$2y$12$LDuJhWia1WY8rUFeE5N9vu7ULfsTC9RHLKdqOCi7CpQwLSAvfSt4S', 'THARINDU', NULL, '2026-04-01 20:22:40', '2026-05-19 04:59:42'),
 (58, 53, 'Sujeewa Amarasiri', 'sujeewa@srrentacar.lk', 'user', NULL, '$2y$12$nClZfDszq/HnxLvnSanj1.ZcWSyOY9LhUsWT8LMn7lC1A4jI2BaC2', 'SUJEEEWEWE', NULL, '2026-04-01 22:21:28', '2026-04-02 05:26:30'),
 (59, 54, 'Roshan Pradeep', 'roshan@srentacar.lk', 'user', NULL, '$2y$12$OA6G0gxwrfmLcXF/aCAcM.abv85RC1ZB7.im4C9GqGI08Uy.EuFUy', 'ROSHAN', NULL, '2026-04-01 22:30:42', '2026-04-02 05:38:02'),
-(60, 55, 'Lalin Amith', 'procurement@explorevacations.lk', 'user', NULL, '$2y$12$nvMddv64bEhq5tKI44RkWOFeSa.FmiHrwEEzjs9npgSQLtsrVZ4Iq', 'LALINAMITHA', NULL, '2026-04-01 22:50:46', '2026-04-02 08:37:29'),
-(61, 56, 'Lankesh De Silva', 'lankesh@explorevacations.lk', 'user', NULL, '$2y$12$5z1K.eyjl4sweRGPgdjP.e87Krb2qDgIK4LkzRzhdOk7RcCGspOxK', NULL, NULL, '2026-04-01 22:59:51', '2026-04-01 22:59:51'),
+(60, 55, 'Lalin Amith', 'procurement@explorevacations.lk', 'user', NULL, '$2y$12$iN2lamRG5me/2vJl75olDeeVMr9BfJYSINsEt71kCZrX3QVUNfO.O', 'LALINAMITHA', NULL, '2026-04-01 22:50:46', '2026-05-20 06:38:35'),
+(61, 56, 'Lankesh De Silva', 'lankesh@explorevacations.lk', 'user', NULL, '$2y$12$K3RZQb1BXsN4jRdZqpkQeu5xQmCwcVDnbaHwZGlj444ctfMh64p82', 'LANKESH', NULL, '2026-04-01 22:59:51', '2026-05-14 08:28:59'),
 (62, 57, 'Nipun Watawala', 'Nipun@explorevacations.lk', 'user', NULL, '$2y$12$Gdxu6yEmwJ/J/hUIooT3Wum7tUYGK8W/qENLVJeQWIghuWy/Gf6se', NULL, NULL, '2026-04-01 23:11:24', '2026-04-01 23:11:24'),
 (63, 58, 'Milan Rodrigo', 'milan@explorevacations.lk', 'user', NULL, '$2y$12$P1y4PhhAYE2.mGr3.0OsJOpgxaobM5l6nph9j0zYjTjNnjp6FBvq2', NULL, NULL, '2026-04-01 23:39:53', '2026-04-01 23:39:53'),
 (64, 59, 'Tharuka Sewwandi', 'travels@explorevacations.lk', 'user', NULL, '$2y$12$GWGeZYgE5/DT17ko6dt.veAdtp3mPTwKKxA4r3.1xmOQuu0jW9Gr2', 'SEWWANDI', NULL, '2026-04-01 23:48:12', '2026-04-02 05:43:34'),
-(65, 60, 'Keshika', 'reservations@explorevacations.lk', 'user', NULL, '$2y$12$XWMrN.tsEiDUu1Gux9M7yuF5Yjv4iz7ijgkgMBeMeJE6tO82xka2m', 'KESHIKA', NULL, '2026-04-01 23:56:04', '2026-04-02 07:37:34'),
+(65, 60, 'Keshika', 'reservations@explorevacations.lk', 'user', NULL, '$2y$12$zEztWjYWt2A.xofIbIYwoOIcA7SzawgWR1FtaU.CiFFv7HpFK6OyO', 'KESHIKA', NULL, '2026-04-01 23:56:04', '2026-05-19 06:12:46'),
 (66, 61, 'Lakshitha  Sandaruwan', 'Lakshitha@explorevacations.lk', 'user', NULL, '$2y$12$dQ8xRVU2iC3WTvzew8JDZOb9Db7ar3jXqCi50dAV7af2NmpaX4ThK', 'DILUMSHA', NULL, '2026-04-02 00:05:53', '2026-05-11 06:16:16'),
 (67, 62, 'Shama Neranjala', 'shama@explorevacations.lk', 'user', NULL, '$2y$12$OdM0XhmOWRrKN9q7U/EAmO0YqbIXnVZ8d65PgiuD8yR2kHQ50DpI6', NULL, NULL, '2026-04-02 00:11:36', '2026-04-02 00:11:36'),
 (68, 63, 'Shaun Perera', 'shaun@eliterentacar.lk', 'user', NULL, '$2y$12$g57EH228lZLOm.cMGeJujehuGlcU3XH3MqH1C8o0UB.8L7AL607A6', NULL, NULL, '2026-04-02 00:20:04', '2026-04-02 00:20:04'),
 (69, 64, 'Pubudu Wickramasinghe', 'asst.manager@eliterentacar.lk', 'user', NULL, '$2y$12$prJfnXZMQjaaGlK9UqF0ueVGP/5zbBZLBzxOCdPxGrvFMwx7/XTs6', 'UTHPALA', NULL, '2026-04-02 00:37:36', '2026-04-02 05:21:18'),
-(70, 65, 'Jagath Wijesingha', 'Jagath@eliterentacar.lk', 'user', NULL, '$2y$12$ah8pQ7uQ9pQLfUaAH5D2mueb8rlu1MCSmo2bFztmZm34np.eCOi4e', 'JAGATH', NULL, '2026-04-02 00:50:46', '2026-04-07 09:03:41'),
-(71, 66, 'Lashen Dilash', 'lashen@eliterentacar.lk', 'user', NULL, '$2y$12$yrtX7HXBZ2nrYbdigoQAUu1VliJoR4oSs3gduNUtyaN5uZftnH6JG', NULL, NULL, '2026-04-02 00:56:05', '2026-04-02 00:56:05'),
+(70, 65, 'Jagath Wijesingha', 'Jagath@eliterentacar.lk', 'user', NULL, '$2y$12$lCzGEQYfa2NgCZHpDJZI9OMzoKjWNcc4WioLrJqIaGMKmHVnQrAMO', 'JAGATH', NULL, '2026-04-02 00:50:46', '2026-05-13 12:30:21'),
+(71, 66, 'Lashen Dilash', 'lashen@eliterentacar.lk', 'user', NULL, '$2y$12$EIHcB4Cpq2iYQp1S6vfRqOTBj0wxEPCSlaS3vhupb1Zj1yQsyhuAq', 'LASHENDILASH', NULL, '2026-04-02 00:56:05', '2026-05-20 07:43:41'),
 (72, 67, 'Wishvajith   Perera', 'wishwajith@eliterentacar.lk', 'user', NULL, '$2y$12$1jzcMjd7M4Ie.TuQzf5ft.SY3R6Z6pRDgwp12Uh3JI0riwKu5kgly', 'WISHVAJITH', NULL, '2026-04-02 01:06:15', '2026-04-07 14:33:22'),
 (73, 68, 'Prasad De Silva', 'desilva@srrentacar.lk', 'user', NULL, '$2y$12$nbPFHkm44QI.8Yh28tpbfu6b3YrsfVk4VN13cFC9IFycCpN8uOB/2', NULL, NULL, '2026-04-02 05:34:23', '2026-04-02 05:34:23'),
 (74, 69, 'Ravindu Niyangoda', 'ravindu@srrentacar.lk', 'user', NULL, '$2y$12$EQAYft6dTK3dEUn2G8LLwOqdXl6k6RPmtJ/WMw1XkPjeOIyU7I30y', 'RAVINDU', NULL, '2026-04-02 05:43:15', '2026-04-02 06:59:37'),
-(75, 70, 'Boniface Mangala', 'boni@srrentacar.lk', 'user', NULL, '$2y$12$6j5/rViM2pp7VKjZgh5yL.Z0am0Q5Pi4FbtlTwUQTdwVJs7BeIqba', 'BONISRRENTACARLK', NULL, '2026-04-02 05:50:32', '2026-04-23 05:37:56'),
+(75, 70, 'Boniface Mangala', 'boni@srrentacar.lk', 'user', NULL, '$2y$12$.QyxJUeGDSUN7XD5QiHad.wGiXjTc5GwVCgVq.AQGS0liaKbxBIhS', 'BONISRRENTACARLK', NULL, '2026-04-02 05:50:32', '2026-05-14 05:59:03'),
 (76, 71, 'Dicsion Kumara', 'dicsion@srrentacar.lk', 'user', NULL, '$2y$12$taLWNZMueD9vnw.FJZhI5OJTq82vmP4GKGiB3v2S8wLnlxp1RSXOO', NULL, NULL, '2026-04-02 05:56:36', '2026-04-02 05:56:36'),
 (77, 72, 'Heshan Sandaruwan', 'heshan@srilankarentacar.com', 'user', NULL, '$2y$12$N5bW0VLU0g4Zw1YuT4lzOOi8K0kcFX0Kkwee90WTfeI8HFUXRvqeq', 'HESHAN', NULL, '2026-04-02 06:03:11', '2026-04-10 13:19:12'),
 (78, 73, 'Chamara Grero', 'chamara@srentacar.lk', 'user', NULL, '$2y$12$ngS2mmSnnw1EYzuWAMr1yu42cFeaBm.rbOOyKD2xneV013uie5Ub6', 'CHAMARA', NULL, '2026-04-02 06:11:05', '2026-04-07 07:21:11'),
 (79, 74, 'Sampath Fernando', 'sampath@srrentacar.lk', 'user', NULL, '$2y$12$JbxkkMEXZQNZQhnZA4EYuuMCyG8bEWFg/3a85kLoMpFIQ/JCSQ4NG', 'SAMPATH', NULL, '2026-04-02 06:17:47', '2026-04-02 10:46:55'),
-(80, 75, 'Indika Acoinas', 'indika@srrentacar.lk', 'user', NULL, '$2y$12$RuTvnkFuYo.B3YMxxYAwO.ZKVKwjk7H6q5bbig/wYMFk6ePH7cJ2u', 'INDIKA', NULL, '2026-04-02 06:24:45', '2026-04-28 04:56:30'),
+(80, 75, 'Indika Acoinas', 'indika@srrentacar.lk', 'user', NULL, '$2y$12$Y52qP7NE41sYonL28PEse.sFU/W/2h4n5oZpN5HGb7ozlVGmCHMFe', 'INDIKA', NULL, '2026-04-02 06:24:45', '2026-05-14 06:31:16'),
 (81, 76, 'Rashan Gamage', 'rashan@srrentacar.lk', 'user', NULL, '$2y$12$GbnjsUwqBGPNAkPwDTa/ZuY6klF0kR87zgNcrEkAjZ40P3jS/74vK', NULL, NULL, '2026-04-02 06:32:19', '2026-04-02 06:32:19'),
-(82, 77, 'Ryan Monie', 'rayan@srrentacar.lk', 'user', NULL, '$2y$12$i/Amufn6QlP8XwfwM5Ob7eEhZZYvS05kltSpATDhVP8DI2tiCyrNy', NULL, NULL, '2026-04-02 06:38:46', '2026-04-02 06:38:46'),
-(83, 78, 'Dimath Weliwitigoda', 'dimath@srrentacar.lk', 'user', NULL, '$2y$12$9J.t3Y9i2cD7wPLcRq2PSOwktxaSyusyQuUBPm6yAFV5gBTGsX8ru', 'BATMAN', NULL, '2026-04-02 06:47:00', '2026-04-02 06:42:48'),
+(82, 77, 'Ryan Monie', 'rayan@srrentacar.lk', 'user', NULL, '$2y$12$stVVY0kASqLBKu7c3avQPeE6wzonBewSe7PHAflcdRKDCflgITe1y', 'RYANMONIE', NULL, '2026-04-02 06:38:46', '2026-05-19 13:25:39'),
+(83, 78, 'Dimath Weliwitigoda', 'dimath@srrentacar.lk', 'user', NULL, '$2y$12$WKPClMtcVZljFXQj31gvnOU8NG4ra/lvt91bshULHSEC.MHa8P8yO', 'BATMAN', NULL, '2026-04-02 06:47:00', '2026-05-14 12:31:09'),
 (84, 79, 'Damsak De Zoysa', 'damsak@srrentacar.lk', 'user', NULL, '$2y$12$6URb/Zx8XVEtEDCplF6QqOLHqm4YdinPqCb6BG4VD5t.DcePtkiJG', 'BATMAN', NULL, '2026-04-02 06:53:28', '2026-05-12 06:16:50'),
 (85, 80, 'Gayan Fernando', 'gayan@srrentacar.lk', 'user', NULL, '$2y$12$xsgiLSWwgfYWwJRu/zLEqutmlMdvwfHJBjIbWyZSqtwBXmLQjzvDW', 'FERNANDO', NULL, '2026-04-02 06:58:53', '2026-04-02 05:39:40'),
 (86, 81, 'Kumara Fernando', 'kumara@srrentacar.lk', 'user', NULL, '$2y$12$.ODIZn3uze1gPkJyyBHbvOpWI2vb.dSXmCpcaG5snycfvDQWM/hD2', 'KURUKULASOORIYA', NULL, '2026-04-02 07:05:51', '2026-04-02 11:06:02'),
 (87, 82, 'Lahiru Kumara', 'lahiru@srrentacar.lk', 'user', NULL, '$2y$12$rVjqpkiTC0IAfD.sWomCBuYebnHJombysi7qcYuxapZr47KI8qUYq', 'LAHIRU', NULL, '2026-04-02 07:12:17', '2026-04-07 08:43:38'),
 (88, 83, 'Ashen Fernando', 'ashen@srrentacar.lk', 'user', NULL, '$2y$12$Q9Mr2j3HqWhg.raCqY78Iu5Lf4lrpUZ8ln.UC87T5zxcPyarsaRx2', 'ASHANM', NULL, '2026-04-02 07:17:13', '2026-04-27 07:43:27'),
-(89, 84, 'Dhilhara', 'dhilhara@explorevacations.lk', 'hr-executive', NULL, '$2y$12$np0GxEyvAje.qIxvlaZlM.57Sbq7zlim0CbAILgeokUVXdY8PLb0y', 'HUMANS', 'eEhYCgpT6rMHiHRBD4oP5hBPkwSbsLs0jk8gm1Q1688nHHR4hkSYdeMOUzLc', '2026-04-16 12:05:51', '2026-04-23 11:54:15');
+(89, 84, 'Dhilhara', 'dhilhara@explorevacations.lk', 'hr-executive', NULL, '$2y$12$aQLXaJrgeElybUn5Z/sDFO.mXNq0XynUMx9ff0zPZmZA7uNzbybni', 'HUMANS', 'eEhYCgpT6rMHiHRBD4oP5hBPkwSbsLs0jk8gm1Q1688nHHR4hkSYdeMOUzLc', '2026-04-16 12:05:51', '2026-05-18 06:04:21');
 
 -- --------------------------------------------------------
 
@@ -2174,7 +2326,55 @@ INSERT INTO `vehicle_qr_search_logs` (`id`, `employee_id`, `preferred_name`, `ve
 (228, 79, 'Damsak De Zoysa', 'CAE-4853', '2026-05-13 08:14:28', 1, 'SUCCESS'),
 (229, 79, 'Damsak De Zoysa', 'CBT-2241', '2026-05-13 09:28:53', 0, 'QR_IMAGE_NOT_UPLOADED'),
 (230, 79, 'Damsak De Zoysa', 'CBM-5684', '2026-05-13 09:29:21', 1, 'SUCCESS'),
-(231, 79, 'Damsak De Zoysa', 'CBQ-8861', '2026-05-13 09:58:54', 1, 'SUCCESS');
+(231, 79, 'Damsak De Zoysa', 'CBQ-8861', '2026-05-13 09:58:54', 1, 'SUCCESS'),
+(232, 50, 'Sahan Mendis', 'CBM-5683', '2026-05-14 02:09:58', 1, 'SUCCESS'),
+(233, 50, 'Sahan Mendis', 'CBM-5682', '2026-05-14 02:11:42', 1, 'SUCCESS'),
+(234, 50, 'Sahan Mendis', 'CBM-5708', '2026-05-14 02:12:24', 1, 'SUCCESS'),
+(235, 53, 'Sujeewa Amarasiri', 'CBT-4753', '2026-05-14 03:50:26', 1, 'SUCCESS'),
+(236, 53, 'Sujeewa Amarasiri', 'CBT-4753', '2026-05-14 03:50:37', 1, 'SUCCESS'),
+(237, 53, 'Sujeewa Amarasiri', 'CBS-9860', '2026-05-14 03:53:52', 1, 'SUCCESS'),
+(238, 53, 'Sujeewa Amarasiri', 'CBM-5721', '2026-05-14 07:05:24', 1, 'SUCCESS'),
+(239, 79, 'Damsak De Zoysa', 'PC-1058', '2026-05-14 08:07:27', 1, 'SUCCESS'),
+(240, 79, 'Damsak De Zoysa', 'PD-7635', '2026-05-14 09:40:52', 1, 'SUCCESS'),
+(241, 79, 'Damsak De Zoysa', 'CBT-4753', '2026-05-15 03:41:43', 1, 'SUCCESS'),
+(242, 79, 'Damsak De Zoysa', 'CBT-4752', '2026-05-15 03:50:13', 1, 'SUCCESS'),
+(243, 79, 'Damsak De Zoysa', 'CBV-8254', '2026-05-15 05:36:57', 1, 'SUCCESS'),
+(244, 79, 'Damsak De Zoysa', 'KW-4867', '2026-05-15 07:19:21', 0, 'QR_IMAGE_NOT_UPLOADED'),
+(245, 79, 'Damsak De Zoysa', 'CBH-7357', '2026-05-15 07:19:57', 1, 'SUCCESS'),
+(246, 79, 'Damsak De Zoysa', 'CBM-5703', '2026-05-15 11:15:14', 1, 'SUCCESS'),
+(247, 79, 'Damsak De Zoysa', 'CBM-5703', '2026-05-15 11:15:17', 1, 'SUCCESS'),
+(248, 53, 'Sujeewa Amarasiri', 'PD-9606', '2026-05-15 15:01:17', 1, 'SUCCESS'),
+(249, 53, 'Sujeewa Amarasiri', 'PD-9606', '2026-05-15 15:01:23', 1, 'SUCCESS'),
+(250, 53, 'Sujeewa Amarasiri', 'CBM-5721', '2026-05-16 05:14:05', 1, 'SUCCESS'),
+(251, 53, 'Sujeewa Amarasiri', 'PD-9606', '2026-05-16 05:46:08', 1, 'SUCCESS'),
+(252, 53, 'Sujeewa Amarasiri', 'PE-6837', '2026-05-16 05:56:36', 1, 'SUCCESS'),
+(253, 53, 'Sujeewa Amarasiri', 'PC-1058', '2026-05-16 05:57:17', 1, 'SUCCESS'),
+(254, 79, 'Damsak De Zoysa', 'CBH-7357', '2026-05-17 02:11:57', 1, 'SUCCESS'),
+(255, 53, 'Sujeewa Amarasiri', 'CAO-9712', '2026-05-17 03:44:26', 1, 'SUCCESS'),
+(256, 53, 'Sujeewa Amarasiri', 'CAO-9712', '2026-05-17 03:44:29', 1, 'SUCCESS'),
+(257, 53, 'Sujeewa Amarasiri', 'CBM-5721', '2026-05-17 05:17:24', 1, 'SUCCESS'),
+(258, 53, 'Sujeewa Amarasiri', 'PE-6837', '2026-05-17 08:36:12', 1, 'SUCCESS'),
+(259, 21, 'Nilantha', 'CBM-5703', '2026-05-17 12:39:08', 1, 'SUCCESS'),
+(260, 21, 'Nilantha', 'CBM-5703', '2026-05-17 12:39:47', 1, 'SUCCESS'),
+(261, 21, 'Nilantha', 'CBB-8740', '2026-05-18 02:03:04', 1, 'SUCCESS'),
+(262, 53, 'Sujeewa Amarasiri', 'CAO-9712', '2026-05-18 08:30:53', 1, 'SUCCESS'),
+(263, 53, 'Sujeewa Amarasiri', 'CAO-9712', '2026-05-18 08:31:03', 1, 'SUCCESS'),
+(264, 79, 'Damsak De Zoysa', 'CBM-5718', '2026-05-18 11:07:11', 1, 'SUCCESS'),
+(265, 79, 'Damsak De Zoysa', 'CBM-5715', '2026-05-18 11:09:04', 1, 'SUCCESS'),
+(266, 79, 'Damsak De Zoysa', 'CBH-7357', '2026-05-18 11:10:12', 1, 'SUCCESS'),
+(267, 78, 'Dimath Weliwitigoda', 'CAO-9712', '2026-05-18 13:18:43', 1, 'SUCCESS'),
+(268, 79, 'Damsak De Zoysa', 'CBS-9863', '2026-05-19 06:26:20', 1, 'SUCCESS'),
+(269, 79, 'Damsak De Zoysa', 'CBV-8255', '2026-05-19 09:01:24', 1, 'SUCCESS'),
+(270, 79, 'Damsak De Zoysa', 'CBM-5708', '2026-05-19 10:16:05', 1, 'SUCCESS'),
+(271, 79, 'Damsak De Zoysa', 'CBQ-8859', '2026-05-19 10:23:51', 1, 'SUCCESS'),
+(272, 49, 'Kapila Silva', 'CAW-6119', '2026-05-19 11:53:18', 0, 'QR_IMAGE_NOT_UPLOADED'),
+(273, 49, 'Kapila Silva', 'CBV-8255', '2026-05-19 11:56:09', 1, 'SUCCESS'),
+(274, 50, 'Sahan Mendis', 'CBM-5683', '2026-05-19 12:25:22', 1, 'SUCCESS'),
+(275, 83, 'Ashen Fernando', 'CBM-5724', '2026-05-19 17:48:57', 1, 'SUCCESS'),
+(276, 79, 'Damsak De Zoysa', 'CBM-5703', '2026-05-20 07:25:05', 1, 'SUCCESS'),
+(277, 53, 'Sujeewa Amarasiri', 'CAE-4853', '2026-05-20 07:57:03', 1, 'SUCCESS'),
+(279, 79, 'Damsak De Zoysa', 'CBV-8252', '2026-05-20 10:50:09', 1, 'SUCCESS'),
+(280, 79, 'Damsak De Zoysa', 'CBF-9182', '2026-05-20 11:25:04', 1, 'SUCCESS');
 
 -- --------------------------------------------------------
 
@@ -2505,13 +2705,13 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `employee_addresses`
 --
 ALTER TABLE `employee_addresses`
-  MODIFY `employee_address_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
+  MODIFY `employee_address_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
 
 --
 -- AUTO_INCREMENT for table `employee_bank_accounts`
 --
 ALTER TABLE `employee_bank_accounts`
-  MODIFY `bank_account_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
+  MODIFY `bank_account_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- AUTO_INCREMENT for table `employee_compensation`
@@ -2523,13 +2723,13 @@ ALTER TABLE `employee_compensation`
 -- AUTO_INCREMENT for table `employee_compensation_components`
 --
 ALTER TABLE `employee_compensation_components`
-  MODIFY `component_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=465;
+  MODIFY `component_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=484;
 
 --
 -- AUTO_INCREMENT for table `employee_contacts`
 --
 ALTER TABLE `employee_contacts`
-  MODIFY `contact_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=584;
+  MODIFY `contact_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=608;
 
 --
 -- AUTO_INCREMENT for table `employee_documents`
@@ -2541,25 +2741,25 @@ ALTER TABLE `employee_documents`
 -- AUTO_INCREMENT for table `employee_emergency_contacts`
 --
 ALTER TABLE `employee_emergency_contacts`
-  MODIFY `emergency_contact_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
+  MODIFY `emergency_contact_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- AUTO_INCREMENT for table `employee_experience`
 --
 ALTER TABLE `employee_experience`
-  MODIFY `experience_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=336;
+  MODIFY `experience_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=353;
 
 --
 -- AUTO_INCREMENT for table `employee_leave_balances`
 --
 ALTER TABLE `employee_leave_balances`
-  MODIFY `leave_balance_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `leave_balance_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `employee_personal_vehicle_usage`
 --
 ALTER TABLE `employee_personal_vehicle_usage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -2589,13 +2789,13 @@ ALTER TABLE `leave_policies`
 -- AUTO_INCREMENT for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  MODIFY `leave_request_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `leave_request_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `leave_request_documents`
 --
 ALTER TABLE `leave_request_documents`
-  MODIFY `leave_request_document_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `leave_request_document_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `meetings`
@@ -2637,13 +2837,13 @@ ALTER TABLE `role_permissions`
 -- AUTO_INCREMENT for table `transport_services`
 --
 ALTER TABLE `transport_services`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `trip_details`
 --
 ALTER TABLE `trip_details`
-  MODIFY `trip_detail_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `trip_detail_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -2661,7 +2861,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `vehicle_qr_search_logs`
 --
 ALTER TABLE `vehicle_qr_search_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=281;
 
 --
 -- AUTO_INCREMENT for table `vehicle_requests`
