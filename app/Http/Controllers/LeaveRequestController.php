@@ -68,7 +68,7 @@ class LeaveRequestController extends Controller
                 'employee_id' => $lr->employee_id,
                 'type' => $lr->policy?->name ?? '-',
                 'department' => $lr->employee?->job?->department?->name ?? '-',
-                'days' => (string) $lr->number_of_days . ' Day(s)',
+                'days' => $lr->half_day_session ? '0.5 Day' : rtrim(rtrim((string) $lr->number_of_days, '0'), '.') . ' Day(s)',
                 'number_of_days' => $lr->number_of_days,
                 'reason' => (string) ($lr->reason ?? '-'),
                 'start' => optional($lr->leave_start_date)->toDateString(),
