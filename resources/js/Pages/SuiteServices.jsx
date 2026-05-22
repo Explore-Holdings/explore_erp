@@ -68,6 +68,14 @@ const MODULE_SETS = {
       image: "/images/payroll.webp",
     },
   ],
+  PROCUREMENT: [
+    {
+      title: "Inventory Management",
+      description: "Track stocks, handle stock requests and approval workflows.",
+      href: "/stocks",
+      image: "/images/procurement.webp",
+    },
+  ],
   // TRANSPORT: [
   //   {
   //     title: "Fleet & Booking Operations",
@@ -128,7 +136,7 @@ function ModuleCard({ item }) {
   );
 }
 
-export default function HRMS({ auth }) {
+export default function HRMS({ auth = {} }) {
   const page = usePage();
 
   const roleRaw =
@@ -148,51 +156,40 @@ export default function HRMS({ auth }) {
   const dept = String(deptRaw).trim().toLowerCase();
 
   const allModules = useMemo(() => {
-    const all = [...(MODULE_SETS.HR || []), ...(MODULE_SETS.FINANCE || [])];
+    const all = [
+      ...(MODULE_SETS.HR || []),
+      ...(MODULE_SETS.FINANCE || []),
+      ...(MODULE_SETS.PROCUREMENT || []),
+    ];
     return all.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
   }, []);
 
   const modules = useMemo(() => {
-    // admin gets everything
-    if (role === "admin") {
-      const adminModules = [
+    let list = [];
+    if (role === "admin" || role === "inventory manager") {
+      list = [
         ...allModules,
         ...(MODULE_SETS.ADMIN || []),
         ...(MODULE_SETS.TRANSPORT || []),
       ];
-
-      return adminModules.filter(
-        (m, i, arr) => arr.findIndex((x) => x.href === m.href) === i
-      );
-    }
-
-    // hr-executive should ONLY see HR modules
-    if (role === "hr-executive") {
-      return MODULE_SETS.HR || [];
-    }
-
-    // other users: department-based access
-    if (dept === "hr" || dept.includes("human")) {
-      return MODULE_SETS.HR || [];
-    }
-
-    if (dept === "finance" || dept.includes("finan")) {
-      return MODULE_SETS.FINANCE || [];
-    }
-
-    if (
+    } else if (role === "hr-executive" || dept === "hr" || dept.includes("human")) {
+      list = [...(MODULE_SETS.HR || []), ...((MODULE_SETS.PROCUREMENT) || [])];
+    } else if (dept === "finance" || dept.includes("finan")) {
+      list = [...(MODULE_SETS.FINANCE || []), ...((MODULE_SETS.PROCUREMENT) || [])];
+    } else if (
       dept.includes("transfer") ||
       dept.includes("rent a car") ||
       dept.includes("rental")
     ) {
-      return MODULE_SETS.TRANSPORT || [];
+      list = [...(MODULE_SETS.TRANSPORT || []), ...((MODULE_SETS.PROCUREMENT) || [])];
+    } else {
+      list = MODULE_SETS.PROCUREMENT || [];
     }
-
-    return [];
+    return list.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
   }, [role, dept, allModules]);
 
   return (
-    <AuthenticatedLayout user={auth.user}>
+    <AuthenticatedLayout user={auth?.user}>
       <Head title="HRMS" />
 
       <Container
