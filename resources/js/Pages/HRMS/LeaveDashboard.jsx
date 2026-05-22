@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
+
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import {
   Box,
@@ -25,6 +27,8 @@ import {
   TableRow,
   TablePagination,
   Chip,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 
 const SIDEBAR_WIDTH = 240;
@@ -44,6 +48,15 @@ function formatBytes(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function filterRows(rows, search) {
+  const q = search.toLowerCase().trim();
+  if (!q) return rows;
+
+  return rows.filter((row) =>
+    JSON.stringify(row).toLowerCase().includes(q)
+  );
+}
+
 function StatusChip({ status }) {
   const colorMap = {
     Pending: "warning",
@@ -58,121 +71,6 @@ function StatusChip({ status }) {
       size="small"
       variant="filled"
     />
-  );
-}
-
-function LeaveDetailsModal({ open, onClose, row }) {
-  if (!row) return null;
-
-  return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          width: { xs: "95%", md: 760 },
-          maxHeight: "90vh",
-          overflowY: "auto",
-          bgcolor: "#fff",
-          mx: "auto",
-          my: "4vh",
-          borderRadius: 3,
-          boxShadow: 24,
-          p: 3,
-        }}
-      >
-        <Typography variant="h6" fontWeight={900} sx={{ mb: 2 }}>
-          Leave Request Details
-        </Typography>
-
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: 2,
-          }}
-        >
-          <DetailItem label="Employee" value={row.name} />
-          <DetailItem label="Department" value={row.department} />
-          <DetailItem label="Leave Type" value={row.type} />
-          <DetailItem label="Status" value={row.status} />
-          <DetailItem label="From" value={row.start} />
-          <DetailItem label="To" value={row.end} />
-          <DetailItem label="Days" value={row.days} />
-          <DetailItem
-            label="Oversee Member"
-            value={row.oversee_member?.name || "-"}
-          />
-          <DetailItem
-            label="Half Day Session"
-            value={row.half_day_session || "-"}
-          />
-          <DetailItem
-            label="Special Request"
-            value={row.is_special_request ? "Yes" : "No"}
-          />
-        </Box>
-
-        <Box sx={{ mt: 2 }}>
-          <DetailBlock label="Reason" value={row.reason} />
-          <DetailBlock label="Manager Comment" value={row.manager_comment} />
-          <DetailBlock label="Reliever Comment" value={row.reliever_comment} />
-          <DetailBlock label="Address" value={row.address} />
-        </Box>
-
-        <Box sx={{ mt: 3 }}>
-          <Typography fontWeight={800} sx={{ mb: 1.5 }}>
-            Documents
-          </Typography>
-
-          {row.documents?.length ? (
-            <Stack spacing={1}>
-              {row.documents.map((doc) => (
-                <Box
-                  key={doc.leave_request_document_id}
-                  sx={{
-                    border: "1px solid #e5e7eb",
-                    borderRadius: 2,
-                    p: 1.5,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: 2,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Box>
-                    <Typography fontWeight={700}>{doc.file_name}</Typography>
-                    <Typography variant="caption" sx={{ color: "#6b7280" }}>
-                      {doc.mime_type || "-"} • {formatBytes(doc.file_size_bytes)} • {doc.uploaded_at || "-"}
-                    </Typography>
-                  </Box>
-
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    component="a"
-                    href={doc.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </Button>
-                </Box>
-              ))}
-            </Stack>
-          ) : (
-            <Typography sx={{ color: "#6b7280" }}>
-              No documents uploaded.
-            </Typography>
-          )}
-        </Box>
-
-        <Stack direction="row" justifyContent="flex-end" sx={{ mt: 3 }}>
-          <Button variant="contained" onClick={onClose}>
-            Close
-          </Button>
-        </Stack>
-      </Box>
-    </Modal>
   );
 }
 
@@ -213,33 +111,147 @@ function DetailBlock({ label, value }) {
   );
 }
 
+function LeaveDetailsModal({ open, onClose, row }) {
+  if (!row) return null;
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Box
+        sx={{
+          width: { xs: "95%", md: 760 },
+          maxHeight: "90vh",
+          overflowY: "auto",
+          bgcolor: "#fff",
+          mx: "auto",
+          my: "4vh",
+          borderRadius: 3,
+          boxShadow: 24,
+          p: 3,
+        }}
+      >
+        <Typography variant="h6" fontWeight={900} sx={{ mb: 2 }}>
+          Leave Request Details
+        </Typography>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+            gap: 2,
+          }}
+        >
+          <DetailItem label="Employee" value={row.name} />
+          <DetailItem label="Department" value={row.department} />
+          <DetailItem label="Leave Type" value={row.type} />
+          <DetailItem label="Status" value={row.status} />
+          <DetailItem label="From" value={row.start} />
+          <DetailItem label="To" value={row.end} />
+          <DetailItem label="Days" value={row.days} />
+          <DetailItem label="Oversee Member" value={row.oversee_member?.name || "-"} />
+          <DetailItem label="Half Day Session" value={row.half_day_session || "-"} />
+          <DetailItem label="Special Request" value={row.is_special_request ? "Yes" : "No"} />
+        </Box>
+
+        <Box sx={{ mt: 2 }}>
+          <DetailBlock label="Reason" value={row.reason} />
+          <DetailBlock label="Manager Comment" value={row.manager_comment} />
+          <DetailBlock label="Reliever Comment" value={row.reliever_comment} />
+          <DetailBlock label="Address" value={row.address} />
+        </Box>
+
+        <Box sx={{ mt: 3 }}>
+          <Typography fontWeight={800} sx={{ mb: 1.5 }}>
+            Documents
+          </Typography>
+
+          {row.documents?.length ? (
+            <Stack spacing={1}>
+              {row.documents.map((doc) => (
+                <Box
+                  key={doc.leave_request_document_id}
+                  sx={{
+                    border: "1px solid #e5e7eb",
+                    borderRadius: 2,
+                    p: 1.5,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 2,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Box>
+                    <Typography fontWeight={700}>{doc.file_name}</Typography>
+                    <Typography variant="caption" sx={{ color: "#6b7280" }}>
+                      {doc.mime_type || "-"} • {formatBytes(doc.file_size_bytes)} •{" "}
+                      {doc.uploaded_at || "-"}
+                    </Typography>
+                  </Box>
+
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    component="a"
+                    href={doc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </Button>
+                </Box>
+              ))}
+            </Stack>
+          ) : (
+            <Typography sx={{ color: "#6b7280" }}>No documents uploaded.</Typography>
+          )}
+        </Box>
+
+        <Stack direction="row" justifyContent="flex-end" sx={{ mt: 3 }}>
+          <Button variant="contained" onClick={onClose}>
+            Close
+          </Button>
+        </Stack>
+      </Box>
+    </Modal>
+  );
+}
+
 function PaginatedLeaveTable({ rows, onOpenModal }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [search, setSearch] = useState("");
+
+  const filteredRows = useMemo(() => {
+    return filterRows(rows, search);
+  }, [rows, search]);
 
   const paginatedRows = useMemo(() => {
     const start = page * rowsPerPage;
-    return rows.slice(start, start + rowsPerPage);
-  }, [rows, page, rowsPerPage]);
-
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    const value = parseInt(event.target.value, 10);
-    setRowsPerPage(value);
-    setPage(0);
-  };
+    return filteredRows.slice(start, start + rowsPerPage);
+  }, [filteredRows, page, rowsPerPage]);
 
   return (
-    <Paper
-      sx={{
-        borderRadius: 3,
-        border: "1px solid #e5e7eb",
-        overflow: "hidden",
-      }}
-    >
+    <Paper sx={{ borderRadius: 3, border: "1px solid #e5e7eb", overflow: "hidden" }}>
+      <Box sx={{ p: 2 }}>
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="Search leave records..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(0);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
       <TableContainer>
         <Table>
           <TableHead>
@@ -257,15 +269,7 @@ function PaginatedLeaveTable({ rows, onOpenModal }) {
           <TableBody>
             {paginatedRows.length ? (
               paginatedRows.map((row) => (
-                <TableRow
-                  key={row.leave_request_id}
-                  hover
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#f9fafb",
-                    },
-                  }}
-                >
+                <TableRow key={row.leave_request_id} hover>
                   <TableCell>{row.name || "-"}</TableCell>
                   <TableCell>{row.department || "-"}</TableCell>
                   <TableCell>{row.type || "-"}</TableCell>
@@ -275,11 +279,7 @@ function PaginatedLeaveTable({ rows, onOpenModal }) {
                     <StatusChip status={row.status} />
                   </TableCell>
                   <TableCell>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => onOpenModal(row)}
-                    >
+                    <Button variant="outlined" size="small" onClick={() => onOpenModal(row)}>
                       View Details
                     </Button>
                   </TableCell>
@@ -298,11 +298,14 @@ function PaginatedLeaveTable({ rows, onOpenModal }) {
 
       <TablePagination
         component="div"
-        count={rows.length}
+        count={filteredRows.length}
         page={page}
-        onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        onPageChange={(_, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10));
+          setPage(0);
+        }}
         rowsPerPageOptions={[5, 8, 10, 25, 50]}
       />
     </Paper>
@@ -312,20 +315,39 @@ function PaginatedLeaveTable({ rows, onOpenModal }) {
 function PaginatedBalanceTable({ rows }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [search, setSearch] = useState("");
+
+  const filteredRows = useMemo(() => {
+    return filterRows(rows, search);
+  }, [rows, search]);
 
   const paginatedRows = useMemo(() => {
     const start = page * rowsPerPage;
-    return rows.slice(start, start + rowsPerPage);
-  }, [rows, page, rowsPerPage]);
+    return filteredRows.slice(start, start + rowsPerPage);
+  }, [filteredRows, page, rowsPerPage]);
 
   return (
-    <Paper
-      sx={{
-        borderRadius: 3,
-        border: "1px solid #e5e7eb",
-        overflow: "hidden",
-      }}
-    >
+    <Paper sx={{ borderRadius: 3, border: "1px solid #e5e7eb", overflow: "hidden" }}>
+      <Box sx={{ p: 2 }}>
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="Search leave balances..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(0);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
       <TableContainer>
         <Table>
           <TableHead>
@@ -366,10 +388,10 @@ function PaginatedBalanceTable({ rows }) {
 
       <TablePagination
         component="div"
-        count={rows.length}
+        count={filteredRows.length}
         page={page}
-        onPageChange={(_, newPage) => setPage(newPage)}
         rowsPerPage={rowsPerPage}
+        onPageChange={(_, newPage) => setPage(newPage)}
         onRowsPerPageChange={(event) => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setPage(0);
@@ -442,33 +464,19 @@ export default function LeaveDashboard({
           <List disablePadding>
             <ListItemButton
               onClick={() => router.get("/suite-services")}
-              sx={{
-                borderRadius: 2,
-                mb: 0.5,
-                "&:hover": { backgroundColor: "#f3f4f6" },
-              }}
+              sx={{ borderRadius: 2, mb: 0.5 }}
             >
               <HomeOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
-              <ListItemText
-                primary="HRMS Home"
-                primaryTypographyProps={{ fontWeight: 600 }}
-              />
+              <ListItemText primary="HRMS Home" primaryTypographyProps={{ fontWeight: 600 }} />
             </ListItemButton>
 
             <ListItemButton
               selected
               onClick={() => router.get("/hrms/leave-dashboard")}
-              sx={{
-                borderRadius: 2,
-                mb: 0.5,
-                "&:hover": { backgroundColor: "#f3f4f6" },
-              }}
+              sx={{ borderRadius: 2, mb: 0.5 }}
             >
               <DashboardOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
-              <ListItemText
-                primary="Dashboard"
-                primaryTypographyProps={{ fontWeight: 600 }}
-              />
+              <ListItemText primary="Dashboard" primaryTypographyProps={{ fontWeight: 600 }} />
             </ListItemButton>
           </List>
 
@@ -510,13 +518,7 @@ export default function LeaveDashboard({
             Leave Dashboard
           </Typography>
 
-          <Paper
-            sx={{
-              borderRadius: 3,
-              border: "1px solid #e5e7eb",
-              overflow: "hidden",
-            }}
-          >
+          <Paper sx={{ borderRadius: 3, border: "1px solid #e5e7eb", overflow: "hidden" }}>
             <Tabs
               value={tab}
               onChange={(e, value) => setTab(value)}
@@ -532,22 +534,37 @@ export default function LeaveDashboard({
 
             <Box sx={{ p: 2 }}>
               <TabPanel value={tab} index={0}>
+                <Typography fontWeight={900} sx={{ mb: 2 }}>
+                  Pending Leave Requests
+                </Typography>
                 <PaginatedLeaveTable rows={pendingData} onOpenModal={handleOpenModal} />
               </TabPanel>
 
               <TabPanel value={tab} index={1}>
+                <Typography fontWeight={900} sx={{ mb: 2 }}>
+                  Approved Leave Requests
+                </Typography>
                 <PaginatedLeaveTable rows={approvedData} onOpenModal={handleOpenModal} />
               </TabPanel>
 
               <TabPanel value={tab} index={2}>
+                <Typography fontWeight={900} sx={{ mb: 2 }}>
+                  Rejected Leave Requests
+                </Typography>
                 <PaginatedLeaveTable rows={rejectedData} onOpenModal={handleOpenModal} />
               </TabPanel>
 
               <TabPanel value={tab} index={3}>
+                <Typography fontWeight={900} sx={{ mb: 2 }}>
+                  Employees On Leave Today
+                </Typography>
                 <PaginatedLeaveTable rows={onLeaveTodayData} onOpenModal={handleOpenModal} />
               </TabPanel>
 
               <TabPanel value={tab} index={4}>
+                <Typography fontWeight={900} sx={{ mb: 2 }}>
+                  Employee Leave Balances
+                </Typography>
                 <PaginatedBalanceTable rows={employeeBalances} />
               </TabPanel>
             </Box>
@@ -555,11 +572,7 @@ export default function LeaveDashboard({
         </Box>
       </Box>
 
-      <LeaveDetailsModal
-        open={openModal}
-        onClose={handleCloseModal}
-        row={selectedRow}
-      />
+      <LeaveDetailsModal open={openModal} onClose={handleCloseModal} row={selectedRow} />
     </AuthenticatedLayout>
   );
 }
