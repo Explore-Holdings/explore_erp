@@ -9,6 +9,7 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use App\Models\LeavePolicy;
 
 class LeaveRequestController extends Controller
 {
@@ -104,6 +105,8 @@ class LeaveRequestController extends Controller
         $approvedList = $approved->map($mapLeaveRequest);
         $rejectedList = $rejected->map($mapLeaveRequest);
 
+        $leavePolicies = LeavePolicy::orderBy('name')->get();
+
         $employeeBalances = Employee::with([
                 'job.department',
                 'leaveBalances.policy',
@@ -111,10 +114,14 @@ class LeaveRequestController extends Controller
             ])
             ->orderBy('preferred_name')
             ->get()
-            ->flatMap(function ($employee) {
-                return $employee->leaveBalances->map(function ($balance) use ($employee) {
+            ->flatMap(function ($employee) use ($leavePolicies) {
+                return $leavePolicies->map(function ($policy) use ($employee) {
+                    $balance = $employee->leaveBalances
+                        ->where('leave_policy_id', $policy->leave_policy_id)
+                        ->first();
+
                     $yearlyBalance = $employee->yearlyLeaveBalances
-                        ->where('leave_policy_id', $balance->leave_policy_id)
+                        ->where('leave_policy_id', $policy->leave_policy_id)
                         ->first();
 
                     return [
@@ -122,10 +129,12 @@ class LeaveRequestController extends Controller
                         'employee_code' => $employee->employee_code,
                         'employee_name' => trim($employee->preferred_name ?? ''),
                         'department' => $employee->job?->department?->name ?? '-',
-                        'policy_name' => $balance->policy?->name ?? 'Unknown',
+                        'policy_name' => $policy->name,
+
                         'leave_entitlement' => $yearlyBalance?->leave_entitlement ?? 0,
-                        'total_taken' => (float) $balance->total_taken,
-                        'remaining' => (float) $balance->remaining,
+                        'total_taken' => $balance?->total_taken ?? 0,
+                        'remaining' => $balance?->remaining 
+                            ?? ($yearlyBalance?->leave_entitlement ?? 0),
                     ];
                 });
             })
