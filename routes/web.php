@@ -129,11 +129,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/stock-requests/{stock_request}/hod-reject', [StockRequestController::class, 'hodReject'])->name('stock-requests.hod-reject');
     });
 
-    // Manager approvals & CRUD
+    // Manager approvals
     Route::middleware('role:Admin,Inventory Manager')->group(function () {
         Route::post('/stock-requests/{stock_request}/approve', [StockRequestController::class, 'approve'])->name('stock-requests.approve');
         Route::post('/stock-requests/{stock_request}/reject', [StockRequestController::class, 'reject'])->name('stock-requests.reject');
-        
+    });
+
+    // Admin-only CRUD for stock requests
+    Route::middleware('role:Admin')->group(function () {
         Route::get('/stock-requests/{stockRequest}/edit', [StockRequestController::class, 'edit'])->name('stock-requests.edit');
         Route::put('/stock-requests/{stockRequest}', [StockRequestController::class, 'update'])->name('stock-requests.update');
         Route::delete('/stock-requests/{stockRequest}', [StockRequestController::class, 'destroy'])->name('stock-requests.destroy');

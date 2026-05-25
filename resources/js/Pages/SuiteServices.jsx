@@ -104,7 +104,7 @@ const MODULE_SETS = {
   // ],
 };
 
-function ModuleCard({ item }) {
+function ModuleCard({ item, isElevated = false }) {
   return (
     <Card
       elevation={0}
@@ -139,6 +139,12 @@ function ModuleCard({ item }) {
             <Typography variant="h6" fontWeight={900}>
               {item.title}
             </Typography>
+
+            {isElevated && (
+              <Typography variant="caption" sx={{ fontWeight: 800, color: '#0B6B44', display: 'block', mt: 0.5 }}>
+                Inventory Manager (elevated)
+              </Typography>
+            )}
 
             <Typography variant="body2" color="text.secondary" fontWeight={500}>
               {item.description}
@@ -194,7 +200,16 @@ export default function HRMS({ auth = {} }) {
     }
 
     // Procurement access
-    if (role === "staff" || dept === "procurement department" || dept === "procurement") {
+    if (
+      role === "staff" ||
+      role === "department user" ||
+      role === "hod" ||
+      role === "head of department" ||
+      role === "inventory-manager" ||
+      role === "inventory manager" ||
+      dept === "procurement department" ||
+      dept === "procurement"
+    ) {
       allowed.PROCUREMENT = MODULE_SETS.PROCUREMENT;
     }
 
@@ -265,7 +280,12 @@ export default function HRMS({ auth = {} }) {
                   key={m.title}
                   sx={{ display: "flex", justifyContent: "center" }}
                 >
-                  <ModuleCard item={m} />
+                  <ModuleCard
+                    item={m}
+                    isElevated={
+                      (role === "inventory manager" || role === "inventory_manager") && m.href === "/stocks"
+                    }
+                  />
                 </Grid>
               ))}
             </Grid>

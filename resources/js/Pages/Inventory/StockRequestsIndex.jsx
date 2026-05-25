@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function StockRequestsIndex({ auth = {}, requests = { data: [] }, roleName = "", stats = {}, filters = {}, flash = {} }) {
+export default function StockRequestsIndex({ auth = {}, requests = { data: [] }, roleName = "", stats = {}, filters = {}, flash = {}, userIsReportingManager = false }) {
     const [showSuccess, setShowSuccess] = useState(!!flash?.success);
 
     useEffect(() => {
@@ -46,8 +46,9 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
     const currentStatus = filters?.status || "";
     const activeRole = (roleName || "").toLowerCase();
     const isAdmin = activeRole === "admin";
-    const isHOD = activeRole === "hod";
-    const isManager = activeRole === "inventory manager";
+    const isHOD = activeRole === "hod" || userIsReportingManager;
+    const isManager = ["inventory manager", "inventory-manager", "inventory_manager"].includes(activeRole);
+    const isAdminOrManager = isAdmin || isManager;
 
     return (
         <AuthenticatedLayout
@@ -103,19 +104,21 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
                             </svg>
                             <span>Stock Requests</span>
                         </Link>
-                        <Link
-                            href={route("reports.index")}
-                            className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-250 flex items-center space-x-2.5 ${
-                                route().current("reports.index")
-                                    ? "bg-white text-indigo-600 shadow-sm"
-                                    : "text-slate-500 hover:text-slate-800 hover:bg-white/40"
-                            }`}
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span>Analytics & Reports</span>
-                        </Link>
+                        {(isAdmin || isManager || isHOD) && (
+                            <Link
+                                href={route("reports.index")}
+                                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-250 flex items-center space-x-2.5 ${
+                                    route().current("reports.index")
+                                        ? "bg-white text-indigo-600 shadow-sm"
+                                        : "text-slate-500 hover:text-slate-800 hover:bg-white/40"
+                                }`}
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>Analytics & Reports</span>
+                            </Link>
+                        )}
                     </div>
 
                     {/* Flash Success Notification */}
@@ -300,7 +303,9 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <div className="text-sm font-extrabold text-slate-800">{request.user?.name || "N/A"}</div>
-                                                        <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">{request.department?.name || "N/A"}</div>
+                                                        {request.department?.name && request.department.name !== "N/A" && (
+                                                            <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">{request.department.name}</div>
+                                                        )}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-center">
                                                         <span className="text-base font-black text-slate-900">{request.quantity}</span>
@@ -336,13 +341,13 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                         <div className="flex items-center justify-end space-x-2">
                                                             {/* HOD Approvals: if pending HOD and matching HOD */}
-                                                            {request.status === 'pending_hod' && (isHOD && inUserDept || isAdmin) && (
+                                                            {request.status === 'pending_hod' && (isHOD || isAdmin) && (
                                                                 <>
                                                                     <button
                                                                         onClick={() => handleHODApprove(request.id)}
-                                                                        className="px-3 py-1.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs font-bold transition shadow-sm"
+                                                                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-sm"
                                                                     >
-                                                                        HOD Approve
+                                                                        Approve
                                                                     </button>
                                                                     <button
                                                                         onClick={() => handleHODReject(request.id)}
@@ -371,6 +376,16 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
                                                                 </>
                                                             )}
 
+                                                            {/* Delete button for HODs and Admin */}
+                                                            {(isHOD || isAdmin) && request.status !== 'approved' && (
+                                                                <button
+                                                                    onClick={() => handleDelete(request.id)}
+                                                                    className="text-red-500 hover:text-red-700 font-extrabold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl transition"
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            )}
+
                                                             {/* Admin standard CRUD options */}
                                                             {isAdmin && (
                                                                 <>
@@ -380,12 +395,6 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
                                                                     >
                                                                         Edit
                                                                     </Link>
-                                                                    <button
-                                                                        onClick={() => handleDelete(request.id)}
-                                                                        className="text-red-500 hover:text-red-700 font-extrabold text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl transition"
-                                                                    >
-                                                                        Delete
-                                                                    </button>
                                                                 </>
                                                             )}
 

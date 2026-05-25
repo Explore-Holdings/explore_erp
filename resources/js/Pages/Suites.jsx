@@ -247,7 +247,15 @@ const authorizedKeys = useMemo(() => {
     allowed.add("hr");
   }
 
-  if (role === "staff") {
+  if (
+    role === "staff" ||
+    role === "department user" ||
+    role === "hod" ||
+    role === "head of department" ||
+    role === "inventory-manager" ||
+    role === "inventory manager" ||
+    role === "inventory_manager"
+  ) {
     allowed.add("procurement");
   }
 

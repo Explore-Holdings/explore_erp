@@ -3,6 +3,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function StockRequestsEdit({ auth = {}, stockRequest = {}, stocks = [] }) {
+    const roleName = auth?.user?.role || "";
+    const roleLower = roleName.toLowerCase();
+    const isAdminOrManager = ["admin", "inventory manager", "inventory-manager", "inventory_manager"].includes(roleLower);
+    const isHod = roleLower.includes("hod") || roleLower.includes("head");
+    const showAnalyticsReports = isAdminOrManager || isHod;
     const { data, setData, put, processing, errors } = useForm({
         stock_id: stockRequest?.stock_id || "",
         quantity: stockRequest?.quantity || 1,
@@ -60,15 +65,17 @@ export default function StockRequestsEdit({ auth = {}, stockRequest = {}, stocks
                             </svg>
                             <span>Stock Requests</span>
                         </Link>
-                        <Link
-                            href={route("reports.index")}
-                            className="px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-250 flex items-center space-x-2.5 text-slate-500 hover:text-slate-800 hover:bg-white/40"
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span>Analytics & Reports</span>
-                        </Link>
+                        {showAnalyticsReports && (
+                            <Link
+                                href={route("reports.index")}
+                                className="px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-250 flex items-center space-x-2.5 text-slate-500 hover:text-slate-800 hover:bg-white/40"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>Analytics & Reports</span>
+                            </Link>
+                        )}
                     </div>
 
                 <div className="max-w-2xl mx-auto">

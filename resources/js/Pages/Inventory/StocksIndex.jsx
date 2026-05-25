@@ -57,9 +57,11 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
     };
 
     const roleName = auth?.user?.role || "";
-    const userId = auth?.user?.id ?? null;
-    const isAdminOrManager = ["admin", "inventory manager"].includes(roleName.toLowerCase());
-    const hideAnalyticsReports = String(userId) === "90";
+    const roleLower = roleName.toLowerCase();
+    const isAdminOrManager = ["admin", "inventory manager", "inventory-manager", "inventory_manager"].includes(roleLower);
+    const isHod = roleLower.includes("hod") || roleLower.includes("head");
+    const showAnalyticsReports = isAdminOrManager || isHod;
+    const hideAnalyticsReports = !showAnalyticsReports;
 
     return (
         <AuthenticatedLayout
