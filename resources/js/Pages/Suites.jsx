@@ -86,12 +86,12 @@ const SUITE_SETS = {
     },
   ],
 
-  "Inventory Department": [
+  "Procurement Department": [
     {
-      key: "inventory",
+      key: "procurement",
       title: "INVENTORY SUITE",
       description: "Suppliers, purchase requests, POs, and approvals",
-      href: "/suite-services?type=inventory",
+      href: "/suite-services?type=procurement",
       image: "/images/procurement.webp",
     },
   ],
