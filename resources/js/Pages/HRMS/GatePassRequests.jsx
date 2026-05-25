@@ -50,13 +50,7 @@ function StatusChip({ status }) {
     <Chip
       label={status || "-"}
       size="small"
-      sx={{
-        backgroundColor: current.bg,
-        color: current.color,
-        border: `1px solid ${current.border}`,
-        fontWeight: 800,
-        minWidth: 110,
-      }}
+      sx={{ backgroundColor: current.bg, color: current.color, border: `1px solid ${current.border}`, fontWeight: 800, minWidth: 110, }}
     />
   );
 }
@@ -88,48 +82,31 @@ function GatePassModal({ open, onClose, row }) {
 
       <DialogContent>
         <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: 1.5,
-          }}
-        >
-          <DetailItem label="Employee Name" value={row.employee_name} />
-        <DetailItem label="Reason" value={row.reason} />
-          <DetailItem label="Gate Pass Date" value={row.gate_pass_date} />
-          <DetailItem label="Out Time" value={row.out_time} />
-          <DetailItem label="Return Time" value={row.return_time} />
-          <DetailItem label="Vehicle No" value={row.vehicle_no} />
-          <DetailItem label="Gate Pass Code" value={row.gate_pass_code} />
-          <DetailItem label="Status" value={row.status} />
-          <DetailItem label="Checked Out At" value={row.checked_out_at} />
-          <DetailItem label="Checked Out By" value={ row.checked_out_by_name ? `${row.checked_out_by_name} ` : "-" } />
-          <DetailItem label="Checked In At" value={row.checked_in_at} />
-          <DetailItem label="Checked In By" value={ row.checked_in_by_name ? `${row.checked_in_by_name} ` : "-" } />
-          <DetailItem label="Created At" value={row.created_at} />
+          sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 1.5, }} >
+            <DetailItem label="Employee Name" value={row.employee_name} />
+            <DetailItem label="Reason" value={row.reason} />
+            <DetailItem label="Gate Pass Date" value={row.gate_pass_date} />
+            <DetailItem label="Out Time" value={row.out_time} />
+            <DetailItem label="Return Time" value={row.return_time} />
+            <DetailItem label="Vehicle No" value={row.vehicle_no} />
+            <DetailItem label="Gate Pass Code" value={row.gate_pass_code} />
+            <DetailItem label="Status" value={row.status} />
+            <DetailItem label="Checked Out At" value={row.checked_out_at} />
+            <DetailItem label="Checked Out By" value={ row.checked_out_by_name ? `${row.checked_out_by_name} ` : "-" } />
+            <DetailItem label="Checked In At" value={row.checked_in_at} />
+            <DetailItem label="Checked In By" value={ row.checked_in_by_name ? `${row.checked_in_by_name} ` : "-" } />
+            <DetailItem label="Created At" value={row.created_at} />
         </Box>
 
         <Box sx={{ mt: 2 }}>
             <Typography
-                sx={{
-                fontSize: "0.8rem",
-                color: "#6b7280",
-                mb: 1,
-                fontWeight: 700,
-                }}
-            >
+                sx={{ fontSize: "0.8rem", color: "#6b7280", mb: 1, fontWeight: 700, }} >
                 Companion Employees
             </Typography>
 
             {row.companion_employees?.length ? (
                 <Box
-                sx={{
-                    display: "grid",
-                    gridTemplateColumns: {
-                    xs: "1fr",
-                    sm: "1fr 1fr",
-                    md: "1fr 1fr 1fr",
-                    },
+                sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr", },
                     gap: 1.5,
                 }}
                 >
