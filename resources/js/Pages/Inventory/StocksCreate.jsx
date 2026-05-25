@@ -95,32 +95,18 @@ export default function StocksCreate({ auth = {} }) {
                                     {errors.name && <p className="text-red-500 text-xs mt-1 font-bold">{errors.name}</p>}
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label htmlFor="sku" className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">SKU / Code</label>
-                                        <input
-                                            type="text"
-                                            id="sku"
-                                            value={data.sku}
-                                            onChange={(e) => setData("sku", e.target.value)}
-                                            className="block w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all duration-200 text-sm"
-                                            placeholder="e.g. STK-001"
-                                        />
-                                        {errors.sku && <p className="text-red-500 text-xs mt-1 font-bold">{errors.sku}</p>}
-                                    </div>
-                                    <div>
-                                        <label htmlFor="quantity" className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Initial Quantity *</label>
-                                        <input
-                                            type="number"
-                                            id="quantity"
-                                            value={data.quantity}
-                                            onChange={(e) => setData("quantity", parseInt(e.target.value) || 0)}
-                                            required
-                                            min="0"
-                                            className="block w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all duration-200 text-sm"
-                                        />
-                                        {errors.quantity && <p className="text-red-500 text-xs mt-1 font-bold">{errors.quantity}</p>}
-                                    </div>
+                                <div>
+                                    <label htmlFor="quantity" className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Initial Quantity *</label>
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        value={data.quantity}
+                                        onChange={(e) => setData("quantity", parseInt(e.target.value) || 0)}
+                                        required
+                                        min="0"
+                                        className="block w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all duration-200 text-sm"
+                                    />
+                                    {errors.quantity && <p className="text-red-500 text-xs mt-1 font-bold">{errors.quantity}</p>}
                                 </div>
 
                                 <div>

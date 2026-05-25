@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
 export default function StockRequestsIndex({ auth = {}, requests = { data: [] }, roleName = "", stats = {}, filters = {}, flash = {} }) {
+    const [showSuccess, setShowSuccess] = useState(!!flash?.success);
+
+    useEffect(() => {
+        if (flash?.success) {
+            setShowSuccess(true);
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        } else {
+            setShowSuccess(false);
+        }
+    }, [flash?.success]);
+
     const handleStatusFilter = (status) => {
         router.get(route("stock-requests.index"), { status }, { preserveState: true });
     };
@@ -105,7 +119,7 @@ export default function StockRequestsIndex({ auth = {}, requests = { data: [] },
                     </div>
 
                     {/* Flash Success Notification */}
-                    {flash?.success && (
+                    {showSuccess && flash?.success && (
                         <div className="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-2xl flex items-center shadow-sm animate-fade-in">
                             <svg className="w-5 h-5 mr-3 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

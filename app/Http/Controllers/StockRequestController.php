@@ -120,6 +120,7 @@ class StockRequestController extends Controller
 
         StockRequest::create([
             'user_id' => $user->id,
+            'employee_id' => $user->employee_id,
             'department_id' => $user->department_id,
             'stock_id' => $stock->id,
             'quantity' => $validated['quantity'],

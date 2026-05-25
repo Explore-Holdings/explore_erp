@@ -6,6 +6,7 @@ export default function StockRequestsCreate({ auth = {}, stocks = [], selectedSt
     const { data, setData, post, processing, errors } = useForm({
         stock_id: selectedStockId || "",
         quantity: 1,
+        employee_id: auth?.user?.employee_id || "",
     });
 
     const handleSubmit = (e) => {

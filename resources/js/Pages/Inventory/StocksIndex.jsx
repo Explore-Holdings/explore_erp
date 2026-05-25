@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
@@ -13,9 +13,35 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
             ? filters.filter
             : ""
     );
+    const [showSuccess, setShowSuccess] = useState(!!flash?.success);
+
+    useEffect(() => {
+        if (flash?.success) {
+            setShowSuccess(true);
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        } else {
+            setShowSuccess(false);
+        }
+    }, [flash?.success]);
+
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        const delayDebounceFn = setTimeout(() => {
+            router.get(route("stocks.index"), { search, filter }, { preserveState: true, replace: true });
+        }, 300);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [search]);
 
     const handleSearchSubmit = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         router.get(route("stocks.index"), { search, filter }, { preserveState: true });
     };
 
@@ -107,7 +133,7 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
                     </div>
 
                     {/* Flash Success Notification */}
-                    {flash?.success && (
+                    {showSuccess && flash?.success && (
                         <div className="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-2xl flex items-center shadow-sm animate-fade-in">
                             <svg className="w-5 h-5 mr-3 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

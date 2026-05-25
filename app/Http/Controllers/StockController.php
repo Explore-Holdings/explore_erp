@@ -61,6 +61,10 @@ class StockController extends Controller
             'quantity' => 'required|integer|min:0',
         ]);
 
+        if (empty($validated['sku'])) {
+            $validated['sku'] = Stock::generateSku($validated['name']);
+        }
+
         Stock::create($validated);
         return redirect()->route('stocks.index')->with('success', 'Stock item added successfully.');
     }
