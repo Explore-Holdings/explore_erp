@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stock;
+use App\Models\StockRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,7 +28,7 @@ class StockController extends Controller
         }
 
         $stocks = $query->paginate(10)->withQueryString();
-        
+
         $stats = [
             'total_items' => Stock::count(),
             'total_quantity' => Stock::sum('quantity'),

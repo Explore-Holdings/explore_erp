@@ -23,6 +23,12 @@ const MODULE_SETS = {
   ],
   HR: [
     {
+      title: "Users, Roles & Permissions",
+      description: "Manage system users, roles, and permission controls.",
+      href: "/hrms/users-management",
+      image: "/images/users-roles-permissions.webp",
+    },
+    {
       title: "Employee Data",
       description: "Profiles, departments, documents, and employee records.",
       href: "/hrms/emp-dashboard",
@@ -57,6 +63,18 @@ const MODULE_SETS = {
       description: "Training programs, sessions, and completion tracking.",
       href: "/hrms/training-dashboard",
       image: "/images/hrms-training.webp",
+    },
+    {
+      title: "Payroll",
+      description: "Salary components, payslips, and deductions.",
+      href: "/hrms/payroll-dashboard",
+      image: "/images/payroll.webp",
+    },
+    {
+      title: "Inventory Management",
+      description: "Track stocks, handle stock requests and approval workflows.",
+      href: "/stocks",
+      image: "/images/procurement.webp",
     },
   ],
 
@@ -137,56 +155,82 @@ function ModuleCard({ item }) {
 }
 
 export default function HRMS({ auth = {} }) {
-  const page = usePage();
+  const { props } = usePage();
 
-  const roleRaw =
-    page.props?.auth?.user?.role ??
-    auth?.user?.role ??
-    "";
-
-  const role = String(roleRaw).trim().toLowerCase(); 
+  const roleRaw = props?.auth?.user?.role ?? auth?.user?.role ?? "";
+  const role = String(roleRaw).trim().toLowerCase();
 
   const deptRaw =
-    page.props?.auth?.department ??
-    page.props?.auth?.user?.department ??
+    props?.auth?.department ??
+    props?.auth?.user?.department ??
     auth?.department ??
     auth?.user?.department ??
     "";
-
   const dept = String(deptRaw).trim().toLowerCase();
 
+  const suiteType = useMemo(() => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+    return new URLSearchParams(window.location.search).get("type")?.trim().toLowerCase() || null;
+  }, []);
+
   const allModules = useMemo(() => {
-    const all = [
-      ...(MODULE_SETS.HR || []),
-      ...(MODULE_SETS.FINANCE || []),
-      ...(MODULE_SETS.PROCUREMENT || []),
-    ];
+    const all = Object.values(MODULE_SETS).flat();
     return all.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
   }, []);
 
-  const modules = useMemo(() => {
-    let list = [];
-    if (role === "admin" || role === "inventory manager") {
-      list = [
-        ...allModules,
-        ...(MODULE_SETS.ADMIN || []),
-        ...(MODULE_SETS.TRANSPORT || []),
-      ];
-    } else if (role === "hr-executive" || dept === "hr" || dept.includes("human")) {
-      list = [...(MODULE_SETS.HR || []), ...((MODULE_SETS.PROCUREMENT) || [])];
-    } else if (dept === "finance" || dept.includes("finan")) {
-      list = [...(MODULE_SETS.FINANCE || []), ...((MODULE_SETS.PROCUREMENT) || [])];
-    } else if (
-      dept.includes("transfer") ||
-      dept.includes("rent a car") ||
-      dept.includes("rental")
-    ) {
-      list = [...(MODULE_SETS.TRANSPORT || []), ...((MODULE_SETS.PROCUREMENT) || [])];
-    } else {
-      list = MODULE_SETS.PROCUREMENT || [];
+  const allowedModuleSets = useMemo(() => {
+    // Admin and Senior Management see all modules
+    if (role === "admin" || dept === "senior management") {
+      return MODULE_SETS;
     }
-    return list.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
-  }, [role, dept, allModules]);
+
+    const allowed = {};
+
+    // HR access
+    if (role === "hr-executive" || dept === "hr") {
+      allowed.HR = MODULE_SETS.HR;
+    }
+
+    // Procurement access
+    if (role === "staff" || dept === "procurement department" || dept === "procurement") {
+      allowed.PROCUREMENT = MODULE_SETS.PROCUREMENT;
+    }
+
+    // Finance access
+    if (dept === "finance" || dept === "finance department") {
+      allowed.FINANCE = MODULE_SETS.FINANCE;
+    }
+
+    return allowed;
+  }, [role, dept]);
+
+  const userModules = useMemo(() => {
+    const all = Object.values(allowedModuleSets).flat();
+    return all.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
+  }, [allowedModuleSets]);
+
+  const modules = useMemo(() => {
+    if (!suiteType) {
+      return userModules;
+    }
+
+    if (suiteType === "procurement") {
+      return allowedModuleSets.PROCUREMENT || [];
+    }
+
+    const suiteKey = Object.keys(MODULE_SETS).find((key) =>
+      key.toLowerCase().replace(/\s+/g, "-") === suiteType ||
+      suiteType === key.toLowerCase().replace(/\s+/g, "-")
+    );
+
+    if (!suiteKey) {
+      return userModules;
+    }
+
+    return allowedModuleSets[suiteKey] || [];
+  }, [userModules, allowedModuleSets, suiteType]);
 
   return (
     <AuthenticatedLayout user={auth?.user}>

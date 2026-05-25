@@ -31,7 +31,9 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
     };
 
     const roleName = auth?.user?.role || "";
+    const userId = auth?.user?.id ?? null;
     const isAdminOrManager = ["admin", "inventory manager"].includes(roleName.toLowerCase());
+    const hideAnalyticsReports = String(userId) === "90";
 
     return (
         <AuthenticatedLayout
@@ -87,19 +89,21 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
                             </svg>
                             <span>Stock Requests</span>
                         </Link>
-                        <Link
-                            href={route("reports.index")}
-                            className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-250 flex items-center space-x-2.5 ${
-                                route().current("reports.index")
-                                    ? "bg-white text-indigo-600 shadow-sm"
-                                    : "text-slate-500 hover:text-slate-800 hover:bg-white/40"
-                            }`}
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span>Analytics & Reports</span>
-                        </Link>
+                        {!hideAnalyticsReports && (
+                            <Link
+                                href={route("reports.index")}
+                                className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-250 flex items-center space-x-2.5 ${
+                                    route().current("reports.index")
+                                        ? "bg-white text-indigo-600 shadow-sm"
+                                        : "text-slate-500 hover:text-slate-800 hover:bg-white/40"
+                                }`}
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>Analytics & Reports</span>
+                            </Link>
+                        )}
                     </div>
 
                     {/* Flash Success Notification */}
@@ -112,60 +116,64 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
                         </div>
                     )}
 
-                    {/* Statistics Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3.5 bg-emerald-50 rounded-2xl text-emerald-600">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                    </svg>
+                    {!hideAnalyticsReports && (
+                        <>
+                            {/* Statistics Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3.5 bg-emerald-50 rounded-2xl text-emerald-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Active</span>
+                                    </div>
+                                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Total Items</div>
+                                    <div className="text-3xl font-black text-slate-900">{stats?.total_items ?? 0}</div>
                                 </div>
-                                <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Active</span>
-                            </div>
-                            <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Total Items</div>
-                            <div className="text-3xl font-black text-slate-900">{stats?.total_items ?? 0}</div>
-                        </div>
 
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3.5 bg-blue-50 rounded-2xl text-blue-600">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2" />
-                                    </svg>
+                                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3.5 bg-blue-50 rounded-2xl text-blue-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Stock Qty</span>
+                                    </div>
+                                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Stock Volume</div>
+                                    <div className="text-3xl font-black text-slate-900">{stats?.total_quantity ?? 0}</div>
                                 </div>
-                                <span className="text-[10px] font-extrabold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Stock Qty</span>
-                            </div>
-                            <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Stock Volume</div>
-                            <div className="text-3xl font-black text-slate-900">{stats?.total_quantity ?? 0}</div>
-                        </div>
 
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3.5 bg-amber-50 rounded-2xl text-amber-600">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
+                                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3.5 bg-amber-50 rounded-2xl text-amber-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Warning</span>
+                                    </div>
+                                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Low Stock</div>
+                                    <div className="text-3xl font-black text-slate-900">{stats?.low_stock ?? 0}</div>
                                 </div>
-                                <span className="text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Warning</span>
-                            </div>
-                            <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Low Stock</div>
-                            <div className="text-3xl font-black text-slate-900">{stats?.low_stock ?? 0}</div>
-                        </div>
 
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3.5 bg-red-50 rounded-2xl text-red-600">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                                    </svg>
+                                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 transform transition hover:scale-[1.02] hover:shadow-md duration-300">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3.5 bg-red-50 rounded-2xl text-red-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-[10px] font-extrabold text-red-600 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Critical</span>
+                                    </div>
+                                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Out of Stock</div>
+                                    <div className="text-3xl font-black text-slate-900">{stats?.out_of_stock ?? 0}</div>
                                 </div>
-                                <span className="text-[10px] font-extrabold text-red-600 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Critical</span>
                             </div>
-                            <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Out of Stock</div>
-                            <div className="text-3xl font-black text-slate-900">{stats?.out_of_stock ?? 0}</div>
-                        </div>
-                    </div>
+                        </>
+                    )}
 
                     {/* Actions, Search, & Filters */}
                     <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100/80 mb-8">

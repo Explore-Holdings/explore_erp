@@ -247,6 +247,10 @@ const authorizedKeys = useMemo(() => {
     allowed.add("hr");
   }
 
+  if (role === "staff") {
+    allowed.add("procurement");
+  }
+
   // department-based access
   const deptName = normalize(
     page.props?.auth?.department ??
@@ -267,7 +271,6 @@ const authorizedKeys = useMemo(() => {
   return allowed;
 }, [role, allSuites, deptRaw, page.props, auth]);
 
-  // show ALL suites, but disable unauthorized ones
   const suites = useMemo(() => allSuites, [allSuites]);
 
   const handleUnauthorized = () => {
