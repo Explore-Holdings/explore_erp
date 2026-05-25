@@ -47,6 +47,12 @@ const MODULE_SETS = {
       image: "/images/footer-logo.png",
     },
     {
+      title: "Gatepass Handling",
+      description: "Manage and track gatepass requests.",
+      href: "/hrms/gate-pass-requests",
+      image: "/images/gatepass.jpg",
+    },
+    {
       title: "Event & Meeting Managment",
       description: "Manage events, meetings, schedules, and coordination in one place.",
       href: "/hrms/meeting-dashboard",

@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\GatePassRequestController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -98,8 +99,10 @@ Route::put('/hrms/meetings/{meeting}', [MeetingController::class, 'update'])
 Route::patch('/hrms/meetings/{meeting}/cancel', [MeetingController::class, 'cancel'])
     ->name('hrms.meetings.cancel');
 
-    Route::get('/hrms/customer-handling', function () {
+Route::get('/hrms/customer-handling', function () {
     return Inertia::render('HRMS/CustomerHandling');
 });
 
+Route::get('/hrms/gate-pass-requests', [GatePassRequestController::class, 'index']);
+    
 require __DIR__.'/auth.php';
