@@ -53,12 +53,13 @@ class GatePassRequestController extends Controller
                     'status' => $row->status,
 
                     'checked_out_at' => optional($row->checked_out_at)->format('Y-m-d h:i A'),
+
                     'checked_out_by' => $row->checked_out_by,
-                    'checked_out_by_name' => User::where('id', $row->checked_out_by)->value('name'),
+                    'checked_out_by_name' => User::where('employee_id', $row->checked_out_by)->value('name'),
 
                     'checked_in_at' => optional($row->checked_in_at)->format('Y-m-d h:i A'),
                     'checked_in_by' => $row->checked_in_by,
-                    'checked_in_by_name' => User::where('id', $row->checked_in_by)->value('name'),
+                    'checked_in_by_name' => User::where('employee_id', $row->checked_in_by)->value('name'),
 
                     'gate_pass_code' => $row->gate_pass_code,
                     'reject_reason' => $row->reject_reason,
