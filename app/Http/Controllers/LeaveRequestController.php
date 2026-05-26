@@ -112,6 +112,7 @@ class LeaveRequestController extends Controller
                 'leaveBalances.policy',
                 'yearlyLeaveBalances'
             ])
+            ->where('employee_id', '!=', 10)
             ->orderBy('preferred_name')
             ->get()
             ->flatMap(function ($employee) use ($leavePolicies) {

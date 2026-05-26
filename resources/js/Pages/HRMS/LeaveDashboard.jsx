@@ -29,6 +29,8 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const SIDEBAR_WIDTH = 240;
@@ -440,10 +442,10 @@ function EmployeeLeaveBalanceTable({ rows }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [search, setSearch] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
 
   const groupedRows = useMemo(() => {
     const map = {};
-
     rows.forEach((row) => {
       if (!map[row.employee_id]) {
         map[row.employee_id] = {
@@ -454,7 +456,6 @@ function EmployeeLeaveBalanceTable({ rows }) {
           leaveTypes: [],
         };
       }
-
       map[row.employee_id].leaveTypes.push({
         policy_name: row.policy_name,
         entitled: row.leave_entitlement ?? 0,
@@ -462,48 +463,49 @@ function EmployeeLeaveBalanceTable({ rows }) {
         remaining: row.remaining ?? 0,
       });
     });
-
     return Object.values(map);
   }, [rows]);
 
-  const filteredRows = useMemo(() => filterRows(groupedRows, search), [groupedRows, search]);
+  const allDepartments = useMemo(() => {
+    const departments = new Set();
+    groupedRows.forEach((emp) => {
+      if (emp.department) {
+        departments.add(emp.department);
+      }
+    });
+    return [...departments].sort();
+  }, [groupedRows]);
+
+  const allLeaveTypes = useMemo(() => {
+    const types = new Set();
+    groupedRows.forEach((emp) => emp.leaveTypes.forEach((l) => types.add(l.policy_name)));
+    return [...types];
+  }, [groupedRows]);
+
+  const filteredRows = useMemo(() => {
+    let result = groupedRows;
+
+    if (departmentFilter) {
+      result = result.filter((row) => row.department === departmentFilter);
+    }
+
+    return filterRows(result, search);
+  }, [groupedRows, search, departmentFilter]);
 
   const paginatedRows = useMemo(() => {
     const start = page * rowsPerPage;
     return filteredRows.slice(start, start + rowsPerPage);
   }, [filteredRows, page, rowsPerPage]);
 
-  const exportRows = filteredRows.flatMap((employee) =>
-    employee.leaveTypes.map((leave) => ({
-      employee_code: employee.employee_code,
-      employee_name: employee.employee_name,
-      department: employee.department,
-      policy_name: leave.policy_name,
-      leave_entitlement: leave.entitled,
-      total_taken: leave.taken,
-      remaining: leave.remaining,
-    }))
-  );
-
   return (
     <Paper sx={{ borderRadius: 3, border: "1px solid #e5e7eb", overflow: "hidden" }}>
-      <Box
-        sx={{
-          p: 2,
-          display: "flex",
-          gap: 1.5,
-          flexDirection: { xs: "column", md: "row" },
-        }}
-      >
+      <Box sx={{ p: 2, display: "flex", gap: 1.5, flexDirection: { xs: "column", md: "row" }, alignItems: { md: "flex-end" } }}>
         <TextField
           fullWidth
           size="small"
           placeholder="Search employees, departments or leave types..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(0);
-          }}
+          onChange={(e) => { setSearch(e.target.value); setPage(0); }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -512,111 +514,109 @@ function EmployeeLeaveBalanceTable({ rows }) {
             ),
           }}
         />
-
+        <Select
+          size="small"
+          value={departmentFilter}
+          onChange={(e) => {
+            setDepartmentFilter(e.target.value);
+            setPage(0);
+          }}
+          displayEmpty
+          sx={{ minWidth: 180 }}
+        >
+          <MenuItem value="">All Departments</MenuItem>
+          {allDepartments.map((dept) => (
+            <MenuItem key={dept} value={dept}>
+              {dept}
+            </MenuItem>
+          ))}
+        </Select>
         <Button
           variant="contained"
           onClick={() => downloadExcel("employee-leave-balances.xls", filteredRows)}
-          sx={{
-            minWidth: 140,
-            fontWeight: 800,
-            textTransform: "none",
-          }}
+          sx={{ minWidth: 140, fontWeight: 800, textTransform: "none" }}
         >
           Export CSV
         </Button>
       </Box>
 
       <TableContainer sx={{ maxHeight: "70vh" }}>
-        <Table stickyHeader>
+        <Table stickyHeader size="small">
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#f9fafb" }}>
-              <TableCell sx={{ fontWeight: 800, width: 140 }}>Employee Code</TableCell>
-              <TableCell sx={{ fontWeight: 800, width: 180 }}>Employee Name</TableCell>
-              <TableCell sx={{ fontWeight: 800, width: 220 }}>Department</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Leave Types</TableCell>
+            {/* Row 1: grouped leave type headers */}
+            <TableRow>
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                Employee Code
+              </TableCell>
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                Employee Name
+              </TableCell>
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                Department
+              </TableCell>
+              {allLeaveTypes.map((type) => (
+                <TableCell
+                  key={type}
+                  colSpan={3}
+                  align="center"
+                  sx={{ fontWeight: 800, borderLeft: "1px solid #e5e7eb", backgroundColor: "#f0f4ff" }}
+                >
+                  {type}
+                </TableCell>
+              ))}
+            </TableRow>
+
+            {/* Row 2: Entitled / Taken / Remaining sub-headers */}
+            <TableRow>
+              {allLeaveTypes.map((type) => (
+                <React.Fragment key={type}>
+                  <TableCell align="center" sx={{ fontWeight: 700, fontSize: "0.75rem", color: "#1d4ed8", backgroundColor: "#dbeafe", borderLeft: "1px solid #e5e7eb" }}>
+                    Entitled
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 700, fontSize: "0.75rem", color: "#92400e", backgroundColor: "#fef3c7" }}>
+                    Taken
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 700, fontSize: "0.75rem", color: "#166534", backgroundColor: "#dcfce7" }}>
+                    Remaining
+                  </TableCell>
+                </React.Fragment>
+              ))}
             </TableRow>
           </TableHead>
 
           <TableBody>
             {paginatedRows.length ? (
-              paginatedRows.map((employee) => (
-                <TableRow key={employee.employee_id} hover>
-                  <TableCell>{employee.employee_code || "-"}</TableCell>
+              paginatedRows.map((employee) => {
+                const leaveMap = {};
+                employee.leaveTypes.forEach((l) => { leaveMap[l.policy_name] = l; });
 
-                  <TableCell sx={{ fontWeight: 700 }}>
-                    {employee.employee_name || "-"}
-                  </TableCell>
-
-                  <TableCell>{employee.department || "-"}</TableCell>
-
-                  <TableCell>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 1,
-                      }}
-                    >
-                      {employee.leaveTypes.map((leave, index) => (
-                        <Box
-                          key={`${leave.policy_name}-${index}`}
-                          sx={{
-                            minWidth: 260,
-                            flex: "1 1 260px",
-                            maxWidth: 330,
-                            border: "1px solid #e5e7eb",
-                            borderRadius: 2,
-                            backgroundColor: "#f9fafb",
-                            p: 1.2,
-                          }}
-                        >
-                          <Typography
-                            fontWeight={900}
-                            sx={{
-                              mb: 1,
-                              fontSize: "0.9rem",
-                            }}
-                          >
-                            {leave.policy_name || "-"}
-                          </Typography>
-
-                          <Stack
-                            direction="row"
-                            spacing={1}
-                            useFlexGap
-                            flexWrap="wrap"
-                          >
-                            <Chip
-                              label={`Entitled: ${leave.entitled}`}
-                              color="primary"
-                              size="small"
-                              variant="outlined"
-                              sx={{ minWidth: 90 }}
-                            />
-
-                            <Chip
-                              label={`Taken: ${leave.taken}`}
-                              color="warning"
-                              size="small"
-                              sx={{ minWidth: 90 }}
-                            />
-
-                            <Chip
-                              label={`Remaining: ${leave.remaining}`}
-                              color="success"
-                              size="small"
-                              sx={{ minWidth: 105 }}
-                            />
-                          </Stack>
-                        </Box>
-                      ))}
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))
+                return (
+                  <TableRow key={employee.employee_id} hover>
+                    <TableCell>{employee.employee_code || "-"}</TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>{employee.employee_name || "-"}</TableCell>
+                    <TableCell>{employee.department || "-"}</TableCell>
+                    {allLeaveTypes.map((type) => {
+                      const leave = leaveMap[type];
+                      return (
+                        <React.Fragment key={type}>
+                          <TableCell align="center" sx={{ borderLeft: "1px solid #e5e7eb", color: "#1d4ed8" }}>
+                            {leave?.entitled ?? "-"}
+                          </TableCell>
+                          <TableCell align="center" sx={{ color: "#92400e" }}>
+                            {leave?.taken ?? "-"}
+                          </TableCell>
+                          <TableCell align="center" sx={{ color: "#166534" }}>
+                            {leave?.remaining ?? "-"}
+                          </TableCell>
+                        </React.Fragment>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
-                <TableCell colSpan={4} align="center" sx={{ py: 5, color: "#6b7280" }}>
+                <TableCell colSpan={3 + allLeaveTypes.length * 3} align="center" sx={{ py: 5, color: "#6b7280" }}>
                   No leave balances found.
                 </TableCell>
               </TableRow>
@@ -631,10 +631,7 @@ function EmployeeLeaveBalanceTable({ rows }) {
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={(_, newPage) => setPage(newPage)}
-        onRowsPerPageChange={(event) => {
-          setRowsPerPage(parseInt(event.target.value, 10));
-          setPage(0);
-        }}
+        onRowsPerPageChange={(event) => { setRowsPerPage(parseInt(event.target.value, 10)); setPage(0); }}
         rowsPerPageOptions={[10, 25, 50, 100]}
       />
     </Paper>
