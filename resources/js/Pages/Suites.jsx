@@ -89,7 +89,7 @@ const SUITE_SETS = {
   "Procurement Department": [
     {
       key: "procurement",
-      title: "PROCUREMENT SUITE",
+      title: "INVENTORY SUITE",
       description: "Suppliers, purchase requests, POs, and approvals",
       href: "/suite-services?type=procurement",
       image: "/images/procurement.webp",
@@ -247,6 +247,18 @@ const authorizedKeys = useMemo(() => {
     allowed.add("hr");
   }
 
+  if (
+    role === "staff" ||
+    role === "department user" ||
+    role === "hod" ||
+    role === "head of department" ||
+    role === "inventory-manager" ||
+    role === "inventory manager" ||
+    role === "inventory_manager"
+  ) {
+    allowed.add("procurement");
+  }
+
   // department-based access
   const deptName = normalize(
     page.props?.auth?.department ??
@@ -267,7 +279,6 @@ const authorizedKeys = useMemo(() => {
   return allowed;
 }, [role, allSuites, deptRaw, page.props, auth]);
 
-  // show ALL suites, but disable unauthorized ones
   const suites = useMemo(() => allSuites, [allSuites]);
 
   const handleUnauthorized = () => {

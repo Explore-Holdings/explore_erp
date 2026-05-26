@@ -15,8 +15,9 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(100);
 
+ 
         $roles = Role::orderBy('name')->get();
-
+ 
         return Inertia::render('Users/Index', [
             'users' => $users,
             'roles' => $roles,
