@@ -285,7 +285,7 @@ export default function Users({ auth, users, roles: availableRoles }) {
               onPageChange={(_, p) => setPage(p)}
               rowsPerPage={rowsPerPage}
               onRowsPerPageChange={(e) => setRowsPerPage(parseInt(e.target.value, 10))}
-              rowsPerPageOptions={[5, 10, 25, 50]}
+              rowsPerPageOptions={[5, 10, 25, 50, 100, 250, 500]}
             />
           </TableContainer>
         </Stack>

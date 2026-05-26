@@ -1,22 +1,23 @@
 import React, { useMemo, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
+
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Box,
+  Button,
   Typography,
   List,
   ListItemButton,
   ListItemText,
   Divider,
-  Tabs,
-  Tab,
   Paper,
   Modal,
   Stack,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -25,23 +26,118 @@ import {
   TableRow,
   TablePagination,
   Chip,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const SIDEBAR_WIDTH = 240;
 
-function TabPanel({ children, value, index }) {
-  return (
-    <div hidden={value !== index}>
-      {value === index && <Box sx={{ pt: 2 }}>{children}</Box>}
-    </div>
-  );
+function filterRows(rows, search) {
+  const q = search.toLowerCase().trim();
+  if (!q) return rows;
+  return rows.filter((row) => JSON.stringify(row).toLowerCase().includes(q));
 }
 
-function formatBytes(bytes) {
-  if (!bytes && bytes !== 0) return "-";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+function downloadExcel(filename, employees) {
+  if (!employees.length) return;
+
+  const allLeaveTypes = [
+    ...new Set(
+      employees.flatMap((employee) =>
+        employee.leaveTypes.map((leave) => leave.policy_name)
+      )
+    ),
+  ];
+
+  const headers = [
+    "Employee Code",
+    "Employee Name",
+    "Department",
+    ...allLeaveTypes.flatMap((type) => [
+      `${type} Entitled`,
+      `${type} Taken`,
+      `${type} Remaining`,
+    ]),
+  ];
+
+  const rows = employees.map((employee) => {
+    const leaveMap = {};
+
+    employee.leaveTypes.forEach((leave) => {
+      leaveMap[leave.policy_name] = leave;
+    });
+
+    return [
+      employee.employee_code || "-",
+      employee.employee_name || "-",
+      employee.department || "-",
+      ...allLeaveTypes.flatMap((type) => {
+        const leave = leaveMap[type];
+
+        return [
+          leave?.entitled ?? 0,
+          leave?.taken ?? 0,
+          leave?.remaining ?? 0,
+        ];
+      }),
+    ];
+  });
+
+  const html = `
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+      </head>
+      <body>
+        <table border="1">
+          <thead>
+            <tr style="background-color:#064c8d;color:white;font-weight:bold;">
+              ${headers.map((header) => `<th>${header}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${rows
+              .map(
+                (row, index) => `
+                  <tr style="background-color:${index % 2 === 0 ? "#f9fafb" : "#ffffff"};">
+                    ${row
+                      .map((cell, cellIndex) => {
+                        let bg = "#ffffff";
+
+                        if (headers[cellIndex]?.includes("Entitled")) bg = "#dbeafe";
+                        if (headers[cellIndex]?.includes("Taken")) bg = "#fef3c7";
+                        if (headers[cellIndex]?.includes("Remaining")) bg = "#dcfce7";
+
+                        return `<td style="padding:6px;background-color:${bg};">${cell}</td>`;
+                      })
+                      .join("")}
+                  </tr>
+                `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `;
+
+  const blob = new Blob([html], {
+    type: "application/vnd.ms-excel;charset=utf-8;",
+  });
+
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
 }
 
 function StatusChip({ status }) {
@@ -56,19 +152,266 @@ function StatusChip({ status }) {
       label={status || "-"}
       color={colorMap[status] || "default"}
       size="small"
-      variant="filled"
     />
   );
 }
 
-function LeaveDetailsModal({ open, onClose, row }) {
-  if (!row) return null;
+function formatDateRange(start, end) {
+  if (!start && !end) return "-";
+  if (start && end) return start === end ? start : `${start} to ${end}`;
+  return start || end;
+}
 
+function LeaveRequestTable({ rows }) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
+  const [search, setSearch] = useState("");
+
+  const safeRows = Array.isArray(rows) ? rows : [];
+
+  const filteredRows = useMemo(() => {
+    const q = search.toLowerCase().trim();
+
+    if (!q) return safeRows;
+
+    return safeRows.filter((row) => {
+      const searchableText = [
+        row.name,
+        row.employee_id,
+        row.department,
+        row.type,
+        row.days,
+        row.dateRange,
+        row.status,
+        row.reason,
+        row.oversee_member?.name,
+        row.manager_comment,
+        row.reliever_comment,
+        row.address,
+        row.half_day_session,
+        row.requested_at,
+        row.is_special_request ? "yes special request" : "no",
+        ...(row.documents || []).map((doc) => doc.file_name),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(q);
+    });
+  }, [safeRows, search]);
+
+  const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+  const currentPage = totalPages === 0 ? 0 : Math.min(page, totalPages - 1);
+
+  const paginatedRows = useMemo(() => {
+    const start = currentPage * rowsPerPage;
+    return filteredRows.slice(start, start + rowsPerPage);
+  }, [filteredRows, currentPage, rowsPerPage]);
+
+  return (
+    <Paper sx={{ borderRadius: 3, border: "1px solid #e5e7eb", overflow: "hidden" }}>
+      <Box sx={{ p: 2 }}>
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="Search leave requests..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(0);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
+      <Box sx={{ p: 2, display: "grid", gap: 2 }}>
+        {paginatedRows.length ? (
+          paginatedRows.map((row) => (
+            <Paper
+              key={row.leave_request_id}
+              sx={{
+                p: 2,
+                borderRadius: 3,
+                border: "1px solid #e5e7eb",
+                backgroundColor: "#f9fafb",
+              }}
+            >
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                justifyContent="space-between"
+                spacing={2}
+              >
+                <Box>
+                  <Typography fontWeight={900} sx={{ fontSize: "1.05rem" }}>
+                    {row.name || "-"}
+                  </Typography>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.85rem" }}>
+                    {row.department || "-"} • Employee ID: {row.employee_id || "-"}
+                  </Typography>
+                </Box>
+
+                <StatusChip status={row.status} />
+              </Stack>
+
+              <Divider sx={{ my: 2 }} />
+
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    md: "1fr 1fr 1fr 1fr",
+                  },
+                  gap: 1.5,
+                  mb: 2,
+                }}
+              >
+                <Box>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Leave Type
+                  </Typography>
+                  <Typography fontWeight={800}>{row.type || "-"}</Typography>
+                </Box>
+
+                <Box>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Date Range
+                  </Typography>
+                  <Typography fontWeight={800}>{row.dateRange || "-"}</Typography>
+                </Box>
+
+                <Box>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Days
+                  </Typography>
+                  <Typography fontWeight={800}>{row.days || "-"}</Typography>
+                </Box>
+
+                <Box>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Requested At
+                  </Typography>
+                  <Typography fontWeight={800}>{row.requested_at || "-"}</Typography>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                  gap: 1.5,
+                }}
+              >
+                <Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: "#fff" }}>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Reason
+                  </Typography>
+                  <Typography>{row.reason || "-"}</Typography>
+                </Box>
+
+                <Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: "#fff" }}>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Oversee Member
+                  </Typography>
+                  <Typography>{row.oversee_member?.name || "-"}</Typography>
+                </Box>
+
+                <Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: "#fff" }}>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Manager Comment
+                  </Typography>
+                  <Typography>{row.manager_comment || "-"}</Typography>
+                </Box>
+
+                <Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: "#fff" }}>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Reliever Comment
+                  </Typography>
+                  <Typography>{row.reliever_comment || "-"}</Typography>
+                </Box>
+
+                <Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: "#fff" }}>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Address
+                  </Typography>
+                  <Typography>{row.address || "-"}</Typography>
+                </Box>
+
+                <Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: "#fff" }}>
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.75rem" }}>
+                    Extra Info
+                  </Typography>
+                  <Typography>
+                    Special Request: {row.is_special_request ? "Yes" : "No"}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ mt: 2 }}>
+                <Typography fontWeight={800} sx={{ mb: 1 }}>
+                  Documents
+                </Typography>
+
+                {row.documents?.length ? (
+                  <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+                    {row.documents.map((doc) => (
+                      <Button
+                        key={doc.leave_request_document_id}
+                        variant="outlined"
+                        size="small"
+                        component="a"
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {doc.file_name || "View Document"}
+                      </Button>
+                    ))}
+                  </Stack>
+                ) : (
+                  <Typography sx={{ color: "#6b7280", fontSize: "0.85rem" }}>
+                    No documents uploaded.
+                  </Typography>
+                )}
+              </Box>
+            </Paper>
+          ))
+        ) : (
+          <Typography align="center" sx={{ py: 4, color: "#6b7280" }}>
+            No records found.
+          </Typography>
+        )}
+      </Box>
+
+      <TablePagination
+        component="div"
+        count={filteredRows.length}
+        page={currentPage}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(_, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10));
+          setPage(0);
+        }}
+        rowsPerPageOptions={[3, 6, 10, 25]}
+      />
+    </Paper>
+  );
+}
+
+function RequestModal({ open, onClose, title, rows }) {
   return (
     <Modal open={open} onClose={onClose}>
       <Box
         sx={{
-          width: { xs: "95%", md: 760 },
+          width: { xs: "95%", md: "90%" },
           maxHeight: "90vh",
           overflowY: "auto",
           bgcolor: "#fff",
@@ -79,283 +422,201 @@ function LeaveDetailsModal({ open, onClose, row }) {
           p: 3,
         }}
       >
-        <Typography variant="h6" fontWeight={900} sx={{ mb: 2 }}>
-          Leave Request Details
-        </Typography>
-
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: 2,
-          }}
-        >
-          <DetailItem label="Employee" value={row.name} />
-          <DetailItem label="Department" value={row.department} />
-          <DetailItem label="Leave Type" value={row.type} />
-          <DetailItem label="Status" value={row.status} />
-          <DetailItem label="From" value={row.start} />
-          <DetailItem label="To" value={row.end} />
-          <DetailItem label="Days" value={row.days} />
-          <DetailItem
-            label="Oversee Member"
-            value={row.oversee_member?.name || "-"}
-          />
-          <DetailItem
-            label="Half Day Session"
-            value={row.half_day_session || "-"}
-          />
-          <DetailItem
-            label="Special Request"
-            value={row.is_special_request ? "Yes" : "No"}
-          />
-        </Box>
-
-        <Box sx={{ mt: 2 }}>
-          <DetailBlock label="Reason" value={row.reason} />
-          <DetailBlock label="Manager Comment" value={row.manager_comment} />
-          <DetailBlock label="Reliever Comment" value={row.reliever_comment} />
-          <DetailBlock label="Address" value={row.address} />
-        </Box>
-
-        <Box sx={{ mt: 3 }}>
-          <Typography fontWeight={800} sx={{ mb: 1.5 }}>
-            Documents
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+          <Typography variant="h6" fontWeight={900}>
+            {title}
           </Typography>
 
-          {row.documents?.length ? (
-            <Stack spacing={1}>
-              {row.documents.map((doc) => (
-                <Box
-                  key={doc.leave_request_document_id}
-                  sx={{
-                    border: "1px solid #e5e7eb",
-                    borderRadius: 2,
-                    p: 1.5,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: 2,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Box>
-                    <Typography fontWeight={700}>{doc.file_name}</Typography>
-                    <Typography variant="caption" sx={{ color: "#6b7280" }}>
-                      {doc.mime_type || "-"} • {formatBytes(doc.file_size_bytes)} • {doc.uploaded_at || "-"}
-                    </Typography>
-                  </Box>
-
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    component="a"
-                    href={doc.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </Button>
-                </Box>
-              ))}
-            </Stack>
-          ) : (
-            <Typography sx={{ color: "#6b7280" }}>
-              No documents uploaded.
-            </Typography>
-          )}
-        </Box>
-
-        <Stack direction="row" justifyContent="flex-end" sx={{ mt: 3 }}>
-          <Button variant="contained" onClick={onClose}>
-            Close
-          </Button>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
         </Stack>
+
+        <LeaveRequestTable key={title} rows={rows} />
       </Box>
     </Modal>
   );
 }
 
-function DetailItem({ label, value }) {
-  return (
-    <Box
-      sx={{
-        border: "1px solid #e5e7eb",
-        borderRadius: 2,
-        p: 1.5,
-        backgroundColor: "#f9fafb",
-      }}
-    >
-      <Typography sx={{ fontSize: "0.78rem", color: "#6b7280" }}>
-        {label}
-      </Typography>
-      <Typography fontWeight={700}>{value || "-"}</Typography>
-    </Box>
-  );
-}
-
-function DetailBlock({ label, value }) {
-  return (
-    <Box
-      sx={{
-        border: "1px solid #e5e7eb",
-        borderRadius: 2,
-        p: 1.5,
-        backgroundColor: "#f9fafb",
-        mb: 1.5,
-      }}
-    >
-      <Typography sx={{ fontSize: "0.78rem", color: "#6b7280", mb: 0.5 }}>
-        {label}
-      </Typography>
-      <Typography>{value || "-"}</Typography>
-    </Box>
-  );
-}
-
-function PaginatedLeaveTable({ rows, onOpenModal }) {
+function EmployeeLeaveBalanceTable({ rows }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [search, setSearch] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
+
+  const groupedRows = useMemo(() => {
+    const map = {};
+    rows.forEach((row) => {
+      if (!map[row.employee_id]) {
+        map[row.employee_id] = {
+          employee_id: row.employee_id,
+          employee_code: row.employee_code,
+          employee_name: row.employee_name,
+          department: row.department,
+          leaveTypes: [],
+        };
+      }
+      map[row.employee_id].leaveTypes.push({
+        policy_name: row.policy_name,
+        entitled: row.leave_entitlement ?? 0,
+        taken: row.total_taken ?? 0,
+        remaining: row.remaining ?? 0,
+      });
+    });
+    return Object.values(map);
+  }, [rows]);
+
+  const allDepartments = useMemo(() => {
+    const departments = new Set();
+    groupedRows.forEach((emp) => {
+      if (emp.department) {
+        departments.add(emp.department);
+      }
+    });
+    return [...departments].sort();
+  }, [groupedRows]);
+
+  const allLeaveTypes = useMemo(() => {
+    const types = new Set();
+    groupedRows.forEach((emp) => emp.leaveTypes.forEach((l) => types.add(l.policy_name)));
+    return [...types];
+  }, [groupedRows]);
+
+  const filteredRows = useMemo(() => {
+    let result = groupedRows;
+
+    if (departmentFilter) {
+      result = result.filter((row) => row.department === departmentFilter);
+    }
+
+    return filterRows(result, search);
+  }, [groupedRows, search, departmentFilter]);
 
   const paginatedRows = useMemo(() => {
     const start = page * rowsPerPage;
-    return rows.slice(start, start + rowsPerPage);
-  }, [rows, page, rowsPerPage]);
-
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    const value = parseInt(event.target.value, 10);
-    setRowsPerPage(value);
-    setPage(0);
-  };
+    return filteredRows.slice(start, start + rowsPerPage);
+  }, [filteredRows, page, rowsPerPage]);
 
   return (
-    <Paper
-      sx={{
-        borderRadius: 3,
-        border: "1px solid #e5e7eb",
-        overflow: "hidden",
-      }}
-    >
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ backgroundColor: "#f9fafb" }}>
-              <TableCell sx={{ fontWeight: 800 }}>Employee</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Department</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Leave Type</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Days</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Date Range</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Status</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Action</TableCell>
-            </TableRow>
-          </TableHead>
+    <Paper sx={{ borderRadius: 3, border: "1px solid #e5e7eb", overflow: "hidden" }}>
+      <Box sx={{ p: 2, display: "flex", gap: 1.5, flexDirection: { xs: "column", md: "row" }, alignItems: { md: "flex-end" } }}>
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="Search employees, departments or leave types..."
+          value={search}
+          onChange={(e) => { setSearch(e.target.value); setPage(0); }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Select
+          size="small"
+          value={departmentFilter}
+          onChange={(e) => {
+            setDepartmentFilter(e.target.value);
+            setPage(0);
+          }}
+          displayEmpty
+          sx={{ minWidth: 180 }}
+        >
+          <MenuItem value="">All Departments</MenuItem>
+          {allDepartments.map((dept) => (
+            <MenuItem key={dept} value={dept}>
+              {dept}
+            </MenuItem>
+          ))}
+        </Select>
+        <Button
+          variant="contained"
+          onClick={() => downloadExcel("employee-leave-balances.xls", filteredRows)}
+          sx={{ minWidth: 140, fontWeight: 800, textTransform: "none" }}
+        >
+          Export CSV
+        </Button>
+      </Box>
 
-          <TableBody>
-            {paginatedRows.length ? (
-              paginatedRows.map((row) => (
-                <TableRow
-                  key={row.leave_request_id}
-                  hover
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#f9fafb",
-                    },
-                  }}
+      <TableContainer sx={{ maxHeight: "70vh" }}>
+        <Table stickyHeader size="small">
+          <TableHead>
+            {/* Row 1: grouped leave type headers */}
+            <TableRow>
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                Employee Code
+              </TableCell>
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                Employee Name
+              </TableCell>
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                Department
+              </TableCell>
+              {allLeaveTypes.map((type) => (
+                <TableCell
+                  key={type}
+                  colSpan={3}
+                  align="center"
+                  sx={{ fontWeight: 800, borderLeft: "1px solid #e5e7eb", backgroundColor: "#f0f4ff" }}
                 >
-                  <TableCell>{row.name || "-"}</TableCell>
-                  <TableCell>{row.department || "-"}</TableCell>
-                  <TableCell>{row.type || "-"}</TableCell>
-                  <TableCell>{row.days || "-"}</TableCell>
-                  <TableCell>{row.dateRange || "-"}</TableCell>
-                  <TableCell>
-                    <StatusChip status={row.status} />
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => onOpenModal(row)}
-                    >
-                      View Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} align="center" sx={{ py: 4, color: "#6b7280" }}>
-                  No records found.
+                  {type}
                 </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              ))}
+            </TableRow>
 
-      <TablePagination
-        component="div"
-        count={rows.length}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[5, 8, 10, 25, 50]}
-      />
-    </Paper>
-  );
-}
-
-function PaginatedBalanceTable({ rows }) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
-
-  const paginatedRows = useMemo(() => {
-    const start = page * rowsPerPage;
-    return rows.slice(start, start + rowsPerPage);
-  }, [rows, page, rowsPerPage]);
-
-  return (
-    <Paper
-      sx={{
-        borderRadius: 3,
-        border: "1px solid #e5e7eb",
-        overflow: "hidden",
-      }}
-    >
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ backgroundColor: "#f9fafb" }}>
-              <TableCell sx={{ fontWeight: 800 }}>Employee Code</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Employee Name</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Department</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Policy</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Entitlement</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Taken</TableCell>
-              <TableCell sx={{ fontWeight: 800 }}>Remaining</TableCell>
+            {/* Row 2: Entitled / Taken / Remaining sub-headers */}
+            <TableRow>
+              {allLeaveTypes.map((type) => (
+                <React.Fragment key={type}>
+                  <TableCell align="center" sx={{ fontWeight: 700, fontSize: "0.75rem", color: "#1d4ed8", backgroundColor: "#dbeafe", borderLeft: "1px solid #e5e7eb" }}>
+                    Entitled
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 700, fontSize: "0.75rem", color: "#92400e", backgroundColor: "#fef3c7" }}>
+                    Taken
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 700, fontSize: "0.75rem", color: "#166534", backgroundColor: "#dcfce7" }}>
+                    Remaining
+                  </TableCell>
+                </React.Fragment>
+              ))}
             </TableRow>
           </TableHead>
 
           <TableBody>
             {paginatedRows.length ? (
-              paginatedRows.map((row, index) => (
-                <TableRow key={`${row.employee_id}-${row.policy_name}-${index}`} hover>
-                  <TableCell>{row.employee_code || "-"}</TableCell>
-                  <TableCell>{row.employee_name || "-"}</TableCell>
-                  <TableCell>{row.department || "-"}</TableCell>
-                  <TableCell>{row.policy_name || "-"}</TableCell>
-                  <TableCell>{row.leave_entitlement ?? "-"}</TableCell>
-                  <TableCell>{row.total_taken ?? 0}</TableCell>
-                  <TableCell>{row.remaining ?? 0}</TableCell>
-                </TableRow>
-              ))
+              paginatedRows.map((employee) => {
+                const leaveMap = {};
+                employee.leaveTypes.forEach((l) => { leaveMap[l.policy_name] = l; });
+
+                return (
+                  <TableRow key={employee.employee_id} hover>
+                    <TableCell>{employee.employee_code || "-"}</TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>{employee.employee_name || "-"}</TableCell>
+                    <TableCell>{employee.department || "-"}</TableCell>
+                    {allLeaveTypes.map((type) => {
+                      const leave = leaveMap[type];
+                      return (
+                        <React.Fragment key={type}>
+                          <TableCell align="center" sx={{ borderLeft: "1px solid #e5e7eb", color: "#1d4ed8" }}>
+                            {leave?.entitled ?? "-"}
+                          </TableCell>
+                          <TableCell align="center" sx={{ color: "#92400e" }}>
+                            {leave?.taken ?? "-"}
+                          </TableCell>
+                          <TableCell align="center" sx={{ color: "#166534" }}>
+                            {leave?.remaining ?? "-"}
+                          </TableCell>
+                        </React.Fragment>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align="center" sx={{ py: 4, color: "#6b7280" }}>
+                <TableCell colSpan={3 + allLeaveTypes.length * 3} align="center" sx={{ py: 5, color: "#6b7280" }}>
                   No leave balances found.
                 </TableCell>
               </TableRow>
@@ -366,15 +627,12 @@ function PaginatedBalanceTable({ rows }) {
 
       <TablePagination
         component="div"
-        count={rows.length}
+        count={filteredRows.length}
         page={page}
-        onPageChange={(_, newPage) => setPage(newPage)}
         rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={(event) => {
-          setRowsPerPage(parseInt(event.target.value, 10));
-          setPage(0);
-        }}
-        rowsPerPageOptions={[5, 8, 10, 25, 50]}
+        onPageChange={(_, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => { setRowsPerPage(parseInt(event.target.value, 10)); setPage(0); }}
+        rowsPerPageOptions={[10, 25, 50, 100]}
       />
     </Paper>
   );
@@ -389,15 +647,11 @@ export default function LeaveDashboard({
   employeeBalances = [],
   stats = {},
 }) {
-  const [tab, setTab] = useState(0);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
-
-  const formatDateRange = (start, end) => {
-    if (!start && !end) return "-";
-    if (start && end) return start === end ? start : `${start} to ${end}`;
-    return start || end;
-  };
+  const [modalData, setModalData] = useState({
+    open: false,
+    title: "",
+    rows: [],
+  });
 
   const mapLeaveRows = (list) =>
     list.map((item) => ({
@@ -410,15 +664,48 @@ export default function LeaveDashboard({
   const rejectedData = useMemo(() => mapLeaveRows(rejectedRequests), [rejectedRequests]);
   const onLeaveTodayData = useMemo(() => mapLeaveRows(employeesOnLeave), [employeesOnLeave]);
 
-  const handleOpenModal = (row) => {
-    setSelectedRow(row);
-    setOpenModal(true);
+  const openRequestModal = (title, rows) => {
+    setModalData({
+      open: true,
+      title,
+      rows,
+    });
   };
 
-  const handleCloseModal = () => {
-    setSelectedRow(null);
-    setOpenModal(false);
+  const closeRequestModal = () => {
+    setModalData({
+      open: false,
+      title: "",
+      rows: [],
+    });
   };
+
+  const summaryCards = [
+    {
+      label: "On Leave Today",
+      value: stats.onLeaveToday ?? 0,
+      color: "#064c8d",
+      rows: onLeaveTodayData,
+    },
+    {
+      label: "Pending Leave Requests",
+      value: stats.pendingRequests ?? 0,
+      color: "#7f540a",
+      rows: pendingData,
+    },
+    {
+      label: "Approved Leave Requests",
+      value: stats.approved ?? 0,
+      color: "#16a34a",
+      rows: approvedData,
+    },
+    {
+      label: "Rejected Leave Requests",
+      value: stats.rejected ?? 0,
+      color: "#b91c1c",
+      rows: rejectedData,
+    },
+  ];
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -442,67 +729,21 @@ export default function LeaveDashboard({
           <List disablePadding>
             <ListItemButton
               onClick={() => router.get("/suite-services")}
-              sx={{
-                borderRadius: 2,
-                mb: 0.5,
-                "&:hover": { backgroundColor: "#f3f4f6" },
-              }}
+              sx={{ borderRadius: 2, mb: 0.5 }}
             >
               <HomeOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
-              <ListItemText
-                primary="HRMS Home"
-                primaryTypographyProps={{ fontWeight: 600 }}
-              />
+              <ListItemText primary="HRMS Home" primaryTypographyProps={{ fontWeight: 600 }} />
             </ListItemButton>
 
             <ListItemButton
               selected
               onClick={() => router.get("/hrms/leave-dashboard")}
-              sx={{
-                borderRadius: 2,
-                mb: 0.5,
-                "&:hover": { backgroundColor: "#f3f4f6" },
-              }}
+              sx={{ borderRadius: 2, mb: 0.5 }}
             >
               <DashboardOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
-              <ListItemText
-                primary="Dashboard"
-                primaryTypographyProps={{ fontWeight: 600 }}
-              />
+              <ListItemText primary="Dashboard" primaryTypographyProps={{ fontWeight: 600 }} />
             </ListItemButton>
           </List>
-
-          <Divider sx={{ my: 2 }} />
-
-          <Typography fontWeight={900} sx={{ fontSize: "0.95rem", mb: 1 }}>
-            SUMMARY
-          </Typography>
-
-          <Box sx={{ display: "grid", gap: 1.5 }}>
-            {[
-              { label: "On Leave Today", value: stats.onLeaveToday ?? 0, color: "#064c8d" },
-              { label: "Pending Requests", value: stats.pendingRequests ?? 0, color: "#7f540a" },
-              { label: "Approved", value: stats.approved ?? 0, color: "#16a34a" },
-              { label: "Rejected", value: stats.rejected ?? 0, color: "#b91c1c" },
-            ].map((item) => (
-              <Box
-                key={item.label}
-                sx={{
-                  backgroundColor: "#f9fafb",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: 2,
-                  p: 1.5,
-                }}
-              >
-                <Typography sx={{ fontSize: "0.8rem", color: "#6b7280" }}>
-                  {item.label}
-                </Typography>
-                <Typography fontWeight={900} sx={{ color: item.color, fontSize: "1.3rem" }}>
-                  {item.value}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
         </Box>
 
         <Box sx={{ flex: 1, p: { xs: 2, md: 4 } }}>
@@ -510,55 +751,70 @@ export default function LeaveDashboard({
             Leave Dashboard
           </Typography>
 
-          <Paper
+          <Box
             sx={{
-              borderRadius: 3,
-              border: "1px solid #e5e7eb",
-              overflow: "hidden",
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "1fr 1fr",
+                lg: "1fr 1fr 1fr 1fr",
+              },
+              gap: 2,
+              mb: 3,
             }}
           >
-            <Tabs
-              value={tab}
-              onChange={(e, value) => setTab(value)}
-              variant="scrollable"
-              scrollButtons="auto"
-            >
-              <Tab label={`Pending (${pendingRequests.length})`} />
-              <Tab label={`Approved (${approvedRequests.length})`} />
-              <Tab label={`Rejected (${rejectedRequests.length})`} />
-              <Tab label={`On Leave Today (${employeesOnLeave.length})`} />
-              <Tab label={`Leave Balances (${employeeBalances.length})`} />
-            </Tabs>
+            {summaryCards.map((card) => (
+              <Paper
+                key={card.label}
+                onClick={() => openRequestModal(card.label, card.rows)}
+                sx={{
+                  p: 2,
+                  borderRadius: 3,
+                  border: "1px solid #e5e7eb",
+                  cursor: "pointer",
+                  transition: "0.2s",
+                  "&:hover": {
+                    transform: "translateY(-3px)",
+                    boxShadow: 4,
+                  },
+                }}
+              >
+                <Typography sx={{ color: "#6b7280", fontSize: "0.85rem" }}>
+                  {card.label}
+                </Typography>
 
-            <Box sx={{ p: 2 }}>
-              <TabPanel value={tab} index={0}>
-                <PaginatedLeaveTable rows={pendingData} onOpenModal={handleOpenModal} />
-              </TabPanel>
+                <Typography fontWeight={900} sx={{ color: card.color, fontSize: "2rem" }}>
+                  {card.value}
+                </Typography>
 
-              <TabPanel value={tab} index={1}>
-                <PaginatedLeaveTable rows={approvedData} onOpenModal={handleOpenModal} />
-              </TabPanel>
+                <Typography sx={{ color: "#6b7280", fontSize: "0.78rem" }}>
+                  Click to view details
+                </Typography>
+              </Paper>
+            ))}
+          </Box>
 
-              <TabPanel value={tab} index={2}>
-                <PaginatedLeaveTable rows={rejectedData} onOpenModal={handleOpenModal} />
-              </TabPanel>
+          <Paper
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              border: "1px solid #e5e7eb",
+            }}
+          >
+            <Typography variant="h6" fontWeight={900} sx={{ mb: 2 }}>
+              Employee Leave Balances
+            </Typography>
 
-              <TabPanel value={tab} index={3}>
-                <PaginatedLeaveTable rows={onLeaveTodayData} onOpenModal={handleOpenModal} />
-              </TabPanel>
-
-              <TabPanel value={tab} index={4}>
-                <PaginatedBalanceTable rows={employeeBalances} />
-              </TabPanel>
-            </Box>
+            <EmployeeLeaveBalanceTable rows={employeeBalances} />
           </Paper>
         </Box>
       </Box>
 
-      <LeaveDetailsModal
-        open={openModal}
-        onClose={handleCloseModal}
-        row={selectedRow}
+      <RequestModal
+        open={modalData.open}
+        onClose={closeRequestModal}
+        title={modalData.title}
+        rows={modalData.rows}
       />
     </AuthenticatedLayout>
   );

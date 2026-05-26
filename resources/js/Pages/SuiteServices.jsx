@@ -23,6 +23,12 @@ const MODULE_SETS = {
   ],
   HR: [
     {
+      title: "Users, Roles & Permissions",
+      description: "Manage system users, roles, and permission controls.",
+      href: "/hrms/users-management",
+      image: "/images/users-roles-permissions.webp",
+    },
+    {
       title: "Employee Data",
       description: "Profiles, departments, documents, and employee records.",
       href: "/hrms/emp-dashboard",
@@ -47,6 +53,12 @@ const MODULE_SETS = {
       image: "/images/footer-logo.png",
     },
     {
+      title: "Gatepass Handling",
+      description: "Manage and track gatepass requests.",
+      href: "/hrms/gate-pass-requests",
+      image: "/images/gatepass.jpg",
+    },
+    {
       title: "Event & Meeting Managment",
       description: "Manage events, meetings, schedules, and coordination in one place.",
       href: "/hrms/meeting-dashboard",
@@ -58,6 +70,18 @@ const MODULE_SETS = {
       href: "/hrms/training-dashboard",
       image: "/images/hrms-training.webp",
     },
+    {
+      title: "Payroll",
+      description: "Salary components, payslips, and deductions.",
+      href: "/hrms/payroll-dashboard",
+      image: "/images/payroll.webp",
+    },
+    {
+      title: "Inventory Management",
+      description: "Track stocks, handle stock requests and approval workflows.",
+      href: "/stocks",
+      image: "/images/procurement.webp",
+    },
   ],
 
   FINANCE: [
@@ -66,6 +90,14 @@ const MODULE_SETS = {
       description: "Salary components, payslips, and deductions.",
       href: "/hrms/payroll-dashboard",
       image: "/images/payroll.webp",
+    },
+  ],
+  PROCUREMENT: [
+    {
+      title: "Inventory Management",
+      description: "Track stocks, handle stock requests and approval workflows.",
+      href: "/stocks",
+      image: "/images/procurement.webp",
     },
   ],
   // TRANSPORT: [
@@ -78,7 +110,7 @@ const MODULE_SETS = {
   // ],
 };
 
-function ModuleCard({ item }) {
+function ModuleCard({ item, isElevated = false }) {
   return (
     <Card
       elevation={0}
@@ -114,6 +146,12 @@ function ModuleCard({ item }) {
               {item.title}
             </Typography>
 
+            {isElevated && (
+              <Typography variant="caption" sx={{ fontWeight: 800, color: '#0B6B44', display: 'block', mt: 0.5 }}>
+                Inventory Manager (elevated)
+              </Typography>
+            )}
+
             <Typography variant="body2" color="text.secondary" fontWeight={500}>
               {item.description}
             </Typography>
@@ -128,71 +166,117 @@ function ModuleCard({ item }) {
   );
 }
 
-export default function HRMS({ auth }) {
-  const page = usePage();
+export default function HRMS({ auth = {} }) {
+  const { props } = usePage();
 
-  const roleRaw =
-    page.props?.auth?.user?.role ??
-    auth?.user?.role ??
-    "";
-
-  const role = String(roleRaw).trim().toLowerCase(); 
+  const roleRaw = props?.auth?.user?.role ?? auth?.user?.role ?? "";
+  const role = String(roleRaw).trim().toLowerCase();
 
   const deptRaw =
-    page.props?.auth?.department ??
-    page.props?.auth?.user?.department ??
+    props?.auth?.department ??
+    props?.auth?.user?.department ??
     auth?.department ??
     auth?.user?.department ??
     "";
-
   const dept = String(deptRaw).trim().toLowerCase();
 
+  const suiteType = useMemo(() => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+    return new URLSearchParams(window.location.search).get("type")?.trim().toLowerCase() || null;
+  }, []);
+
   const allModules = useMemo(() => {
-    const all = [...(MODULE_SETS.HR || []), ...(MODULE_SETS.FINANCE || [])];
+    const all = Object.values(MODULE_SETS).flat();
     return all.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
   }, []);
 
-  const modules = useMemo(() => {
-    // admin gets everything
-    if (role === "admin") {
-      const adminModules = [
-        ...allModules,
-        ...(MODULE_SETS.ADMIN || []),
-        ...(MODULE_SETS.TRANSPORT || []),
-      ];
-
-      return adminModules.filter(
-        (m, i, arr) => arr.findIndex((x) => x.href === m.href) === i
-      );
+  const allowedModuleSets = useMemo(() => {
+    // Admin and Senior Management see all modules
+    if (role === "admin" || dept === "senior management") {
+      return MODULE_SETS;
     }
 
-    // hr-executive should ONLY see HR modules
-    if (role === "hr-executive") {
-      return MODULE_SETS.HR || [];
+    const allowed = {};
+
+    // HR access
+    if (role === "hr-executive" || dept === "hr") {
+      allowed.HR = MODULE_SETS.HR;
     }
 
-    // other users: department-based access
-    if (dept === "hr" || dept.includes("human")) {
-      return MODULE_SETS.HR || [];
-    }
-
-    if (dept === "finance" || dept.includes("finan")) {
-      return MODULE_SETS.FINANCE || [];
-    }
-
+    // Procurement access
     if (
-      dept.includes("transfer") ||
-      dept.includes("rent a car") ||
-      dept.includes("rental")
+      role === "staff" ||
+      role === "department user" ||
+      role === "hod" ||
+      role === "head of department" ||
+      role === "inventory-manager" ||
+      role === "inventory manager" ||
+      dept === "procurement department" ||
+      dept === "procurement"
     ) {
-      return MODULE_SETS.TRANSPORT || [];
+      allowed.PROCUREMENT = MODULE_SETS.PROCUREMENT;
     }
 
-    return [];
-  }, [role, dept, allModules]);
+    // Finance access
+    if (dept === "finance" || dept === "finance department") {
+      allowed.FINANCE = MODULE_SETS.FINANCE;
+    }
+
+    return allowed;
+  }, [role, dept]);
+
+  const userModules = useMemo(() => {
+    const all = Object.values(allowedModuleSets).flat();
+    return all.filter((m, i, arr) => arr.findIndex((x) => x.href === m.href) === i);
+  }, [allowedModuleSets]);
+
+  const modules = useMemo(() => {
+    let list = [];
+    if (!suiteType) {
+      list = userModules;
+    } else if (suiteType === "procurement") {
+      list = allowedModuleSets.PROCUREMENT || [];
+    } else {
+      const suiteKey = Object.keys(MODULE_SETS).find((key) =>
+        key.toLowerCase().replace(/\s+/g, "-") === suiteType ||
+        suiteType === key.toLowerCase().replace(/\s+/g, "-")
+      );
+
+      if (!suiteKey) {
+        list = userModules;
+      } else {
+        list = allowedModuleSets[suiteKey] || [];
+      }
+    }
+
+    const requestedOrder = [
+      "employee data",
+      "leave management",
+      "vehicle request management",
+      "customer handling",
+      "event & meeting managment",
+      "event & meeting management",
+      "inventory management",
+      "training",
+      "payroll",
+      "users, roles & permissions"
+    ];
+
+    return [...list].sort((a, b) => {
+      const titleA = String(a.title).toLowerCase().trim();
+      const titleB = String(b.title).toLowerCase().trim();
+      const indexA = requestedOrder.indexOf(titleA);
+      const indexB = requestedOrder.indexOf(titleB);
+      const valA = indexA === -1 ? 999 : indexA;
+      const valB = indexB === -1 ? 999 : indexB;
+      return valA - valB;
+    });
+  }, [userModules, allowedModuleSets, suiteType]);
 
   return (
-    <AuthenticatedLayout user={auth.user}>
+    <AuthenticatedLayout user={auth?.user}>
       <Head title="HRMS" />
 
       <Container
@@ -224,7 +308,12 @@ export default function HRMS({ auth }) {
                   key={m.title}
                   sx={{ display: "flex", justifyContent: "center" }}
                 >
-                  <ModuleCard item={m} />
+                  <ModuleCard
+                    item={m}
+                    isElevated={
+                      (role === "inventory manager" || role === "inventory_manager") && m.href === "/stocks"
+                    }
+                  />
                 </Grid>
               ))}
             </Grid>
