@@ -12,6 +12,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\StockRequestController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -100,6 +103,47 @@ Route::patch('/hrms/meetings/{meeting}/cancel', [MeetingController::class, 'canc
 
     Route::get('/hrms/customer-handling', function () {
     return Inertia::render('HRMS/CustomerHandling');
+});
+
+// Inventory Module Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Stocks routes
+    Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
+    
+    Route::middleware('role:Admin,Inventory Manager')->group(function () {
+        Route::get('/stocks/create', [StockController::class, 'create'])->name('stocks.create');
+        Route::post('/stocks', [StockController::class, 'store'])->name('stocks.store');
+        Route::get('/stocks/{stock}/edit', [StockController::class, 'edit'])->name('stocks.edit');
+        Route::put('/stocks/{stock}', [StockController::class, 'update'])->name('stocks.update');
+        Route::delete('/stocks/{stock}', [StockController::class, 'destroy'])->name('stocks.destroy');
+    });
+
+    // Stock requests routes
+    Route::get('/stock-requests', [StockRequestController::class, 'index'])->name('stock-requests.index');
+    Route::get('/stock-requests/create', [StockRequestController::class, 'create'])->name('stock-requests.create');
+    Route::post('/stock-requests', [StockRequestController::class, 'store'])->name('stock-requests.store');
+    
+    // HOD approvals
+    Route::middleware('role:Admin,HOD')->group(function () {
+        Route::post('/stock-requests/{stock_request}/hod-approve', [StockRequestController::class, 'hodApprove'])->name('stock-requests.hod-approve');
+        Route::post('/stock-requests/{stock_request}/hod-reject', [StockRequestController::class, 'hodReject'])->name('stock-requests.hod-reject');
+    });
+
+    // Manager approvals
+    Route::middleware('role:Admin,Inventory Manager')->group(function () {
+        Route::post('/stock-requests/{stock_request}/approve', [StockRequestController::class, 'approve'])->name('stock-requests.approve');
+        Route::post('/stock-requests/{stock_request}/reject', [StockRequestController::class, 'reject'])->name('stock-requests.reject');
+    });
+
+    // Admin-only CRUD for stock requests
+    Route::middleware('role:Admin')->group(function () {
+        Route::get('/stock-requests/{stockRequest}/edit', [StockRequestController::class, 'edit'])->name('stock-requests.edit');
+        Route::put('/stock-requests/{stockRequest}', [StockRequestController::class, 'update'])->name('stock-requests.update');
+        Route::delete('/stock-requests/{stockRequest}', [StockRequestController::class, 'destroy'])->name('stock-requests.destroy');
+    });
+
+    // Reports routes
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 require __DIR__.'/auth.php';
