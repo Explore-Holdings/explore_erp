@@ -34,6 +34,8 @@ import {
   TableCell,
   TableContainer,
   TextField,
+  Tabs,
+  Tab,
 } from "@mui/material";
 
 const formatDate = (d) =>
@@ -333,6 +335,20 @@ export default function VehicleRequestDashboard({
   const [odoOpen, setOdoOpen] = useState(false);
   const [odoData, setOdoData] = useState(null);
 
+  const [tabValue, setTabValue] = useState(0);
+  const [q, setQ] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
+
+  const statusTabs = ["ALL", "ASSIGNED", "START_TRIP", "IN_PROGRESS", "COMPLETED", "PENDING", "APPROVED", "REJECTED"];
+
+  const requestTypes = useMemo(() => {
+    const types = new Set();
+    allRequests.forEach((r) => {
+      if (r.type) types.add(r.type.toLowerCase());
+    });
+    return [...types].sort();
+  }, [allRequests]);
+
   const onOdometerView = (item) => {
     setOdoData(item.trip_details || null);
     setOdoOpen(true);
@@ -346,16 +362,18 @@ export default function VehicleRequestDashboard({
     setOpen(true);
   };
 
-  const [statusFilter, setStatusFilter] = useState("ALL");
-  const [q, setQ] = useState("");
-
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
+    const statusFilter = statusTabs[tabValue];
 
     return allRequests
       .filter((r) => {
         if (statusFilter === "ALL") return true;
         return String(r.status || "").toUpperCase() === statusFilter;
+      })
+      .filter((r) => {
+        if (!typeFilter) return true;
+        return String(r.type || "").toLowerCase() === typeFilter;
       })
       .filter((r) => {
         if (!needle) return true;
@@ -379,7 +397,7 @@ export default function VehicleRequestDashboard({
         const db = b.start_date ? new Date(b.start_date).getTime() : 0;
         return db - da;
       });
-  }, [allRequests, statusFilter, q]);
+  }, [allRequests, tabValue, q, typeFilter]);
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -451,32 +469,49 @@ export default function VehicleRequestDashboard({
               <Chip size="small" label={`${filtered.length}`} sx={{ bgcolor: "#f1f5f9" }} />
             </Stack>
 
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
-              <FormControl size="small" sx={{ minWidth: 200 }}>
-                <InputLabel>Status</InputLabel>
-                <Select value={statusFilter} label="Status" onChange={(e) => setStatusFilter(e.target.value)}>
-                  <MenuItem value="ALL">All</MenuItem>
-                  <MenuItem value="ASSIGNED">Assigned</MenuItem>
-                  <MenuItem value="START_TRIP">Start Trip</MenuItem>
-                  <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                  <MenuItem value="COMPLETED">Completed</MenuItem>
-                  <MenuItem value="PENDING">Pending</MenuItem>
-                  <MenuItem value="APPROVED">Approved</MenuItem>
-                  <MenuItem value="REJECTED">Rejected</MenuItem>
-                </Select>
-              </FormControl>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
+              <Select
+                size="small"
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                displayEmpty
+                sx={{ minWidth: 140 }}
+              >
+                <MenuItem value="">All Trip Types</MenuItem>
+                {requestTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </MenuItem>
+                ))}
+              </Select>
 
               <TextField
                 size="small"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Filter by vehicle / employee / trip code..."
-                sx={{ width: { xs: "100%", sm: 360 } }}
+                sx={{ width: { xs: "100%", sm: 320 } }}
               />
             </Stack>
           </Stack>
 
-          <Divider sx={{ mb: 2 }} />
+          <Tabs
+            value={tabValue}
+            onChange={(e, newValue) => setTabValue(newValue)}
+            sx={{
+              borderBottom: "2px solid #e5e7eb",
+              mb: 2,
+              "& .MuiTab-root": {
+                textTransform: "none",
+                fontWeight: 700,
+                fontSize: "0.95rem",
+              },
+            }}
+          >
+            {statusTabs.map((status) => (
+              <Tab key={status} label={status.replace(/_/g, " ")} />
+            ))}
+          </Tabs>
 
           <TableContainer>
             <Table size="small">
