@@ -105,7 +105,7 @@ class LeaveRequestController extends Controller
         $approvedList = $approved->map($mapLeaveRequest);
         $rejectedList = $rejected->map($mapLeaveRequest);
 
-        $leavePolicies = LeavePolicy::orderBy('name')->get();
+        $leavePolicies = LeavePolicy::where('leave_policy_id', '!=', 4)->orderBy('name')->get();
 
         $employeeBalances = Employee::with([
                 'job.department',
