@@ -227,24 +227,46 @@ export default function HRMS({ auth = {} }) {
   }, [allowedModuleSets]);
 
   const modules = useMemo(() => {
+    let list = [];
     if (!suiteType) {
-      return userModules;
+      list = userModules;
+    } else if (suiteType === "procurement") {
+      list = allowedModuleSets.PROCUREMENT || [];
+    } else {
+      const suiteKey = Object.keys(MODULE_SETS).find((key) =>
+        key.toLowerCase().replace(/\s+/g, "-") === suiteType ||
+        suiteType === key.toLowerCase().replace(/\s+/g, "-")
+      );
+
+      if (!suiteKey) {
+        list = userModules;
+      } else {
+        list = allowedModuleSets[suiteKey] || [];
+      }
     }
 
-    if (suiteType === "procurement") {
-      return allowedModuleSets.PROCUREMENT || [];
-    }
+    const requestedOrder = [
+      "employee data",
+      "leave management",
+      "vehicle request management",
+      "customer handling",
+      "event & meeting managment",
+      "event & meeting management",
+      "inventory management",
+      "training",
+      "payroll",
+      "users, roles & permissions"
+    ];
 
-    const suiteKey = Object.keys(MODULE_SETS).find((key) =>
-      key.toLowerCase().replace(/\s+/g, "-") === suiteType ||
-      suiteType === key.toLowerCase().replace(/\s+/g, "-")
-    );
-
-    if (!suiteKey) {
-      return userModules;
-    }
-
-    return allowedModuleSets[suiteKey] || [];
+    return [...list].sort((a, b) => {
+      const titleA = String(a.title).toLowerCase().trim();
+      const titleB = String(b.title).toLowerCase().trim();
+      const indexA = requestedOrder.indexOf(titleA);
+      const indexB = requestedOrder.indexOf(titleB);
+      const valA = indexA === -1 ? 999 : indexA;
+      const valB = indexB === -1 ? 999 : indexB;
+      return valA - valB;
+    });
   }, [userModules, allowedModuleSets, suiteType]);
 
   return (

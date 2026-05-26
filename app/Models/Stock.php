@@ -29,8 +29,10 @@ class Stock extends Model
 
         $prefix = 'STK-' . $initials . '-';
         
+        $num = 1;
         do {
-            $code = $prefix . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 5));
+            $code = $prefix . str_pad($num, 3, '0', STR_PAD_LEFT);
+            $num++;
         } while (self::where('sku', $code)->exists());
 
         return $code;

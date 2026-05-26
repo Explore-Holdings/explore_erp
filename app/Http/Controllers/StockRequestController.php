@@ -146,6 +146,14 @@ class StockRequestController extends Controller
     {
         $user = auth()->user();
         if (!$user->employee_id) {
+            $employee = Employee::where('user_id', $user->id)->first();
+            if ($employee) {
+                $user->employee_id = $employee->employee_id;
+                $user->save();
+            }
+        }
+
+        if (!$user->employee_id) {
             return redirect()->route('stock-requests.index')->with('error', 'Employee ID is required to request stock.');
         }
 
@@ -172,6 +180,14 @@ class StockRequestController extends Controller
         }
 
         $user = auth()->user();
+        if (!$user->employee_id) {
+            $employee = Employee::where('user_id', $user->id)->first();
+            if ($employee) {
+                $user->employee_id = $employee->employee_id;
+                $user->save();
+            }
+        }
+
         if (!$user->employee_id) {
             return back()->withErrors(['quantity' => 'Employee ID is required to request stock.'])->withInput();
         }
