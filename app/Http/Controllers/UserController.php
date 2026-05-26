@@ -14,6 +14,7 @@ class UserController extends Controller
         $users = User::with('roles')
             ->orderBy('created_at', 'desc')
             ->paginate(100);
+
  
         $roles = Role::orderBy('name')->get();
  
