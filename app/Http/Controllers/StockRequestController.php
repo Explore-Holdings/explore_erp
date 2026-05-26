@@ -62,58 +62,70 @@ class StockRequestController extends Controller
         } elseif ($isHod) {
             // HOD sees requests from their department AND direct reports
             $requests = $query->where(function ($q) use ($user) {
-                $q->where('department_id', $user->department_id)
-                  ->orWhereHas('user.employee.job', function ($subQ) use ($user) {
-                      $subQ->where('reporting_manager_id', $user->employee_id);
-                  });
+                $q->whereHas('employee.job', function ($subQ) use ($user) {
+                    $subQ->where('department_id', $user->department_id);
+                })
+                ->orWhereHas('employee.job', function ($subQ) use ($user) {
+                    $subQ->where('reporting_manager_id', $user->employee_id);
+                });
             })
                               ->latest()
                               ->paginate(10)
                               ->withQueryString();
             $stats = [
                 'total_requests' => StockRequest::where(function ($q) use ($user) {
-                    $q->where('department_id', $user->department_id)
-                      ->orWhereHas('user.employee.job', function ($subQ) use ($user) {
-                          $subQ->where('reporting_manager_id', $user->employee_id);
-                      });
+                    $q->whereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('department_id', $user->department_id);
+                    })
+                    ->orWhereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('reporting_manager_id', $user->employee_id);
+                    });
                 })->count(),
                 'pending_hod' => StockRequest::where(function ($q) use ($user) {
-                    $q->where('department_id', $user->department_id)
-                      ->orWhereHas('user.employee.job', function ($subQ) use ($user) {
-                          $subQ->where('reporting_manager_id', $user->employee_id);
-                      });
+                    $q->whereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('department_id', $user->department_id);
+                    })
+                    ->orWhereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('reporting_manager_id', $user->employee_id);
+                    });
                 })->where('status', 'pending_hod')->count(),
                 'pending_manager' => StockRequest::where(function ($q) use ($user) {
-                    $q->where('department_id', $user->department_id)
-                      ->orWhereHas('user.employee.job', function ($subQ) use ($user) {
-                          $subQ->where('reporting_manager_id', $user->employee_id);
-                      });
+                    $q->whereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('department_id', $user->department_id);
+                    })
+                    ->orWhereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('reporting_manager_id', $user->employee_id);
+                    });
                 })->where('status', 'pending_manager')->count(),
                 'approved' => StockRequest::where(function ($q) use ($user) {
-                    $q->where('department_id', $user->department_id)
-                      ->orWhereHas('user.employee.job', function ($subQ) use ($user) {
-                          $subQ->where('reporting_manager_id', $user->employee_id);
-                      });
+                    $q->whereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('department_id', $user->department_id);
+                    })
+                    ->orWhereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('reporting_manager_id', $user->employee_id);
+                    });
                 })->where('status', 'approved')->count(),
                 'rejected' => StockRequest::where(function ($q) use ($user) {
-                    $q->where('department_id', $user->department_id)
-                      ->orWhereHas('user.employee.job', function ($subQ) use ($user) {
-                          $subQ->where('reporting_manager_id', $user->employee_id);
-                      });
+                    $q->whereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('department_id', $user->department_id);
+                    })
+                    ->orWhereHas('employee.job', function ($subQ) use ($user) {
+                        $subQ->where('reporting_manager_id', $user->employee_id);
+                    });
                 })->where('status', 'rejected')->count(),
             ];
         } else {
             // Department User sees only their own requests
-            $requests = $query->where('user_id', $user->id)
+            $requests = $query->where('employee_id', $user->employee_id)
                               ->latest()
                               ->paginate(10)
                               ->withQueryString();
             $stats = [
-                'total_requests' => StockRequest::where('user_id', $user->id)->count(),
-                'pending_hod' => StockRequest::where('user_id', $user->id)->where('status', 'pending_hod')->count(),
-                'pending_manager' => StockRequest::where('user_id', $user->id)->where('status', 'pending_manager')->count(),
-                'approved' => StockRequest::where('user_id', $user->id)->where('status', 'approved')->count(),
-                'rejected' => StockRequest::where('user_id', $user->id)->where('status', 'rejected')->count(),
+                'total_requests' => StockRequest::where('employee_id', $user->employee_id)->count(),
+                'pending_hod' => StockRequest::where('employee_id', $user->employee_id)->where('status', 'pending_hod')->count(),
+                'pending_manager' => StockRequest::where('employee_id', $user->employee_id)->where('status', 'pending_manager')->count(),
+                'approved' => StockRequest::where('employee_id', $user->employee_id)->where('status', 'approved')->count(),
+                'rejected' => StockRequest::where('employee_id', $user->employee_id)->where('status', 'rejected')->count(),
             ];
         }
 
@@ -132,6 +144,11 @@ class StockRequestController extends Controller
 
     public function create(Request $request)
     {
+        $user = auth()->user();
+        if (!$user->employee_id) {
+            return redirect()->route('stock-requests.index')->with('error', 'Employee ID is required to request stock.');
+        }
+
         $selectedStockId = $request->get('stock_id');
         $stocks = Stock::where('quantity', '>', 0)->get();
         
@@ -155,6 +172,10 @@ class StockRequestController extends Controller
         }
 
         $user = auth()->user();
+        if (!$user->employee_id) {
+            return back()->withErrors(['quantity' => 'Employee ID is required to request stock.'])->withInput();
+        }
+
         $roleName = is_string($user->role) ? $user->role : ($user->role->name ?? '');
         if (!$roleName && $user->roles()->exists()) {
             $roleName = $user->roles->first()->name ?? '';
@@ -171,15 +192,8 @@ class StockRequestController extends Controller
             $successMsg = 'Stock request submitted. Waiting for HOD approval.';
         }
 
-        $departmentId = $user->department_id;
-        if (!$departmentId && $user->employee && $user->employee->job) {
-            $departmentId = $user->employee->job->department_id;
-        }
-
         StockRequest::create([
-            'user_id' => $user->id,
             'employee_id' => $user->employee_id,
-            'department_id' => $departmentId,
             'stock_id' => $stock->id,
             'quantity' => $validated['quantity'],
             'status' => $status,
@@ -202,7 +216,7 @@ class StockRequestController extends Controller
         }
 
         $isAssignedHod = $this->isEmployeeAssignedHod($user, $stock_request);
-        $isDeptHod = $this->userIsHod($user, strtolower($roleName)) && $stock_request->department_id === $user->department_id;
+        $isDeptHod = $this->userIsHod($user, strtolower($roleName)) && ($stock_request->employee?->job?->department_id === $user->department_id);
 
         if (!$isAssignedHod && !$isDeptHod && !in_array(strtolower($roleName), ['admin', 'administrator'])) {
             abort(403, 'Unauthorized action.');
@@ -233,7 +247,7 @@ class StockRequestController extends Controller
         }
 
         $isAssignedHod = $this->isEmployeeAssignedHod($user, $stock_request);
-        $isDeptHod = $this->userIsHod($user, strtolower($roleName)) && $stock_request->department_id === $user->department_id;
+        $isDeptHod = $this->userIsHod($user, strtolower($roleName)) && ($stock_request->employee?->job?->department_id === $user->department_id);
 
         if (!$isAssignedHod && !$isDeptHod && !in_array(strtolower($roleName), ['admin', 'administrator'])) {
             abort(403, 'Unauthorized action.');
@@ -314,7 +328,7 @@ class StockRequestController extends Controller
 
     private function isEmployeeAssignedHod(User $hodUser, StockRequest $stockRequest): bool
     {
-        $employee = $stockRequest->user->employee;
+        $employee = $stockRequest->employee;
         if (!$employee || !$employee->job) {
             return false;
         }
@@ -325,7 +339,7 @@ class StockRequestController extends Controller
     private function canManageHodRequest(User $user, StockRequest $stockRequest, string $roleLower): bool
     {
         $isAssignedHod = $this->isEmployeeAssignedHod($user, $stockRequest);
-        $isDeptHod = $this->userIsHod($user, $roleLower) && $stockRequest->department_id === $user->department_id;
+        $isDeptHod = $this->userIsHod($user, $roleLower) && ($stockRequest->employee?->job?->department_id === $user->department_id);
 
         return $isAssignedHod || $isDeptHod || in_array($roleLower, ['admin', 'administrator']);
     }
@@ -378,7 +392,7 @@ class StockRequestController extends Controller
         }
 
         $canDelete = $this->canManageHodRequest($user, $stockRequest, strtolower($roleName));
-        if (!$canDelete && $stockRequest->user_id !== $user->id && !in_array(strtolower($roleName), ['admin', 'administrator'])) {
+        if (!$canDelete && $stockRequest->employee_id !== $user->employee_id && !in_array(strtolower($roleName), ['admin', 'administrator'])) {
             abort(403, 'Unauthorized action.');
         }
 

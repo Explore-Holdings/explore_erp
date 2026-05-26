@@ -56,40 +56,55 @@ class ReportController extends Controller
         } elseif ($type === 'low-stock') {
             $data = Stock::where('quantity', '<', 10)->paginate(20)->withQueryString();
         } elseif ($type === 'department') {
-            $query = StockRequest::with(['department', 'stock'])
-                                ->selectRaw('department_id, stock_id, count(*) as total_requests, sum(quantity) as total_items');
-            if ($startDate) $query->whereDate('created_at', '>=', $startDate);
-            if ($endDate) $query->whereDate('created_at', '<=', $endDate);
-            if ($departmentId) $query->where('department_id', $departmentId);
-            $data = $query->groupBy('department_id', 'stock_id')->get();
+            $query = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                                ->with(['department', 'stock'])
+                                ->selectRaw('employee_job.department_id, stock_requests.stock_id, count(stock_requests.id) as total_requests, sum(stock_requests.quantity) as total_items');
+            if ($startDate) $query->whereDate('stock_requests.created_at', '>=', $startDate);
+            if ($endDate) $query->whereDate('stock_requests.created_at', '<=', $endDate);
+            if ($departmentId) $query->where('employee_job.department_id', $departmentId);
+            $data = $query->groupBy('employee_job.department_id', 'stock_requests.stock_id')->get();
         } elseif ($type === 'request-status') {
-            $query = StockRequest::with(['user', 'department', 'stock', 'processor'])
-                                ->whereIn('status', ['approved', 'rejected']);
-            if ($startDate) $query->whereDate('updated_at', '>=', $startDate);
-            if ($endDate) $query->whereDate('updated_at', '<=', $endDate);
-            if ($departmentId) $query->where('department_id', $departmentId);
-            $data = $query->latest('updated_at')->paginate(20)->withQueryString();
+            $query = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                                ->select('stock_requests.*')
+                                ->with(['user', 'department', 'stock', 'processor'])
+                                ->whereIn('stock_requests.status', ['approved', 'rejected']);
+            if ($startDate) $query->whereDate('stock_requests.updated_at', '>=', $startDate);
+            if ($endDate) $query->whereDate('stock_requests.updated_at', '<=', $endDate);
+            if ($departmentId) $query->where('employee_job.department_id', $departmentId);
+            $data = $query->latest('stock_requests.updated_at')->paginate(20)->withQueryString();
         } elseif ($type === 'summary') {
-            $query = StockRequest::selectRaw('DATE(created_at) as date, count(*) as total_requests, sum(quantity) as total_quantity, sum(case when status = "approved" then quantity else 0 end) as approved_qty')
+            $query = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                ->selectRaw('DATE(stock_requests.created_at) as date, count(stock_requests.id) as total_requests, sum(stock_requests.quantity) as total_quantity, sum(case when stock_requests.status = "approved" then stock_requests.quantity else 0 end) as approved_qty')
                 ->groupBy('date')
                 ->orderBy('date', 'desc');
-            if ($startDate) $query->whereDate('created_at', '>=', $startDate);
-            if ($endDate) $query->whereDate('created_at', '<=', $endDate);
-            if ($departmentId) $query->where('department_id', $departmentId);
+            if ($startDate) $query->whereDate('stock_requests.created_at', '>=', $startDate);
+            if ($endDate) $query->whereDate('stock_requests.created_at', '<=', $endDate);
+            if ($departmentId) $query->where('employee_job.department_id', $departmentId);
             $data = $query->get();
         } elseif ($type === 'movements') {
-            $query = StockRequest::with(['stock', 'department', 'user'])
-                ->where('status', 'approved');
-            if ($startDate) $query->whereDate('updated_at', '>=', $startDate);
-            if ($endDate) $query->whereDate('updated_at', '<=', $endDate);
-            if ($departmentId) $query->where('department_id', $departmentId);
-            $data = $query->latest('updated_at')->paginate(20)->withQueryString();
+            $query = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                ->select('stock_requests.*')
+                ->with(['stock', 'department', 'user'])
+                ->where('stock_requests.status', 'approved');
+            if ($startDate) $query->whereDate('stock_requests.updated_at', '>=', $startDate);
+            if ($endDate) $query->whereDate('stock_requests.updated_at', '<=', $endDate);
+            if ($departmentId) $query->where('employee_job.department_id', $departmentId);
+            $data = $query->latest('stock_requests.updated_at')->paginate(20)->withQueryString();
         } else {
             // system-overview
             if ($isHod) {
-                $pendingRequests = StockRequest::where('department_id', $departmentId)->whereIn('status', ['pending_hod', 'pending_manager'])->count();
-                $approvedRequests = StockRequest::where('department_id', $departmentId)->where('status', 'approved')->count();
-                $rejectedRequests = StockRequest::where('department_id', $departmentId)->where('status', 'rejected')->count();
+                $pendingRequests = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                    ->where('employee_job.department_id', $departmentId)
+                    ->whereIn('stock_requests.status', ['pending_hod', 'pending_manager'])
+                    ->count();
+                $approvedRequests = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                    ->where('employee_job.department_id', $departmentId)
+                    ->where('stock_requests.status', 'approved')
+                    ->count();
+                $rejectedRequests = StockRequest::join('employee_job', 'stock_requests.employee_id', '=', 'employee_job.employee_id')
+                    ->where('employee_job.department_id', $departmentId)
+                    ->where('stock_requests.status', 'rejected')
+                    ->count();
             } else {
                 $pendingRequests = StockRequest::whereIn('status', ['pending_hod', 'pending_manager'])->count();
                 $approvedRequests = StockRequest::where('status', 'approved')->count();
