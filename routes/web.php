@@ -59,6 +59,10 @@ Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.ind
 Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
 
 Route::get('/leave-dashboard', [LeaveRequestController::class, 'dashboard'])->name('leave-dashboard');
+Route::get('/leave/on-leave-today', [LeaveRequestController::class, 'onLeaveToday'])->name('leave.on-leave-today');
+Route::get('/leave/pending', [LeaveRequestController::class, 'pendingLeave'])->name('leave.pending');
+Route::get('/leave/approved', [LeaveRequestController::class, 'approvedLeave'])->name('leave.approved');
+Route::get('/leave/rejected', [LeaveRequestController::class, 'rejectedLeave'])->name('leave.rejected');
 
 Route::get('/vehicle-request-dashboard', [VehicleRequestController::class, 'dashboard'])->name('vehicle-request-dashboard');
 
