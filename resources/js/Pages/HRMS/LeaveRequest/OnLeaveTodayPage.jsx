@@ -163,9 +163,6 @@ function LeaveRequestTable({ rows }) {
                 Employee Name
               </TableCell>
               <TableCell sx={{ fontWeight: 800, backgroundColor: "#f9fafb" }}>
-                Employee ID
-              </TableCell>
-              <TableCell sx={{ fontWeight: 800, backgroundColor: "#f9fafb" }}>
                 Department
               </TableCell>
               <TableCell sx={{ fontWeight: 800, backgroundColor: "#f9fafb" }}>
@@ -194,7 +191,6 @@ function LeaveRequestTable({ rows }) {
               paginatedRows.map((row) => (
                 <TableRow key={row.leave_request_id} hover>
                   <TableCell sx={{ fontWeight: 600 }}>{row.name || "-"}</TableCell>
-                  <TableCell>{row.employee_id || "-"}</TableCell>
                   <TableCell>{row.department || "-"}</TableCell>
                   <TableCell>{row.type || "-"}</TableCell>
                   <TableCell>{row.dateRange || "-"}</TableCell>
