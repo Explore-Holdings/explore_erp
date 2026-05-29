@@ -155,4 +155,128 @@ class LeaveRequestController extends Controller
             ],
         ]);
     }
+
+    private function getMapLeaveRequestFunction()
+    {
+        return function ($lr) {
+            return [
+                'leave_request_id' => $lr->leave_request_id,
+                'name' => trim($lr->employee->preferred_name ?? ''),
+                'employee_id' => $lr->employee_id,
+                'type' => $lr->policy?->name ?? '-',
+                'department' => $lr->employee?->job?->department?->name ?? '-',
+                'days' => $lr->half_day_session ? '0.5 Day' : rtrim(rtrim((string) $lr->number_of_days, '0'), '.') . ' Day(s)',
+                'number_of_days' => $lr->number_of_days,
+                'reason' => (string) ($lr->reason ?? '-'),
+                'start' => optional($lr->leave_start_date)->toDateString(),
+                'end' => optional($lr->leave_end_date)->toDateString(),
+                'status' => $lr->status,
+                'half_day_session' => $lr->half_day_session,
+                'manager_comment' => $lr->manager_comment,
+                'reliever_comment' => $lr->reliever_comment,
+                'address' => $lr->address,
+                'is_special_request' => (bool) $lr->is_special_request,
+                'requested_at' => optional($lr->requested_at)->toDateTimeString(),
+                'updated_at' => optional($lr->updated_at)->toDateTimeString(),
+                'oversee_member' => [
+                    'id' => $lr->overseeMember?->employee_id,
+                    'name' => trim($lr->overseeMember?->preferred_name ?? ''),
+                ],
+                'documents' => $lr->documents->map(function ($doc) {
+                    return [
+                        'leave_request_document_id' => $doc->leave_request_document_id,
+                        'file_name' => $doc->file_name,
+                        'file_path' => $doc->file_path,
+                        'mime_type' => $doc->mime_type,
+                        'file_size_bytes' => $doc->file_size_bytes,
+                        'uploaded_at' => optional($doc->uploaded_at)->toDateTimeString(),
+                        'url' => url('mobile-api/' . ltrim($doc->file_path, '/')),
+                    ];
+                })->values(),
+            ];
+        };
+    }
+
+    public function onLeaveToday()
+    {
+        $today = Carbon::today()->toDateString();
+
+        $onLeave = LeaveRequest::with([
+                'employee.job.department',
+                'policy',
+                'overseeMember',
+                'documents'
+            ])
+            ->where('status', 'Approved')
+            ->whereDate('leave_start_date', '<=', $today)
+            ->whereDate('leave_end_date', '>=', $today)
+            ->get();
+
+        $mapLeaveRequest = $this->getMapLeaveRequestFunction();
+        $employeesOnLeave = $onLeave->map($mapLeaveRequest);
+
+        return Inertia::render('HRMS/LeaveRequest/OnLeaveTodayPage', [
+            'employeesOnLeave' => $employeesOnLeave,
+        ]);
+    }
+
+    public function pendingLeave()
+    {
+        $pending = LeaveRequest::with([
+                'employee.job.department',
+                'policy',
+                'overseeMember',
+                'documents'
+            ])
+            ->where('status', 'Pending')
+            ->orderByDesc('requested_at')
+            ->get();
+
+        $mapLeaveRequest = $this->getMapLeaveRequestFunction();
+        $pendingList = $pending->map($mapLeaveRequest);
+
+        return Inertia::render('HRMS/LeaveRequest/PendingLeaveRequestsPage', [
+            'pendingRequests' => $pendingList,
+        ]);
+    }
+
+    public function approvedLeave()
+    {
+        $approved = LeaveRequest::with([
+                'employee.job.department',
+                'policy',
+                'overseeMember',
+                'documents'
+            ])
+            ->where('status', 'Approved')
+            ->orderByDesc('requested_at')
+            ->get();
+
+        $mapLeaveRequest = $this->getMapLeaveRequestFunction();
+        $approvedList = $approved->map($mapLeaveRequest);
+
+        return Inertia::render('HRMS/LeaveRequest/ApprovedLeaveRequestsPage', [
+            'approvedRequests' => $approvedList,
+        ]);
+    }
+
+    public function rejectedLeave()
+    {
+        $rejected = LeaveRequest::with([
+                'employee.job.department',
+                'policy',
+                'overseeMember',
+                'documents'
+            ])
+            ->where('status', 'Rejected')
+            ->orderByDesc('requested_at')
+            ->get();
+
+        $mapLeaveRequest = $this->getMapLeaveRequestFunction();
+        $rejectedList = $rejected->map($mapLeaveRequest);
+
+        return Inertia::render('HRMS/LeaveRequest/RejectedLeaveRequestsPage', [
+            'rejectedRequests' => $rejectedList,
+        ]);
+    }
 }
