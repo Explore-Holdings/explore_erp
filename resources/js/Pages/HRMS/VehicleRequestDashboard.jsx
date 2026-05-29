@@ -7,6 +7,8 @@ import HourglassEmptyOutlinedIcon from "@mui/icons-material/HourglassEmptyOutlin
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
 import PlayCircleOutlineOutlinedIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 import {
   Box,
@@ -36,7 +38,12 @@ import {
   TextField,
   Tabs,
   Tab,
+  List,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
+
+const SIDEBAR_WIDTH = 240;
 
 const formatDate = (d) =>
   d
@@ -339,7 +346,7 @@ export default function VehicleRequestDashboard({
   const [q, setQ] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
-  const statusTabs = ["ALL", "ASSIGNED", "START_TRIP", "IN_PROGRESS", "COMPLETED", "PENDING", "APPROVED", "REJECTED"];
+  const statusTabs = ["ALL", "OUT_TODAY", "ASSIGNED", "START_TRIP", "IN_PROGRESS", "COMPLETED", "PENDING", "APPROVED", "REJECTED", "INCOMPLETE_TRIP"];
 
   const requestTypes = useMemo(() => {
     const types = new Set();
@@ -348,6 +355,29 @@ export default function VehicleRequestDashboard({
     });
     return [...types].sort();
   }, [allRequests]);
+
+  const incompleteTrips = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return allRequests.filter((r) => {
+      if (String(r.status || "").toLowerCase() !== "in_progress") return false;
+      if (!r.end_date) return false;
+      const endDate = new Date(r.end_date);
+      endDate.setHours(0, 0, 0, 0);
+      return endDate < today;
+    });
+  }, [allRequests]);
+
+  const activeInProgressCount = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return inProgressRequests.filter((r) => {
+      if (!r.end_date) return true;
+      const endDate = new Date(r.end_date);
+      endDate.setHours(0, 0, 0, 0);
+      return endDate >= today;
+    }).length;
+  }, [inProgressRequests]);
 
   const onOdometerView = (item) => {
     setOdoData(item.trip_details || null);
@@ -365,10 +395,37 @@ export default function VehicleRequestDashboard({
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     const statusFilter = statusTabs[tabValue];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
     return allRequests
       .filter((r) => {
         if (statusFilter === "ALL") return true;
+        if (statusFilter === "OUT_TODAY") {
+          if (!r.start_date) return false;
+          const startDate = new Date(r.start_date);
+          startDate.setHours(0, 0, 0, 0);
+          return startDate.getTime() === today.getTime();
+        }
+        if (statusFilter === "IN_PROGRESS") {
+          if (String(r.status || "").toLowerCase() !== "in_progress") return false;
+          // Exclude in_progress requests whose end_date has passed
+          if (r.end_date) {
+            const endDate = new Date(r.end_date);
+            endDate.setHours(0, 0, 0, 0);
+            if (endDate < today) return false;
+          }
+          return true;
+        }
+        if (statusFilter === "INCOMPLETE_TRIP") {
+          if (String(r.status || "").toLowerCase() !== "in_progress") return false;
+          if (!r.end_date) return false;
+          const endDate = new Date(r.end_date);
+          endDate.setHours(0, 0, 0, 0);
+          return endDate < today;
+        }
         return String(r.status || "").toUpperCase() === statusFilter;
       })
       .filter((r) => {
@@ -403,53 +460,149 @@ export default function VehicleRequestDashboard({
     <AuthenticatedLayout user={auth.user}>
       <Head title="Vehicle Request Dashboard" />
 
-      <Box sx={{ minHeight: "100vh", bgcolor: "#f8fafc", p: { xs: 2, sm: 3, lg: 4 } }}>
-        {/* HEADER */}
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          justifyContent="space-between"
-          alignItems={{ xs: "stretch", md: "center" }}
-          spacing={2}
-          sx={{ mb: 3 }}
+      <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#f5f7fa" }}>
+        {/* SIDEBAR */}
+        <Box
+          sx={{
+            width: SIDEBAR_WIDTH,
+            backgroundColor: "#ffffff",
+            borderRight: "1px solid #e5e7eb",
+            p: 2,
+            overflowY: "auto",
+            maxHeight: "100vh",
+          }}
         >
-          <Box>
-            <Typography variant="h5" fontWeight={900} sx={{ color: "#111827" }}>
-              Vehicle Request Dashboard
-            </Typography>
-          </Box>
+          <Typography fontWeight={900} sx={{ mb: 2 }}>
+            Vehicle Requests
+          </Typography>
 
-          <Stack direction="row" spacing={2} sx={{ width: { xs: "100%", md: 100 } }}>
-            <Button
-              variant="contained"
-              color="success"
+          <Divider sx={{ mb: 2 }} />
+
+          <List disablePadding>
+            <ListItemButton
               onClick={() => router.get("/suite-services")}
-              sx={{ textTransform: "none", fontWeight: 800 }}
+              sx={{ borderRadius: 2, mb: 0.5 }}
             >
-              Back
-            </Button>
-          </Stack>
-        </Stack>
+              <HomeOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
+              <ListItemText primary="HRMS Home" primaryTypographyProps={{ fontWeight: 600 }} />
+            </ListItemButton>
+
+            <Divider sx={{ my: 1.5 }} />
+
+            <Typography sx={{ fontSize: "0.75rem", color: "#6b7280", fontWeight: 700, px: 1.5, mb: 1 }}>
+              TRIP TYPES
+            </Typography>
+
+            <ListItemButton
+              selected={typeFilter === ""}
+              onClick={() => setTypeFilter("")}
+              sx={{ borderRadius: 2, mb: 0.5, pl: 3 }}
+            >
+              <ListItemText primary="All Trip Types" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
+            </ListItemButton>
+
+            {requestTypes.map((type) => (
+              <ListItemButton
+                key={type}
+                selected={typeFilter === type}
+                onClick={() => setTypeFilter(type)}
+                sx={{ borderRadius: 2, mb: 0.5, pl: 3 }}
+              >
+                <ListItemText
+                  primary={type.charAt(0).toUpperCase() + type.slice(1)}
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }}
+                />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+
+        {/* MAIN CONTENT */}
+        <Box sx={{ flex: 1, p: { xs: 2, sm: 3, lg: 4 }, overflowY: "auto" }}>
+        {/* HEADER */}
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h5" fontWeight={900} sx={{ color: "#111827" }}>
+            Vehicle Request Dashboard
+          </Typography>
+        </Box>
 
         {/* STATS */}
         <Grid container spacing={2} sx={{ mb: 3 }}>
           <Grid item xs={12} sm={6} lg={3}>
-            <StatCard icon={CalendarTodayIcon} label="Out Today" value={vehiclesToBeOutToday.length} />
+            <Box
+              onClick={() => setTabValue(statusTabs.indexOf("OUT_TODAY"))}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              <StatCard icon={CalendarTodayIcon} label="Out Today" value={vehiclesToBeOutToday.length} />
+            </Box>
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
-            <StatCard icon={HourglassEmptyOutlinedIcon} label="Assigned" value={assignedRequests.length} />
+            <Box
+              onClick={() => setTabValue(statusTabs.indexOf("ASSIGNED"))}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              <StatCard icon={HourglassEmptyOutlinedIcon} label="Assigned" value={assignedRequests.length} />
+            </Box>
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
-            <StatCard icon={PlayCircleOutlineOutlinedIcon} label="Start Trip" value={startTripRequests.length} />
+            <Box
+              onClick={() => setTabValue(statusTabs.indexOf("START_TRIP"))}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              <StatCard icon={PlayCircleOutlineOutlinedIcon} label="Start Trip" value={startTripRequests.length} />
+            </Box>
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
-            <StatCard icon={DirectionsCarOutlinedIcon} label="In Progress" value={inProgressRequests.length} />
+            <Box
+              onClick={() => setTabValue(statusTabs.indexOf("IN_PROGRESS"))}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              <StatCard icon={DirectionsCarOutlinedIcon} label="In Progress" value={activeInProgressCount} />
+            </Box>
           </Grid>
-
-          {/* If you want Completed as a 5th card, add another Grid item.
-              Or replace one of the above cards with Completed. */}
-          {/* <Grid item xs={12} sm={6} lg={3}>
-            <StatCard icon={CheckCircleOutlinedIcon} label="Completed" value={completedRequests.length} />
-          </Grid> */}
+          <Grid item xs={12} sm={6} lg={3}>
+            <Box
+              onClick={() => setTabValue(statusTabs.indexOf("INCOMPLETE_TRIP"))}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              <StatCard icon={CheckCircleOutlinedIcon} label="Incomplete Trips" value={incompleteTrips.length} />
+            </Box>
+          </Grid>
         </Grid>
 
         {/* ALL REQUESTS TABLE */}
@@ -469,30 +622,13 @@ export default function VehicleRequestDashboard({
               <Chip size="small" label={`${filtered.length}`} sx={{ bgcolor: "#f1f5f9" }} />
             </Stack>
 
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
-              <Select
-                size="small"
-                value={typeFilter}
-                onChange={(e) => setTypeFilter(e.target.value)}
-                displayEmpty
-                sx={{ minWidth: 140 }}
-              >
-                <MenuItem value="">All Trip Types</MenuItem>
-                {requestTypes.map((type) => (
-                  <MenuItem key={type} value={type}>
-                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                  </MenuItem>
-                ))}
-              </Select>
-
-              <TextField
-                size="small"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Filter by vehicle / employee / trip code..."
-                sx={{ width: { xs: "100%", sm: 320 } }}
-              />
-            </Stack>
+            <TextField
+              size="small"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Filter by vehicle / employee / trip code..."
+              sx={{ width: { xs: "100%", sm: 320 } }}
+            />
           </Stack>
 
           <Tabs
@@ -542,7 +678,10 @@ export default function VehicleRequestDashboard({
                 ) : (
                   filtered.map((r) => {
                     const sKey = statusToKey(r.status);
-                    const s = statusStyles[sKey] || statusStyles.assigned;
+                    const isIncompleteTab = statusTabs[tabValue] === "INCOMPLETE_TRIP";
+                    const s = isIncompleteTab
+                      ? { label: "Incomplete", bg: "#fee2e2", color: "#991b1b" }
+                      : statusStyles[sKey] || statusStyles.assigned;
 
                     return (
                       <TableRow key={r.vehicle_request_id} hover>
@@ -628,6 +767,7 @@ export default function VehicleRequestDashboard({
           onClose={() => setOdoOpen(false)}
           data={odoData}
         />
+        </Box>
       </Box>
     </AuthenticatedLayout>
   );
