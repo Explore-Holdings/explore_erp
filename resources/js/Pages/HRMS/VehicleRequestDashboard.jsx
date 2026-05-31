@@ -555,6 +555,7 @@ export default function VehicleRequestDashboard({
                 transition: "all 0.3s ease",
               }}
             >
+              
               <StatCard icon={HourglassEmptyOutlinedIcon} label="Assigned" value={assignedRequests.length} />
             </Box>
           </Grid>
