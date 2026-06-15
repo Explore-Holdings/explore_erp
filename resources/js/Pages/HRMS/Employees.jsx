@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router, useForm } from "@inertiajs/react";
-
+import { Autocomplete, Tabs, Tab } from "@mui/material";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import {
   AppBar,
   Box,
@@ -24,10 +25,10 @@ import {
   Typography,
   useMediaQuery,
   Tooltip,
+  
 } from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
-
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
@@ -54,13 +55,39 @@ const navItems = [
 ];
 
 export default function Employees({ auth, employees, isAdmin  = [] }) {
+
+  const baseColumns = [
+    { field: "employee_code", headerName: "EMP Code", flex: 1, minWidth: 160 },
+
+    {
+      field: "name",
+      headerName: "Employee Name",
+      flex: 1.2,
+      minWidth: 220,
+      valueGetter: (value, row) => `${row?.preferred_name ?? ""}`.trim(),
+    },
+
+    { field: "department", headerName: "Department", flex: 1, minWidth: 160 },
+
+    { field: "employment_level", headerName: "Status", flex: 0.8, minWidth: 130 },
+  ];
+  
   const isMdUp = useMediaQuery("(min-width:900px)");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
-const userMenuOpen = Boolean(userMenuAnchor);
+  const userMenuOpen = Boolean(userMenuAnchor);
 
-const openUserMenu = (e) => setUserMenuAnchor(e.currentTarget);
-const closeUserMenu = () => setUserMenuAnchor(null);
+  const [openMakeAvailableConfirm, setOpenMakeAvailableConfirm] = useState(false);
+  const [availableTarget, setAvailableTarget] = useState(null);
+
+  const [tabValue, setTabValue] = useState(0);
+
+  const [openUnavailable, setOpenUnavailable] = useState(false);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [employeeDetails, setEmployeeDetails] = useState({});
+
+  const openUserMenu = (e) => setUserMenuAnchor(e.currentTarget);
+  const closeUserMenu = () => setUserMenuAnchor(null);
 
   // dialogs
   const [openForm, setOpenForm] = useState(false);
@@ -70,6 +97,18 @@ const closeUserMenu = () => setUserMenuAnchor(null);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
+  const availableEmployees = useMemo(() => {
+    return employees.filter(emp => emp.availability_status !== "unavailable");
+  }, [employees]);
+
+  const availableList = useMemo(() => {
+    return employees.filter(e => (e.availability_status ?? "available") !== "unavailable");
+  }, [employees]);
+
+  const unavailableList = useMemo(() => {
+    return employees.filter(e => e.availability_status === "unavailable");
+  }, [employees]);
+
   // Inertia form
   const { data, setData, post, put, processing, reset, errors } = useForm({
     id: null,
@@ -78,6 +117,32 @@ const closeUserMenu = () => setUserMenuAnchor(null);
     work_email: "",
     department: "",
   });
+
+  const handleEmployeeChange = (event, value) => {
+    setSelectedEmployees(value);
+
+    // Initialize fields for each employee
+    const updatedDetails = {};
+    value.forEach(emp => {
+      updatedDetails[emp.id] = employeeDetails[emp.id] || {
+        unavailable_from: "",
+        unavailable_to: "",
+        unavailable_reason: "",
+      };
+    });
+
+    setEmployeeDetails(updatedDetails);
+  };
+
+  const handleDetailChange = (id, field, value) => {
+    setEmployeeDetails(prev => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        [field]: value,
+      },
+    }));
+  };
 
   const toggleMobile = () => setMobileOpen((v) => !v);
 
@@ -94,12 +159,11 @@ const closeUserMenu = () => setUserMenuAnchor(null);
     });
   };
 
-      const goCreate = () => {
-      router.get("/hrms/employees/create");
-    };
+  const goCreate = () => {
+    router.get("/hrms/employees/create");
+  };
 
-const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
-
+  const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
 
   const saveForm = () => {
     if (!data.employee_code || !data.last_name) return;
@@ -128,6 +192,21 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
     setOpenDelete(true);
   };
 
+  const saveUnavailableBulk = () => {
+    const payload = selectedEmployees.map(emp => ({
+      employee_id: emp.id,
+      ...employeeDetails[emp.id],
+    }));
+
+    router.post("/hrms/employees/unavailable-bulk", { employees: payload }, {
+      onSuccess: () => {
+        setOpenUnavailable(false);
+        setSelectedEmployees([]);
+        setEmployeeDetails({});
+      }
+    });
+  };
+
   const confirmDelete = () => {
     if (!deleteTarget) return;
 
@@ -140,56 +219,99 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
     });
   };
 
-  const columns = useMemo(
-    () => [
-      { field: "employee_code", headerName: "EMP Code", flex: 1, minWidth: 160 },
-      {
-        field: "name",
-        headerName: "Employee Name",
-        flex: 1.2,
-        minWidth: 220,
-        valueGetter: (value, row) => `${row?.preferred_name ?? ""}`.trim(),
-        sortComparator: (v1, v2) => (v1 ?? "").localeCompare(v2 ?? ""),
-      },
-      { field: "department", headerName: "Department", flex: 1, minWidth: 160 },
-      { field: "employment_level", headerName: "Status", flex: 0.8, minWidth: 130 },
-      {
-        field: "actions",
-        headerName: "Actions",
-        sortable: false,
-        filterable: false,
-        minWidth: 300,
-        align: "center",
-        headerAlign: "center",
-        cellClassName: "actions-cell",   
-        renderCell: (params) => (
+  const columns = useMemo(() => {
+    const isUnavailableTab = tabValue === 1;
+
+    const actionColumn = {
+      field: "actions",
+      headerName: "Actions",
+      sortable: false,
+      filterable: false,
+      minWidth: 280,
+      align: "center",
+      headerAlign: "center",
+
+      renderCell: (params) => {
+        const isUnavailable = params.row.availability_status === "unavailable";
+
+        return (
           <Stack direction="row" spacing={0.5} alignItems="center">
             <Tooltip title="View">
-              <IconButton size="small" onClick={() => router.get(`/hrms/employees/${params.row.id}`)} sx={{ color: "#0c7a2b" }}>
-                <VisibilityOutlinedIcon fontSize="medium" />
-              </IconButton> 
-            </Tooltip>
-
-            <Tooltip title="Edit">
-              <IconButton size="small" onClick={() => openEdit(params.row)} sx={{ color: "#074e96" }}>
-                <EditOutlinedIcon fontSize="medium" />
+              <IconButton
+                size="small"
+                onClick={() => router.get(`/hrms/employees/${params.row.id}`)}
+                sx={{ color: "#0c7a2b" }}
+              >
+                <VisibilityOutlinedIcon />
               </IconButton>
             </Tooltip>
 
-            {isAdmin && (
-              <Tooltip title="Delete">
-                <IconButton size="small" onClick={() => askDelete(params.row)} sx={{ color: "#8a0606" }} >
-                  <DeleteOutlineOutlinedIcon fontSize="medium" />
+            {/* ❌ Hide edit in unavailable tab */}
+            {!isUnavailableTab && !isUnavailable && (
+              <Tooltip title="Edit">
+                <IconButton
+                  size="small"
+                  onClick={() => openEdit(params.row)}
+                  sx={{ color: "#074e96" }}
+                >
+                  <EditOutlinedIcon />
                 </IconButton>
               </Tooltip>
             )}
 
+            {/* ✅ Mark Available only in unavailable tab */}
+            {isUnavailable && isUnavailableTab && (
+              <Tooltip title="Mark as Available">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setAvailableTarget(params.row);
+                    setOpenMakeAvailableConfirm(true);
+                  }}
+                  sx={{ color: "#0c7a2b" }}
+                >
+                  <CheckCircleOutlineIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+
+            {isAdmin && (
+              <Tooltip title="Delete">
+                <IconButton
+                  size="small"
+                  onClick={() => askDelete(params.row)}
+                  sx={{ color: "#8a0606" }}
+                >
+                  <DeleteOutlineOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </Stack>
-        ),
+        );
       },
-    ],
-    []
-  );
+    };
+
+    // ✅ final columns list
+    const cols = [...baseColumns];
+
+    if (isUnavailableTab) {
+      cols.push({
+        field: "unavailable_reason",
+        headerName: "Unavailable Reason",
+        flex: 1.5,
+        minWidth: 220,
+        renderCell: (params) => (
+          <Typography sx={{ color: "#555", fontSize: 13 }}>
+            {params.row.unavailable_reason || "-"}
+          </Typography>
+        ),
+      });
+    }
+
+    cols.push(actionColumn);
+
+    return cols;
+  }, [tabValue, isAdmin]);
 
   const Sidebar = (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -288,6 +410,11 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
     </Box>
   );
 
+  columns.filter(col => {
+    if (tabValue === 1) return true; // unavailable tab
+    return col.field !== "unavailable_reason";
+  })
+
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Employees" />
@@ -322,6 +449,15 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
               sx={{ backgroundColor: "#0B1C2D", "&:hover": { backgroundColor: "#0F2A44" } }}
             >
               Create
+            </Button>
+
+            <Button
+              variant="contained"
+              startIcon={<AddOutlinedIcon />}
+              onClick={() => setOpenUnavailable(true)}
+              sx={{ backgroundColor: "#033f7b", "&:hover": { backgroundColor: "#063868" }, ml: 2 }}
+            >
+              Mark Employees Unavailable
             </Button>
           </Toolbar>
         </AppBar>
@@ -371,8 +507,18 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
               }}
             >
               <Box sx={{ height: "calc(100vh - 170px)", backgroundColor: "white" }}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider", px: 2, pt: 1 }}>
+                  <Tabs
+                    value={tabValue}
+                    onChange={(e, newValue) => setTabValue(newValue)}
+                  >
+                    <Tab label={`Available Employees (${availableList.length})`} />
+                    <Tab label={`Unavailable Employees (${unavailableList.length})`} />
+                  </Tabs>
+                </Box>
+
                 <DataGrid
-                  rows={employees}
+                  rows={tabValue === 0 ? availableList : unavailableList}
                   columns={columns}
                   disableRowSelectionOnClick
                   checkboxSelection
@@ -403,91 +549,94 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
                     }}
                   />
               </Box>
+
+              <Dialog
+                open={openUnavailable}
+                onClose={() => setOpenUnavailable(false)}
+                fullWidth
+                maxWidth="lg"
+                PaperProps={{
+                  sx: { minHeight: "70vh" }
+                }}
+              >
+                <DialogTitle>Mark Employees as Unavailable</DialogTitle>
+
+                <DialogContent>
+                  <Box sx={{ mt: 2 }}>
+                    <Autocomplete
+                      multiple
+                      options={availableEmployees}
+                      getOptionLabel={(option) => option.preferred_name || ""}
+                      value={selectedEmployees}
+                      onChange={handleEmployeeChange}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Select Employees" />
+                      )}
+                    />
+
+                    {/* ✅ 2 by 2 layout */}
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                        gap: 2,
+                        mt: 3,
+                      }}
+                    >
+                      {selectedEmployees.map((emp) => (
+                        <Box
+                          key={emp.id}
+                          sx={{
+                            border: "1px solid #ddd",
+                            p: 2,
+                            borderRadius: 2,
+                            backgroundColor: "#fafafa",
+                          }}
+                        >
+                          {/* Employee Name */}
+                          <Typography fontWeight="bold">
+                            {emp.preferred_name}
+                          </Typography>
+
+                          <Stack spacing={2} mt={2}>
+                            <TextField
+                              label="Reason"
+                              multiline
+                              rows={2}
+                              value={employeeDetails[emp.id]?.unavailable_reason || ""}
+                              onChange={(e) =>
+                                handleDetailChange(emp.id, "unavailable_reason", e.target.value)
+                              }
+                              fullWidth
+                            />
+                          </Stack>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                </DialogContent>
+
+                <DialogActions>
+                  <Button onClick={() => setOpenUnavailable(false)}>
+                    Cancel
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    onClick={saveUnavailableBulk}
+                    sx={{
+                      backgroundColor: "#0B1C2D",
+                      "&:hover": { backgroundColor: "#0F2A44" }
+                    }}
+                  >
+                    Save
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              
             </Box>
           </Container>
         </Box>
-
-        {/* Create/Edit Dialog */}
-        {/* <Dialog open={openForm} onClose={() => setOpenForm(false)} fullWidth maxWidth="sm">
-          <DialogTitle sx={{ fontWeight: 900 }}>
-            {mode === "create" ? "Create Employee" : "Edit Employee"}
-          </DialogTitle>
-
-          <DialogContent>
-            <Stack spacing={2} sx={{ mt: 1 }}>
-              <TextField
-                label="Employee Code"
-                value={data.employee_code}
-                onChange={(e) => setData("employee_code", e.target.value)}
-                fullWidth
-                error={!!errors.employee_code}
-                helperText={errors.employee_code}
-              />
-
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField
-                  label="First Name"
-                  value={data.preferred_name }
-                  onChange={(e) => setData("preferred_name ", e.target.value)}
-                  fullWidth
-                  error={!!errors.preferred_name }
-                  helperText={errors.preferred_name }
-                />
-                <TextField
-                  label="Last Name"
-                  value={data.last_name}
-                  onChange={(e) => setData("last_name", e.target.value)}
-                  fullWidth
-                  error={!!errors.last_name}
-                  helperText={errors.last_name}
-                />
-              </Stack>
-
-              <TextField
-                label="Work Email"
-                value={data.work_email}
-                onChange={(e) => setData("work_email", e.target.value)}
-                fullWidth
-                error={!!errors.work_email}
-                helperText={errors.work_email}
-              />
-
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField
-                  label="Department"
-                  value={data.department}
-                  onChange={(e) => setData("department", e.target.value)}
-                  fullWidth
-                  error={!!errors.department}
-                  helperText={errors.department}
-                />
-                <TextField
-                  label="Status"
-                  value={data.status}
-                  onChange={(e) => setData("status", e.target.value)}
-                  fullWidth
-                  placeholder="Active"
-                  error={!!errors.status}
-                  helperText={errors.status}
-                />
-              </Stack>
-            </Stack>
-          </DialogContent>
-
-          <DialogActions sx={{ px: 3, pb: 2 }}>
-            <Button onClick={() => setOpenForm(false)} disabled={processing}>
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              onClick={saveForm}
-              disabled={processing}
-              sx={{ backgroundColor: "#0B1C2D", "&:hover": { backgroundColor: "#0F2A44" } }}
-            >
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog> */}
 
         {/* Delete confirm */}
         <Dialog open={openDelete} onClose={() => setOpenDelete(false)} fullWidth maxWidth="xs">
@@ -508,6 +657,50 @@ const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Mark Available confirm */}
+        <Dialog
+          open={openMakeAvailableConfirm}
+          onClose={() => setOpenMakeAvailableConfirm(false)}
+          fullWidth
+          maxWidth="xs"
+        >
+          <DialogTitle sx={{ fontWeight: 900 }}>
+            Mark Employee as Available
+          </DialogTitle>
+
+          <DialogContent>
+            <Typography>
+              Are you sure you want to mark{" "}
+              <b>{availableTarget?.preferred_name}</b> as available again?
+            </Typography>
+          </DialogContent>
+
+          <DialogActions sx={{ px: 3, pb: 2 }}>
+            <Button onClick={() => setOpenMakeAvailableConfirm(false)}>
+              Cancel
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#0B1C2D",
+                "&:hover": { backgroundColor: "#0F2A44" },
+              }}
+              onClick={() => {
+                router.post("/hrms/employees/mark-available", {
+                  employee_id: availableTarget.id,
+                });
+
+                setOpenMakeAvailableConfirm(false);
+                setAvailableTarget(null);
+              }}
+            >
+              Yes, Mark Available
+            </Button>
+          </DialogActions>
+        </Dialog>
+
       </Box>
     </AuthenticatedLayout>
   );

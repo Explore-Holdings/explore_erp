@@ -137,5 +137,8 @@ Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
     // Reports routes
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
+    Route::post('/hrms/employees/unavailable-bulk', [EmployeeController::class, 'markUnavailableBulk']);
+
+    Route::post('/hrms/employees/mark-available', [EmployeeController::class, 'markAvailable']);
 
 require __DIR__.'/auth.php';
