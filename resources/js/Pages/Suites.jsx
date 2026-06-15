@@ -19,7 +19,7 @@ const SUITE_SETS = {
   "Airport Parking": [
     {
       key: "parking",
-      title: "AIRPORT PARKING SUITE",
+      title: "AIRPORT PARKING",
       description: "Slots, reservations, check-in/out, and revenue tracking",
       href: "/suite-services?type=airport-parking",
       image: "/images/airport-parking.webp",
@@ -29,7 +29,7 @@ const SUITE_SETS = {
   "Digital Marketing Department": [
     {
       key: "digital_marketing",
-      title: "DIGITAL MARKETING SUITE",
+      title: "DIGITAL MARKETING",
       description: "Ads, social, SEO, analytics, and conversion reporting",
       href: "/suite-services?type=digital-marketing",
       image: "/images/digital-marketing.webp",
@@ -39,7 +39,7 @@ const SUITE_SETS = {
   "Fleet Management Department": [
     {
       key: "fleet",
-      title: "FLEET MANAGEMENT SUITE",
+      title: "FLEET MANAGEMENT",
       description: "Vehicles, maintenance, fuel logs, and utilization",
       href: "/suite-services?type=fleet",
       image: "/images/fleet.webp",
@@ -49,7 +49,7 @@ const SUITE_SETS = {
   FINANCE: [
     {
       key: "finance",
-      title: "FINANCE SUITE",
+      title: "FINANCE",
       description: "Invoicing, accounting, payments, and financial reporting",
       href: "/suite-services?type=finance",
       image: "/images/finance.webp",
@@ -59,7 +59,7 @@ const SUITE_SETS = {
   HR: [
     {
       key: "hr",
-      title: "HR SUITE",
+      title: "HR",
       description: "Employee, leave, payroll, onboarding & HR workflows",
       href: "/suite-services?type=hr",
       image: "/images/hr.webp",
@@ -69,7 +69,7 @@ const SUITE_SETS = {
   "IT Department": [
     {
       key: "it",
-      title: "IT SUITE",
+      title: "IT",
       description: "Tickets, assets, access, compliance & IT operations",
       href: "/suite-services?type=it",
       image: "/images/it.webp",
@@ -79,7 +79,7 @@ const SUITE_SETS = {
   "Marketing Department": [
     {
       key: "marketing",
-      title: "MARKETING SUITE",
+      title: "MARKETING",
       description: "Campaigns, leads, content planning, and performance tracking",
       href: "/suite-services?type=marketing",
       image: "/images/marketing.webp",
@@ -89,7 +89,7 @@ const SUITE_SETS = {
   "Procurement Department": [
     {
       key: "procurement",
-      title: "INVENTORY SUITE",
+      title: "INVENTORY MANAGEMENT",
       description: "Suppliers, purchase requests, POs, and approvals",
       href: "/suite-services?type=procurement",
       image: "/images/procurement.webp",
@@ -99,7 +99,7 @@ const SUITE_SETS = {
   "Rent a Car Department": [
     {
       key: "rentacar",
-      title: "RENT A CAR SUITE",
+      title: "RENT A CAR",
       description: "Bookings, availability, contracts, and billing",
       href: "/suite-services?type=rent-a-car",
       image: "/images/rentacar.webp",
@@ -109,7 +109,7 @@ const SUITE_SETS = {
   "Transfers Department": [
     {
       key: "transfers",
-      title: "TRANSFERS SUITE",
+      title: "TRANSFERS",
       description: "Transfer scheduling, driver assignment, and trip tracking",
       href: "/suite-services?type=transfers",
       image: "/images/transfers.webp",
