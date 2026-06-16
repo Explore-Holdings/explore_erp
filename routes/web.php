@@ -16,6 +16,7 @@ use App\Http\Controllers\GatePassRequestController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockRequestController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TrainingController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -51,41 +52,40 @@ Route::get('/admin', function () {
 
 Route::prefix('hrms')->name('hrms.')->middleware(['auth', 'verified'])->group(function () {
 
-Route::get('/emp-dashboard', function () {
-    return Inertia::render('HRMS/EmpDashboard');
-})->name('emp-dashboard');
+    Route::get('/emp-dashboard', function () {
+        return Inertia::render('HRMS/EmpDashboard');
+    })->name('emp-dashboard');
 
-Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.index');
-Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
+    Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.index');
+    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
 
-Route::get('/leave-dashboard', [LeaveRequestController::class, 'dashboard'])->name('leave-dashboard');
-Route::get('/leave/on-leave-today', [LeaveRequestController::class, 'onLeaveToday'])->name('leave.on-leave-today');
-Route::get('/leave/pending', [LeaveRequestController::class, 'pendingLeave'])->name('leave.pending');
-Route::get('/leave/approved', [LeaveRequestController::class, 'approvedLeave'])->name('leave.approved');
-Route::get('/leave/rejected', [LeaveRequestController::class, 'rejectedLeave'])->name('leave.rejected');
+    Route::get('/leave-dashboard', [LeaveRequestController::class, 'dashboard'])->name('leave-dashboard');
+    Route::get('/leave/on-leave-today', [LeaveRequestController::class, 'onLeaveToday'])->name('leave.on-leave-today');
+    Route::get('/leave/pending', [LeaveRequestController::class, 'pendingLeave'])->name('leave.pending');
+    Route::get('/leave/approved', [LeaveRequestController::class, 'approvedLeave'])->name('leave.approved');
+    Route::get('/leave/rejected', [LeaveRequestController::class, 'rejectedLeave'])->name('leave.rejected');
 
-Route::get('/vehicle-request-dashboard', [VehicleRequestController::class, 'dashboard'])->name('vehicle-request-dashboard');
+    Route::get('/vehicle-request-dashboard', [VehicleRequestController::class, 'dashboard'])->name('vehicle-request-dashboard');
 
-// Route::get('/hrms/meeting-dashboard', [MeetingController::class, 'dashboard'])->name('hrms.meeting-dashboard');
+    // Route::get('/hrms/meeting-dashboard', [MeetingController::class, 'dashboard'])->name('hrms.meeting-dashboard');
 
-Route::get('/payroll-dashboard', function () {
-    return Inertia::render('HRMS/PayrollDashboard');
-})->name('payroll-dashboard');
+    Route::get('/payroll-dashboard', function () {
+        return Inertia::render('HRMS/PayrollDashboard');
+    })->name('payroll-dashboard');
 
-Route::get('/meeting-dashboard', [MeetingController::class, 'dashboard'])
-    ->name('meeting-dashboard');
+    Route::get('/meeting-dashboard', [MeetingController::class, 'dashboard'])
+        ->name('meeting-dashboard');
 
-Route::get('/training-dashboard', function () {
-    return Inertia::render('HRMS/TrainingDashboard');
-})->name('training-dashboard');
+    Route::get('/training-dashboard', [TrainingController::class, 'create'])
+        ->name('training-dashboard');
 
-Route::get('/users-management', function () {
-    return Inertia::render('HRMS/UsersManagement');
-})->name('users-management');
+    Route::get('/users-management', function () {
+        return Inertia::render('HRMS/UsersManagement');
+    })->name('users-management');
 
-Route::resource('departments', DepartmentController::class);
-Route::resource('job-titles', JobTitleController::class);
-Route::resource('employees', EmployeeController::class);
+    Route::resource('departments', DepartmentController::class);
+    Route::resource('job-titles', JobTitleController::class);
+    Route::resource('employees', EmployeeController::class);
 });
 
 Route::get('/hrms/emp-dashboard', [EmployeeController::class, 'empDashboard'])
@@ -98,6 +98,12 @@ Route::prefix('hrms')->name('hrms.')->middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::get('leave-balances/{employeeId}', [LeaveRequestController::class, 'getEmployeeLeaveBalances'])->name('leave-balances.show');
+    Route::get('/training/departments/{department_id}/employees', [TrainingController::class, 'getEmployeesByDepartment']);
+    Route::get('/training/employees',[TrainingController::class, 'getAllEmployees']);
+    Route::post('/training/store',[TrainingController::class, 'store']);
+    Route::get('/training',[TrainingController::class, 'index']);
+    Route::get('/training-dashboard',[TrainingController::class, 'create']);
+    Route::post('/training/{training}/cancel',[TrainingController::class, 'cancel'])->name('hrms.training.cancel');
 });
 
 Route::put('/hrms/meetings/{meeting}', [MeetingController::class, 'update'])
@@ -114,31 +120,31 @@ Route::get('/hrms/gate-pass-requests', [GatePassRequestController::class, 'index
 
 Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
 
-    Route::get('/stocks/create', [StockController::class, 'create'])->name('stocks.create');
-    Route::post('/stocks', [StockController::class, 'store'])->name('stocks.store');
-    Route::get('/stocks/{stock}/edit', [StockController::class, 'edit'])->name('stocks.edit');
-    Route::put('/stocks/{stock}', [StockController::class, 'update'])->name('stocks.update');
-    Route::delete('/stocks/{stock}', [StockController::class, 'destroy'])->name('stocks.destroy');
+Route::get('/stocks/create', [StockController::class, 'create'])->name('stocks.create');
+Route::post('/stocks', [StockController::class, 'store'])->name('stocks.store');
+Route::get('/stocks/{stock}/edit', [StockController::class, 'edit'])->name('stocks.edit');
+Route::put('/stocks/{stock}', [StockController::class, 'update'])->name('stocks.update');
+Route::delete('/stocks/{stock}', [StockController::class, 'destroy'])->name('stocks.destroy');
 
-    Route::get('/stock-requests', [StockRequestController::class, 'index'])->name('stock-requests.index');
-    Route::get('/stock-requests/create', [StockRequestController::class, 'create'])->name('stock-requests.create');
-    Route::post('/stock-requests', [StockRequestController::class, 'store'])->name('stock-requests.store');
+Route::get('/stock-requests', [StockRequestController::class, 'index'])->name('stock-requests.index');
+Route::get('/stock-requests/create', [StockRequestController::class, 'create'])->name('stock-requests.create');
+Route::post('/stock-requests', [StockRequestController::class, 'store'])->name('stock-requests.store');
 
-    Route::post('/stock-requests/{stock_request}/hod-approve', [StockRequestController::class, 'hodApprove'])->name('stock-requests.hod-approve');
-    Route::post('/stock-requests/{stock_request}/hod-reject', [StockRequestController::class, 'hodReject'])->name('stock-requests.hod-reject');
+Route::post('/stock-requests/{stock_request}/hod-approve', [StockRequestController::class, 'hodApprove'])->name('stock-requests.hod-approve');
+Route::post('/stock-requests/{stock_request}/hod-reject', [StockRequestController::class, 'hodReject'])->name('stock-requests.hod-reject');
 
-    Route::post('/stock-requests/{stock_request}/approve', [StockRequestController::class, 'approve'])->name('stock-requests.approve');
-    Route::post('/stock-requests/{stock_request}/reject', [StockRequestController::class, 'reject'])->name('stock-requests.reject');
+Route::post('/stock-requests/{stock_request}/approve', [StockRequestController::class, 'approve'])->name('stock-requests.approve');
+Route::post('/stock-requests/{stock_request}/reject', [StockRequestController::class, 'reject'])->name('stock-requests.reject');
 
-    Route::get('/stock-requests/{stockRequest}/edit', [StockRequestController::class, 'edit'])->name('stock-requests.edit');
-    Route::put('/stock-requests/{stockRequest}', [StockRequestController::class, 'update'])->name('stock-requests.update');
-    Route::delete('/stock-requests/{stockRequest}', [StockRequestController::class, 'destroy'])->name('stock-requests.destroy');
+Route::get('/stock-requests/{stockRequest}/edit', [StockRequestController::class, 'edit'])->name('stock-requests.edit');
+Route::put('/stock-requests/{stockRequest}', [StockRequestController::class, 'update'])->name('stock-requests.update');
+Route::delete('/stock-requests/{stockRequest}', [StockRequestController::class, 'destroy'])->name('stock-requests.destroy');
 
-    // Reports routes
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+// Reports routes
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
-    Route::post('/hrms/employees/unavailable-bulk', [EmployeeController::class, 'markUnavailableBulk']);
+Route::post('/hrms/employees/unavailable-bulk', [EmployeeController::class, 'markUnavailableBulk']);
 
-    Route::post('/hrms/employees/mark-available', [EmployeeController::class, 'markAvailable']);
+Route::post('/hrms/employees/mark-available', [EmployeeController::class, 'markAvailable']);
 
 require __DIR__.'/auth.php';

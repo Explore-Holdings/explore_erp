@@ -67,7 +67,7 @@ const MODULE_SETS = {
     {
       title: "Training",
       description: "Training programs, sessions, and completion tracking.",
-      href: "/hrms/training-dashboard",
+      href: "/hrms/training",
       image: "/images/hrms-training.webp",
     },
     {

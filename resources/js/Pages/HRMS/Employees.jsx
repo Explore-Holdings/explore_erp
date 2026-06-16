@@ -165,27 +165,27 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
 
   const openEdit = (row) => router.get(`/hrms/employees/${row.id}/edit`);
 
-  const saveForm = () => {
-    if (!data.employee_code || !data.last_name) return;
+  // const saveForm = () => {
+  //   if (!data.employee_code || !data.last_name) return;
 
-    if (mode === "create") {
-      post("/hrms/employees", {
-        preserveScroll: true,
-        onSuccess: () => {
-          setOpenForm(false);
-          reset();
-        },
-      });
-    } else {
-      put(`/hrms/employees/${data.id}`, {
-        preserveScroll: true,
-        onSuccess: () => {
-          setOpenForm(false);
-          reset();
-        },
-      });
-    }
-  };
+  //   if (mode === "create") {
+  //     post("/hrms/employees", {
+  //       preserveScroll: true,
+  //       onSuccess: () => {
+  //         setOpenForm(false);
+  //         reset();
+  //       },
+  //     });
+  //   } else {
+  //     put(`/hrms/employees/${data.id}`, {
+  //       preserveScroll: true,
+  //       onSuccess: () => {
+  //         setOpenForm(false);
+  //         reset();
+  //       },
+  //     });
+  //   }
+  // };
 
   const askDelete = (row) => {
     setDeleteTarget(row);
@@ -246,7 +246,6 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
               </IconButton>
             </Tooltip>
 
-            {/* ❌ Hide edit in unavailable tab */}
             {!isUnavailableTab && !isUnavailable && (
               <Tooltip title="Edit">
                 <IconButton
@@ -259,7 +258,7 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
               </Tooltip>
             )}
 
-            {/* ✅ Mark Available only in unavailable tab */}
+            {/* Mark Available only in unavailable tab */}
             {isUnavailable && isUnavailableTab && (
               <Tooltip title="Mark as Available">
                 <IconButton
@@ -291,7 +290,6 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
       },
     };
 
-    // ✅ final columns list
     const cols = [...baseColumns];
 
     if (isUnavailableTab) {
@@ -411,7 +409,7 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
   );
 
   columns.filter(col => {
-    if (tabValue === 1) return true; // unavailable tab
+    if (tabValue === 1) return true;
     return col.field !== "unavailable_reason";
   })
 
@@ -420,7 +418,6 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
       <Head title="Employees" />
 
       <Box sx={{ display: "flex" }}>
-        {/* Top AppBar (mobile) */}
         <AppBar
           position="fixed"
           elevation={0}
@@ -487,7 +484,6 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
           )}
         </Box>
 
-        {/* Main content (FULL WIDTH) */}
         <Box
           component="main"
           sx={{
@@ -527,27 +523,27 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
                   initialState={{ pagination: { paginationModel: { pageSize: 25, page: 0 } } }}
                   showToolbar
                   slotProps={{
-                  toolbar: {
-                      showQuickFilter: true,
-                      quickFilterProps: { debounceMs: 300 },
-                    },
-                }}
+                    toolbar: {
+                        showQuickFilter: true,
+                        quickFilterProps: { debounceMs: 300 },
+                      },
+                  }}
 
-                    sx={{
-                      "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: "rgba(11, 28, 45, 0.06)",
-                        borderBottom: "2px solid #0B1C2D",
-                      },
-                      "& .MuiDataGrid-columnHeaderTitle": {
-                        fontWeight: 900,
-                        color: "#0B1C2D",
-                      },
-                      "& .MuiDataGrid-cell": {
-                        alignItems: "center",
-                        display: "flex",
-                      },
-                    }}
-                  />
+                  sx={{
+                    "& .MuiDataGrid-columnHeaders": {
+                      backgroundColor: "rgba(11, 28, 45, 0.06)",
+                      borderBottom: "2px solid #0B1C2D",
+                    },
+                    "& .MuiDataGrid-columnHeaderTitle": {
+                      fontWeight: 900,
+                      color: "#0B1C2D",
+                    },
+                    "& .MuiDataGrid-cell": {
+                      alignItems: "center",
+                      display: "flex",
+                    },
+                  }}
+                />
               </Box>
 
               <Dialog
