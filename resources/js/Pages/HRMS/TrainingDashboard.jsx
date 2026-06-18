@@ -151,7 +151,7 @@ export default function TrainingDashboard({
                     gap: 3,
                     p: 3,
                     backgroundColor: "#f5f7fa",
-                    minHeight: "100vh",
+                    minHeight: "80vh",
                 }}
             >
                 <TrainingSidebar />
@@ -339,99 +339,135 @@ export default function TrainingDashboard({
                               direction={{ xs: "column", md: "row" }}
                               spacing={2}
                           >
-                              <TextField
-                                  type="date"
-                                  label="Date"
-                                  fullWidth
-                                  InputLabelProps={{
-                                      shrink: true,
-                                  }}
-                                  value={formData.date}
-                                  onChange={(e) =>
-                                      setFormData({
-                                          ...formData,
-                                          date: e.target.value,
-                                      })
-                                  }
-                              />
+                            <TextField
+                                type="date"
+                                label="Date"
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputProps={{
+                                    min: new Date().toISOString().split("T")[0],
+                                }}
+                                value={formData.date}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        date: e.target.value,
+                                    })
+                                }
+                            />
 
-                              <TextField
-                                  type="time"
-                                  label="Start Time"
-                                  fullWidth
-                                  InputLabelProps={{
-                                      shrink: true,
-                                  }}
-                                  value={formData.start_time}
-                                  onChange={(e) =>
-                                      setFormData({
-                                          ...formData,
-                                          start_time:
-                                              e.target.value,
-                                      })
-                                  }
-                              />
+                            <TextField
+                                type="time"
+                                label="Start Time"
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={formData.start_time}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        start_time:
+                                            e.target.value,
+                                    })
+                                }
+                            />
 
-                              <TextField
-                                  type="time"
-                                  label="End Time"
-                                  fullWidth
-                                  InputLabelProps={{
-                                      shrink: true,
-                                  }}
-                                  value={formData.end_time}
-                                  onChange={(e) =>
-                                      setFormData({
-                                          ...formData,
-                                          end_time:
-                                              e.target.value,
-                                      })
-                                  }
-                              />
+                            <TextField
+                                type="time"
+                                label="End Time"
+                                fullWidth
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={formData.end_time}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        end_time:
+                                            e.target.value,
+                                    })
+                                }
+                            />
                           </Stack>
 
-                          <TextField
-                              multiline
-                              rows={4}
-                              label="Description"
-                              fullWidth
-                              value={formData.description}
-                              onChange={(e) =>
-                                  setFormData({
-                                      ...formData,
-                                      description:
-                                          e.target.value,
-                                  })
-                              }
-                          />
+                        <Stack
+                            direction={{ xs: "column", md: "row" }}
+                            spacing={2}
+                        >
+                            <TextField
+                                multiline
+                                rows={4}
+                                label="Description"
+                                fullWidth
+                                value={formData.description}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        description: e.target.value,
+                                    })
+                                }
+                            />
 
-                          <TextField
-                              multiline
-                              rows={2}
-                              label="Remarks"
-                              fullWidth
-                              value={formData.remarks}
-                              onChange={(e) =>
-                                  setFormData({
-                                      ...formData,
-                                      remarks:
-                                          e.target.value,
-                                  })
-                              }
-                          />
+                            <TextField
+                                multiline
+                                rows={4}
+                                label="Remarks (Optional)"
+                                fullWidth
+                                value={formData.remarks}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        remarks: e.target.value,
+                                    })
+                                }
+                            />
+                        </Stack>
 
-                          <Button
-                              type="submit"
-                              variant="contained"
-                              size="large"
-                              sx={{
-                                  borderRadius: 3,
-                                  textTransform: "none",
-                                  fontWeight: 700,
-                              }}
-                          >
-                              Create Training Session
-                          </Button>
+                         <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "right",
+                            }}
+                        >
+                            <Stack
+                                direction="row"
+                                spacing={2}
+                            >
+
+                                <Button
+                                    variant="outlined"
+                                    size="large"
+                                    onClick={() =>
+                                        router.visit("/hrms/training")
+                                    }
+                                    sx={{
+                                        textTransform: "none",
+                                        fontWeight: 700,
+                                        px: 4,
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
+                                
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    size="large"
+                                    sx={{
+                                        textTransform: "none",
+                                        fontWeight: 700,
+                                        px: 4,
+                                    }}
+                                >
+                                    Create Training Session
+                                </Button>
+
+                      
+                            </Stack>
+                        </Box>
                       </Stack>
                     </form>
                 </Paper>
