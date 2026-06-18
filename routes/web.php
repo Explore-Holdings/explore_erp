@@ -101,7 +101,7 @@ Route::prefix('hrms')->name('hrms.')->middleware(['auth'])->group(function () {
     Route::get('/training/departments/{department_id}/employees', [TrainingController::class, 'getEmployeesByDepartment']);
     Route::get('/training/employees',[TrainingController::class, 'getAllEmployees']);
     Route::post('/training/store',[TrainingController::class, 'store']);
-    Route::get('/training',[TrainingController::class, 'index']);
+    Route::get('/training',[TrainingController::class, 'index'])->name('hrms.training.index');
     // Route::get('/training-dashboard',[TrainingController::class, 'create']);
     Route::post('/training/{training}/cancel',[TrainingController::class, 'cancel'])->name('hrms.training.cancel');
 });

@@ -154,8 +154,7 @@ class TrainingController extends Controller
 
             DB::commit();
 
-            return redirect()
-            ->route('hrms.training.index')
+            return redirect('/hrms/training')
             ->with(
                 'success',
                 'Training created successfully.'
