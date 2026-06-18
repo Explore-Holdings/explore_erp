@@ -8,6 +8,7 @@ use App\Models\Training;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class TrainingController extends Controller
 {
@@ -162,12 +163,20 @@ class TrainingController extends Controller
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+    DB::rollBack();
 
-            return back()->withErrors([
-                'error' => $e->getMessage()
-            ]);
-        }
+    Log::error('Training creation failed', [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+        'request' => $request->all(),
+    ]);
+
+    return back()->withErrors([
+        'error' => $e->getMessage()
+    ]);
+}
     }
 
     public function cancel(Training $training)
