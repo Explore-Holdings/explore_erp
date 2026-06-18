@@ -102,419 +102,399 @@ export default function TrainingIndex({
             <Head title="Training List" />
 
             <Box
-                sx={{
-                    display: "flex",
-                    gap: 3,
-                    p: 3,
-                    backgroundColor: "#f5f7fa",
-                    minHeight: "100vh",
-                }}
+                sx={{ display: "flex", gap: 3, p: 3, backgroundColor: "#f5f7fa", minHeight: "100vh", }}
             >
                 <TrainingSidebar />
 
                 <Paper
-                    sx={{
-                        flex: 1,
-                        p: 3,
-                        borderRadius: 3,
-                    }}
+                    sx={{ flex: 1, p: 3, borderRadius: 3, }}
                 >
-<Stack
-    direction="row"
-    justifyContent="space-between"
-    alignItems="center"
-    mb={3}
->
-    <Typography
-        variant="h5"
-        fontWeight={700}
-    >
-        Training Sessions
-    </Typography>
+                <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3} >
+                    <Typography variant="h5" fontWeight={700} >
+                        Training Sessions
+                    </Typography>
 
-    <Button
-        variant="contained"
-        onClick={() =>
-            router.visit(
-                "/hrms/training-dashboard"
-            )
-        }
-        sx={{
-            textTransform: "none",
-            fontWeight: 600,
-            borderRadius: 2,
-        }}
-    >
-        Create Training
-    </Button>
-</Stack>
-
-                <DataGrid
-    autoHeight
-    rows={trainings}
-    getRowId={(row) => row.id}
-    pageSizeOptions={[10, 25, 50]}
-    initialState={{
-        pagination: {
-            paginationModel: {
-                pageSize: 10,
-            },
-        },
-    }}
-    columns={[
-        {
-            field: "topic",
-            headerName: "Topic",
-            flex: 1.5,
-        },
-        {
-            field: "date",
-            headerName: "Date",
-            flex: 1,
-        },
-        {
-            field: "start_time",
-            headerName: "Start",
-            flex: 1,
-        },
-        {
-            field: "end_time",
-            headerName: "End",
-            flex: 1,
-        },
-        {
-            field: "status",
-            headerName: "Status",
-            flex: 1,
-            renderCell: (params) => (
-                <Chip
-                    size="small"
-                    label={params.value}
-                    color={getStatusColor(
-                        params.value
-                    )}
-                />
-            ),
-        },
-        {
-            field: "participants",
-            headerName: "Participants",
-            flex: 1,
-            valueGetter: (_, row) =>
-                row.members?.length || 0,
-        },
-        {
-            field: "actions",
-            headerName: "Action",
-            sortable: false,
-            flex: 1,
-            renderCell: (params) => (
-                <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={
-                        <VisibilityIcon />
-                    }
-                    onClick={() =>
-                        handleView(
-                            params.row
-                        )
-                    }
-                >
-                    View
-                </Button>
-            ),
-        },
-    ]}
-/>
-<Dialog
-    open={open}
-    onClose={() => setOpen(false)}
-    fullWidth
-    maxWidth="lg"
->
-    <DialogTitle>
-        <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-        >
-            <Typography
-                variant="h6"
-                fontWeight={700}
-            >
-                Training Details
-            </Typography>
-
-            <IconButton
-                onClick={() =>
-                    setOpen(false)
-                }
-            >
-                <CloseIcon />
-            </IconButton>
-        </Stack>
-    </DialogTitle>
-
-    <DialogContent>
-        {selectedTraining && (
-            <>
-                <Grid
-                    container
-                    spacing={3}
-                >
-                    <Grid
-                        item
-                        xs={12}
-                        md={6}
+                    <Button
+                        variant="contained"
+                        onClick={() =>
+                            router.visit(
+                                "/hrms/training-dashboard"
+                            )
+                        }
+                        sx={{
+                            textTransform: "none",
+                            fontWeight: 600,
+                        }}
                     >
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                Topic
-                            </Typography>
+                        Create Training
+                    </Button>
+                </Stack>
 
-                            <Typography>
-                                {
-                                    selectedTraining.topic
-                                }
-                            </Typography>
-                        </Paper>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={12}
-                        md={6}
-                    >
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                Status
-                            </Typography>
-
-                            <Chip
-                                label={
-                                    selectedTraining.status
-                                }
-                                color={getStatusColor(
-                                    selectedTraining.status
-                                )}
-                            />
-                        </Paper>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={12}
-                        md={4}
-                    >
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                Date
-                            </Typography>
-
-                            <Typography>
-                                {
-                                    selectedTraining.date
-                                }
-                            </Typography>
-                        </Paper>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={12}
-                        md={4}
-                    >
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                Start Time
-                            </Typography>
-
-                            <Typography>
-                                {
-                                    selectedTraining.start_time
-                                }
-                            </Typography>
-                        </Paper>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={12}
-                        md={4}
-                    >
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                End Time
-                            </Typography>
-
-                            <Typography>
-                                {
-                                    selectedTraining.end_time
-                                }
-                            </Typography>
-                        </Paper>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                Description
-                            </Typography>
-
-                            <Typography>
-                                {
-                                    selectedTraining.description
-                                }
-                            </Typography>
-                        </Paper>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Paper
-                            sx={{ p: 2 }}
-                        >
-                            <Typography
-                                fontWeight={700}
-                            >
-                                Remarks
-                            </Typography>
-
-                            <Typography>
-                                {
-                                    selectedTraining.remarks
-                                }
-                            </Typography>
-                        </Paper>
-                    </Grid>
-
-                    {selectedTraining.attachments && (
-                        <Grid
-                            item
-                            xs={12}
-                        >
-                            <Button
-                                variant="contained"
-                                startIcon={
-                                    <DownloadIcon />
-                                }
-                                href={`/storage/${selectedTraining.attachments}`}
-                                target="_blank"
-                            >
-                                View Attachment
-                            </Button>
-                        </Grid>
-                    )}
-
-                    {selectedTraining.status !== "completed" &&
-                        selectedTraining.status !== "cancelled" && (
-                            <Box sx={{ mt: 2 }}>
-                                <Button
-                                    color="error"
-                                    variant="contained"
-                                    onClick={() =>
-                                        handleCancelTraining(
-                                            selectedTraining.id
-                                        )
-                                    }
-                                >
-                                    Cancel Training
-                                </Button>
-                            </Box>
-                        )}
-                </Grid>
-
-                <Divider
-                    sx={{ my: 3 }}
-                />
-
-                <Typography
-                    variant="h6"
-                    fontWeight={700}
-                    mb={2}
-                >
-                    Participants (
-                    {
-                        selectedTraining
-                            .members
-                            ?.length
-                    }
-                    )
-                </Typography>
-
-                <DataGrid
+                                <DataGrid
                     autoHeight
-                    rows={
-                        selectedTraining.members ||
-                        []
-                    }
-                    getRowId={(row) =>
-                        row.id
-                    }
-                    hideFooter
+                    rows={trainings}
+                    getRowId={(row) => row.id}
+                    pageSizeOptions={[10, 25, 50]}
+                    initialState={{
+                        pagination: {
+                            paginationModel: {
+                                pageSize: 10,
+                            },
+                        },
+                    }}
                     columns={[
                         {
-                            field: "employee",
-                            headerName:
-                                "Employee",
-                            flex: 2,
-                            valueGetter:
-                                (_, row) =>
-                                    row
-                                        .employee
-                                        ?.preferred_name ||
-                                    "-",
+                            field: "topic",
+                            headerName: "Topic",
+                            flex: 1.5,
+                        },
+                        {
+                            field: "date",
+                            headerName: "Date",
+                            flex: 1,
+                        },
+                        {
+                            field: "start_time",
+                            headerName: "Start",
+                            flex: 1,
+                        },
+                        {
+                            field: "end_time",
+                            headerName: "End",
+                            flex: 1,
                         },
                         {
                             field: "status",
-                            headerName:
-                                "Status",
+                            headerName: "Status",
                             flex: 1,
-                            renderCell:
-                                (
-                                    params
-                                ) => (
-                                    <Chip
-                                        size="small"
-                                        label={
-                                            params.value
-                                        }
-                                        color={getStatusColor(
-                                            params.value
-                                        )}
-                                    />
-                                ),
+                            renderCell: (params) => (
+                                <Chip
+                                    size="small"
+                                    label={params.value}
+                                    color={getStatusColor(
+                                        params.value
+                                    )}
+                                />
+                            ),
+                        },
+                        {
+                            field: "participants",
+                            headerName: "Participants",
+                            flex: 1,
+                            valueGetter: (_, row) =>
+                                row.members?.length || 0,
+                        },
+                        {
+                            field: "actions",
+                            headerName: "Action",
+                            sortable: false,
+                            flex: 1,
+                            renderCell: (params) => (
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    startIcon={
+                                        <VisibilityIcon />
+                                    }
+                                    onClick={() =>
+                                        handleView(
+                                            params.row
+                                        )
+                                    }
+                                >
+                                    View
+                                </Button>
+                            ),
                         },
                     ]}
                 />
-            </>
-        )}
-    </DialogContent>
-</Dialog>
+                    <Dialog
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        fullWidth
+                        maxWidth="lg"
+                    >
+                        <DialogTitle>
+                            <Stack
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                            >
+                                <Typography
+                                    variant="h6"
+                                    fontWeight={700}
+                                >
+                                    Training Details
+                                </Typography>
+
+                                <IconButton
+                                    onClick={() =>
+                                        setOpen(false)
+                                    }
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </Stack>
+                        </DialogTitle>
+
+                        <DialogContent>
+                            {selectedTraining && (
+                                <>
+                                    <Grid
+                                        container
+                                        spacing={3}
+                                    >
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            md={6}
+                                        >
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    Topic
+                                                </Typography>
+
+                                                <Typography>
+                                                    {
+                                                        selectedTraining.topic
+                                                    }
+                                                </Typography>
+                                            </Paper>
+                                        </Grid>
+
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            md={6}
+                                        >
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    Status
+                                                </Typography>
+
+                                                <Chip
+                                                    label={
+                                                        selectedTraining.status
+                                                    }
+                                                    color={getStatusColor(
+                                                        selectedTraining.status
+                                                    )}
+                                                />
+                                            </Paper>
+                                        </Grid>
+
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            md={4}
+                                        >
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    Date
+                                                </Typography>
+
+                                                <Typography>
+                                                    {
+                                                        selectedTraining.date
+                                                    }
+                                                </Typography>
+                                            </Paper>
+                                        </Grid>
+
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            md={4}
+                                        >
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    Start Time
+                                                </Typography>
+
+                                                <Typography>
+                                                    {
+                                                        selectedTraining.start_time
+                                                    }
+                                                </Typography>
+                                            </Paper>
+                                        </Grid>
+
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            md={4}
+                                        >
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    End Time
+                                                </Typography>
+
+                                                <Typography>
+                                                    {
+                                                        selectedTraining.end_time
+                                                    }
+                                                </Typography>
+                                            </Paper>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    Description
+                                                </Typography>
+
+                                                <Typography>
+                                                    {
+                                                        selectedTraining.description
+                                                    }
+                                                </Typography>
+                                            </Paper>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Paper
+                                                sx={{ p: 2 }}
+                                            >
+                                                <Typography
+                                                    fontWeight={700}
+                                                >
+                                                    Remarks
+                                                </Typography>
+
+                                                <Typography>
+                                                    {
+                                                        selectedTraining.remarks
+                                                    }
+                                                </Typography>
+                                            </Paper>
+                                        </Grid>
+
+                                        {selectedTraining.attachments && (
+                                            <Grid item xs={12} >
+                                               <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        mt: 1,
+                                                    }}
+                                                >
+                                                    <Button
+                                                        variant="contained"
+                                                        startIcon={<DownloadIcon />}
+                                                        href={`/storage/${selectedTraining.attachments}`}
+                                                        target="_blank"
+                                                        sx={{
+                                                            textTransform: "none",
+                                                            fontWeight: 600,
+                                                        }}
+                                                    >
+                                                        View Attachment
+                                                    </Button>
+                                                </Box>
+                                            </Grid>
+                                        )}
+
+                                        {selectedTraining.status !== "completed" &&
+                                            selectedTraining.status !== "cancelled" && (
+                                                <Box sx={{ mt: 2 }}>
+                                                    <Button
+                                                        color="error"
+                                                        variant="contained"
+                                                        onClick={() =>
+                                                            handleCancelTraining(
+                                                                selectedTraining.id
+                                                            )
+                                                        }
+                                                    >
+                                                        Cancel Training
+                                                    </Button>
+                                                </Box>
+                                            )}
+                                    </Grid>
+
+                                    <Divider
+                                        sx={{ my: 3 }}
+                                    />
+
+                                    <Typography
+                                            variant="h6"
+                                            fontWeight={700}
+                                            mb={2}
+                                        >
+                                        Participants (
+                                        {selectedTraining.members?.length || 0}
+                                        )
+                                    </Typography>
+
+                                <Grid container spacing={2}>
+                                    {selectedTraining.members?.map((member) => (
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            md={4}
+                                            key={member.id}
+                                        >
+                                        <Paper
+                                            elevation={1}
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: 2,
+                                                height: "100%",
+                                            }}
+                                        >
+                                            <Typography
+                                                fontWeight={700}
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 1,
+                                                }}
+                                            >
+                                                {member.employee?.preferred_name || "-"}
+
+                                                <Typography
+                                                    component="span"
+                                                    variant="caption"
+                                                    sx={{
+                                                        color: "text.secondary",
+                                                        fontWeight: 400,
+                                                    }}
+                                                >
+                                                    ({member.status})
+                                                </Typography>
+                                            </Typography>
+                                        </Paper>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                                </>
+                            )}
+                        </DialogContent>
+                    </Dialog>
                 </Paper>
             </Box>
         </AuthenticatedLayout>
