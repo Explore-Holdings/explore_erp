@@ -17,6 +17,8 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockRequestController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\TicketController;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -146,5 +148,22 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 Route::post('/hrms/employees/unavailable-bulk', [EmployeeController::class, 'markUnavailableBulk']);
 
 Route::post('/hrms/employees/mark-available', [EmployeeController::class, 'markAvailable']);
+
+
+//Help desk routes
+Route::get('/ticket-dashboard', [TicketController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
+Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+Route::post('/tickets/{ticket}/replies', [TicketController::class, 'storeReply'])->name('tickets.replies.store');
+Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.status.update');
+Route::patch('/tickets/{ticket}/read', [TicketController::class, 'markAsRead'])->name('tickets.read');
+
+// Platform and Common Issues CRUD Routes
+Route::post('/platforms', [\App\Http\Controllers\PlatformController::class, 'store'])->name('platforms.store');
+Route::patch('/platforms/{platform}', [\App\Http\Controllers\PlatformController::class, 'update'])->name('platforms.update');
+Route::delete('/platforms/{platform}', [\App\Http\Controllers\PlatformController::class, 'destroy'])->name('platforms.destroy');
+Route::post('/platforms/{platform}/issues', [\App\Http\Controllers\PlatformController::class, 'storeIssue'])->name('platforms.issues.store');
+Route::patch('/issues/{issue}', [\App\Http\Controllers\PlatformController::class, 'updateIssue'])->name('issues.update');
+Route::delete('/issues/{issue}', [\App\Http\Controllers\PlatformController::class, 'destroyIssue'])->name('issues.destroy');
 
 require __DIR__.'/auth.php';

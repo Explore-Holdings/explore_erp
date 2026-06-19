@@ -71,7 +71,7 @@ const SUITE_SETS = {
       key: "it",
       title: "IT",
       description: "Tickets, assets, access, compliance & IT operations",
-      href: "/suite-services?type=it",
+      href: "/ticket-dashboard",
       image: "/images/it.webp",
     },
   ],
