@@ -5,7 +5,6 @@ import { Head, router } from "@inertiajs/react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Box,
@@ -16,7 +15,6 @@ import {
   ListItemText,
   Divider,
   Paper,
-  Modal,
   Stack,
   Table,
   TableBody,
@@ -28,7 +26,6 @@ import {
   Chip,
   TextField,
   InputAdornment,
-  IconButton,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -406,38 +403,6 @@ function LeaveRequestTable({ rows }) {
   );
 }
 
-function RequestModal({ open, onClose, title, rows }) {
-  return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          width: { xs: "95%", md: "90%" },
-          maxHeight: "90vh",
-          overflowY: "auto",
-          bgcolor: "#fff",
-          mx: "auto",
-          my: "4vh",
-          borderRadius: 3,
-          boxShadow: 24,
-          p: 3,
-        }}
-      >
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-          <Typography variant="h6" fontWeight={900}>
-            {title}
-          </Typography>
-
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Stack>
-
-        <LeaveRequestTable key={title} rows={rows} />
-      </Box>
-    </Modal>
-  );
-}
-
 function EmployeeLeaveBalanceTable({ rows }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -647,63 +612,36 @@ export default function LeaveDashboard({
   employeeBalances = [],
   stats = {},
 }) {
-  const [modalData, setModalData] = useState({
-    open: false,
-    title: "",
-    rows: [],
-  });
-
   const mapLeaveRows = (list) =>
     list.map((item) => ({
       ...item,
       dateRange: formatDateRange(item.start, item.end),
     }));
 
-  const pendingData = useMemo(() => mapLeaveRows(pendingRequests), [pendingRequests]);
-  const approvedData = useMemo(() => mapLeaveRows(approvedRequests), [approvedRequests]);
-  const rejectedData = useMemo(() => mapLeaveRows(rejectedRequests), [rejectedRequests]);
-  const onLeaveTodayData = useMemo(() => mapLeaveRows(employeesOnLeave), [employeesOnLeave]);
-
-  const openRequestModal = (title, rows) => {
-    setModalData({
-      open: true,
-      title,
-      rows,
-    });
-  };
-
-  const closeRequestModal = () => {
-    setModalData({
-      open: false,
-      title: "",
-      rows: [],
-    });
-  };
-
   const summaryCards = [
     {
       label: "On Leave Today",
       value: stats.onLeaveToday ?? 0,
       color: "#064c8d",
-      rows: onLeaveTodayData,
+      route: "/hrms/leave/on-leave-today",
     },
     {
       label: "Pending Leave Requests",
       value: stats.pendingRequests ?? 0,
       color: "#7f540a",
-      rows: pendingData,
+      route: "/hrms/leave/pending",
     },
     {
       label: "Approved Leave Requests",
       value: stats.approved ?? 0,
       color: "#16a34a",
-      rows: approvedData,
+      route: "/hrms/leave/approved",
     },
     {
       label: "Rejected Leave Requests",
       value: stats.rejected ?? 0,
       color: "#b91c1c",
-      rows: rejectedData,
+      route: "/hrms/leave/rejected",
     },
   ];
 
@@ -718,6 +656,8 @@ export default function LeaveDashboard({
             backgroundColor: "#ffffff",
             borderRight: "1px solid #e5e7eb",
             p: 2,
+            overflowY: "auto",
+            maxHeight: "100vh",
           }}
         >
           <Typography fontWeight={900} sx={{ mb: 2 }}>
@@ -743,6 +683,40 @@ export default function LeaveDashboard({
               <DashboardOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
               <ListItemText primary="Dashboard" primaryTypographyProps={{ fontWeight: 600 }} />
             </ListItemButton>
+
+            <Divider sx={{ my: 1.5 }} />
+
+            <Typography sx={{ fontSize: "0.75rem", color: "#6b7280", fontWeight: 700, px: 1.5, mb: 1 }}>
+              LEAVE REQUESTS
+            </Typography>
+
+            <ListItemButton
+              onClick={() => router.get("/hrms/leave/on-leave-today")}
+              sx={{ borderRadius: 2, mb: 0.5, pl: 3 }}
+            >
+              <ListItemText primary="On Leave Today" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
+            </ListItemButton>
+
+            <ListItemButton
+              onClick={() => router.get("/hrms/leave/pending")}
+              sx={{ borderRadius: 2, mb: 0.5, pl: 3 }}
+            >
+              <ListItemText primary="Pending Requests" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
+            </ListItemButton>
+
+            <ListItemButton
+              onClick={() => router.get("/hrms/leave/approved")}
+              sx={{ borderRadius: 2, mb: 0.5, pl: 3 }}
+            >
+              <ListItemText primary="Approved Requests" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
+            </ListItemButton>
+
+            <ListItemButton
+              onClick={() => router.get("/hrms/leave/rejected")}
+              sx={{ borderRadius: 2, mb: 0.5, pl: 3 }}
+            >
+              <ListItemText primary="Rejected Requests" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
+            </ListItemButton>
           </List>
         </Box>
 
@@ -766,7 +740,7 @@ export default function LeaveDashboard({
             {summaryCards.map((card) => (
               <Paper
                 key={card.label}
-                onClick={() => openRequestModal(card.label, card.rows)}
+                onClick={() => router.get(card.route)}
                 sx={{
                   p: 2,
                   borderRadius: 3,
@@ -809,13 +783,6 @@ export default function LeaveDashboard({
           </Paper>
         </Box>
       </Box>
-
-      <RequestModal
-        open={modalData.open}
-        onClose={closeRequestModal}
-        title={modalData.title}
-        rows={modalData.rows}
-      />
     </AuthenticatedLayout>
   );
 }

@@ -64,12 +64,12 @@ const MODULE_SETS = {
       href: "/hrms/meeting-dashboard",
       image: "/images/hrms-meeting.webp",
     },
-    {
-      title: "Training",
-      description: "Training programs, sessions, and completion tracking.",
-      href: "/hrms/training-dashboard",
-      image: "/images/hrms-training.webp",
-    },
+    // {
+    //   title: "Training",
+    //   description: "Training programs, sessions, and completion tracking.",
+    //   href: "/hrms/training",
+    //   image: "/images/hrms-training.webp",
+    // },
     {
       title: "Payroll",
       description: "Salary components, payslips, and deductions.",
@@ -256,6 +256,7 @@ export default function HRMS({ auth = {} }) {
       "leave management",
       "vehicle request management",
       "customer handling",
+      "gatepass handling",
       "event & meeting managment",
       "event & meeting management",
       "inventory management",

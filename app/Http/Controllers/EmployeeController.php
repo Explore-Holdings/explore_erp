@@ -74,6 +74,8 @@ class EmployeeController extends Controller
                 'employee_code',
                 'preferred_name',
                 'employment_status',
+                'availability_status',
+                'unavailable_reason',
             ])
             ->latest('last_updated_date')
             ->get()
@@ -82,6 +84,8 @@ class EmployeeController extends Controller
                 'employee_code' => $e->employee_code,
                 'preferred_name' => $e->preferred_name,
                 'employment_status' => $e->employment_status,
+                'availability_status' => $e->availability_status,
+                'unavailable_reason' => $e->unavailable_reason,
                 'work_email' => $e->contacts
                     ->firstWhere('contact_type', 'Work_Email')
                     ?->contact_value,
@@ -847,5 +851,43 @@ class EmployeeController extends Controller
             'recentHires' => $recentHires,
             'departmentBreakdown' => $departmentBreakdown,
         ]);
+    }
+
+    public function markUnavailableBulk(Request $request)
+    {
+        $data = $request->validate([
+            'employees' => ['required', 'array'],
+            'employees.*.employee_id' => ['required', 'exists:employees,employee_id'],
+            'employees.*.unavailable_from' => ['nullable', 'date'],
+            'employees.*.unavailable_to' => ['nullable', 'date'],
+            'employees.*.unavailable_reason' => ['nullable', 'string'],
+        ]);
+
+        foreach ($data['employees'] as $emp) {
+            Employee::where('employee_id', $emp['employee_id'])->update([
+                'availability_status' => 'unavailable',
+                'unavailable_from' => $emp['unavailable_from'] ?? null,
+                'unavailable_to' => $emp['unavailable_to'] ?? null,
+                'unavailable_reason' => $emp['unavailable_reason'] ?? null,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Employees updated successfully');
+    }
+
+    public function markAvailable(Request $request)
+    {
+        $data = $request->validate([
+            'employee_id' => ['required', 'exists:employees,employee_id'],
+        ]);
+
+        Employee::where('employee_id', $data['employee_id'])->update([
+            'availability_status' => 'available',
+            'unavailable_from' => null,
+            'unavailable_to' => null,
+            'unavailable_reason' => null,
+        ]);
+
+        return back()->with('success', 'Employee marked as available');
     }
 }

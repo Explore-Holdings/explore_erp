@@ -642,6 +642,7 @@ function CreateMeetingModal({
           >
             <MenuItem value="meeting">Meeting</MenuItem>
             <MenuItem value="event">Event</MenuItem>
+            <MenuItem value="training">Training</MenuItem>
           </TextField>
 
           <TextField

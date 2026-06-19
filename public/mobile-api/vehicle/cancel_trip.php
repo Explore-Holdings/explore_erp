@@ -91,7 +91,6 @@ function cancelRentalInExploreDrive($transportId) {
 }
 
 if (($_SERVER["REQUEST_METHOD"] ?? "") !== "POST") {
-  writeLog("Invalid method", $_SERVER["REQUEST_METHOD"] ?? "UNKNOWN");
   http_response_code(405);
   respond(false, "Method not allowed");
 }
@@ -112,23 +111,23 @@ if ($id <= 0) respond(false, "id required");
 try {
 
   writeLog("Attempting delete", ["id" => $id]);
-
   $stmt = $conn->prepare("
     DELETE FROM transport_services
     WHERE id = ?
-      AND status IN ('PENDING','Pending','pending','HOD_REJECTED')
+      AND status IN ('PENDING','Pending','pending', 'HOD_REJECTED')
   ");
   $stmt->bind_param("i", $id);
   $stmt->execute();
 
   if ($stmt->affected_rows <= 0) {
-    writeLog("Delete failed", ["id" => $id]);
+     writeLog("Delete failed", ["id" => $id]);
     $stmt->close();
     respond(false, "Not deleted. It may not be Pending, or id not found.");
   }
 
   $stmt->close();
 
+  
   writeLog("Delete success", ["id" => $id]);
 
   $cancelResult = cancelRentalInExploreDrive($id);
@@ -155,6 +154,8 @@ try {
     "rental" => $cancelResult
   ]);
 
+  respond(true, "Deleted successfully", ["id" => $id]);
+
 } catch (Throwable $e) {
 
   writeLog("Fatal error", [
@@ -162,7 +163,6 @@ try {
     "file" => $e->getFile(),
     "line" => $e->getLine()
   ]);
-
   http_response_code(500);
   respond(false, "Server error: " . $e->getMessage());
 }
