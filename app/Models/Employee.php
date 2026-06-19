@@ -16,7 +16,7 @@ class Employee extends Model
         'employee_code','employment_status','date_created',
         'full_name','preferred_name','date_of_birth','gender','marital_status',
         'nationality','blood_group','epf_number','attendance_type',
-        'created_by','last_updated_by','last_updated_date',
+        'created_by','last_updated_by','last_updated_date','availability_status','unavailable_from','unavailable_to','unavailable_reason',
     ];
 
     protected $hidden = ['password'];
@@ -56,10 +56,10 @@ class Employee extends Model
         return $this->hasMany(EmployeeDocument::class, 'employee_id', 'employee_id');
     }
 
-    public function certifications()
-    {
-        return $this->hasMany(EmployeeCertification::class, 'employee_id', 'employee_id');
-    }
+    // public function certifications()
+    // {
+    //     return $this->hasMany(EmployeeCertification::class, 'employee_id', 'employee_id');
+    // }
 
     public function experiences()
     {

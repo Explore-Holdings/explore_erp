@@ -170,7 +170,7 @@ class MeetingController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'in:meeting,event'],
+            'type' => ['required', 'in:meeting,event,training'],
             'description' => ['nullable', 'string'],
             'meeting_date' => ['required', 'date', 'after_or_equal:today'],
             'start_time' => ['required'],
@@ -241,12 +241,11 @@ class MeetingController extends Controller
             ->with('success', 'Meeting created successfully.');
     }
 
-
     public function update(Request $request, Meeting $meeting)
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'in:meeting,event'],
+            'type' => ['required', 'in:meeting,event,training'],
             'description' => ['nullable', 'string'],
             'meeting_date' => ['required', 'date', 'after_or_equal:today'],
             'start_time' => ['required'],

@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
+import { Toaster } from "react-hot-toast";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -24,6 +25,7 @@ createInertiaApp({
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <App {...props} />
+                 <Toaster position="top-right" />
             </ThemeProvider>
         );
     },
