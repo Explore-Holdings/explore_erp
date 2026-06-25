@@ -170,4 +170,8 @@ Route::get('/higher-management-reports', [HigherManagmentReportsController::clas
 
 Route::get('/gate-pass-requests/export', [GatePassRequestController::class, 'export'])->name('gate-pass-requests.export');
 
+
+
+Route::get('/vehicle-requests/dashboard/export', [VehicleRequestController::class, 'export'])->name('vehicle-requests.export');
+
 require __DIR__.'/auth.php';
