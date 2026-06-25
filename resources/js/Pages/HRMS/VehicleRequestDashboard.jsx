@@ -334,6 +334,17 @@ export default function VehicleRequestDashboard({
   pastTrips = [],
 }) {
 
+
+  const handleExport = () => {
+    const params = new URLSearchParams();
+
+    params.append("status", statusTabs[tabValue]);
+    if (typeFilter) params.append("type", typeFilter);
+    if (q.trim()) params.append("q", q.trim());
+
+    window.open(`/vehicle-requests/dashboard/export?${params.toString()}`, "_blank");
+  };
+
   // modal
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -623,13 +634,23 @@ export default function VehicleRequestDashboard({
               <Chip size="small" label={`${filtered.length}`} sx={{ bgcolor: "#f1f5f9" }} />
             </Stack>
 
-            <TextField
-              size="small"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Filter by vehicle / employee / trip code..."
-              sx={{ width: { xs: "100%", sm: 320 } }}
-            />
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+              <TextField
+                size="small"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Filter by vehicle / employee / trip code..."
+                sx={{ width: { xs: "100%", sm: 320 } }}
+              />
+
+              <Button
+                variant="contained"
+                onClick={handleExport}
+                sx={{ textTransform: "none", fontWeight: 800 }}
+              >
+                Export CSV
+              </Button>
+            </Stack>
           </Stack>
 
           <Tabs

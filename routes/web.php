@@ -18,7 +18,7 @@ use App\Http\Controllers\StockRequestController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TicketController;
-
+use App\Http\Controllers\HigherManagmentReportsController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -165,5 +165,13 @@ Route::delete('/platforms/{platform}', [\App\Http\Controllers\PlatformController
 Route::post('/platforms/{platform}/issues', [\App\Http\Controllers\PlatformController::class, 'storeIssue'])->name('platforms.issues.store');
 Route::patch('/issues/{issue}', [\App\Http\Controllers\PlatformController::class, 'updateIssue'])->name('issues.update');
 Route::delete('/issues/{issue}', [\App\Http\Controllers\PlatformController::class, 'destroyIssue'])->name('issues.destroy');
+
+Route::get('/higher-management-reports', [HigherManagmentReportsController::class, 'index'])->name('higher-management-reports.index');
+
+Route::get('/gate-pass-requests/export', [GatePassRequestController::class, 'export'])->name('gate-pass-requests.export');
+
+
+
+Route::get('/vehicle-requests/dashboard/export', [VehicleRequestController::class, 'export'])->name('vehicle-requests.export');
 
 require __DIR__.'/auth.php';
