@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Models\GatePassRequest;
 use App\Models\Employee;
 use App\Models\User;
 use Inertia\Inertia;
-
+use App\Exports\GatePassExport;
+use Maatwebsite\Excel\Facades\Excel;
+ 
 class GatePassRequestController extends Controller
 {
     public function index()
@@ -76,5 +78,13 @@ class GatePassRequestController extends Controller
         return Inertia::render('HRMS/GatePassRequests', [
             'gatePassRequests' => $gatePassRequests,
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(
+            new GatePassExport($request->filter),
+            'GatePassReport.xlsx'
+        );
     }
 }
