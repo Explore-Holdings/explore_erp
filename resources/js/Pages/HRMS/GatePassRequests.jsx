@@ -23,8 +23,12 @@ import {
   TableRow,
   TextField,
   Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
 } from "@mui/material";
-
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
@@ -39,6 +43,8 @@ function StatusChip({ status }) {
     checked_out: { bg: "#eff6ff", color: "#1d4ed8", border: "#93c5fd" },
     completed: { bg: "#f0fdf4", color: "#166534", border: "#4ade80" },
   };
+
+
 
   const current = config[normalized] || {
     bg: "#f3f4f6",
@@ -163,6 +169,7 @@ export default function GatePassRequests({ auth, gatePassRequests = [] }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [filter, setFilter] = useState("today");
 
   const rows = useMemo(() => {
     return Array.isArray(gatePassRequests) ? gatePassRequests : [];
@@ -206,16 +213,50 @@ export default function GatePassRequests({ auth, gatePassRequests = [] }) {
           </Stack>
 
           <Paper sx={{ p: 2, borderRadius: 2 }}>
-            <TextField
-              fullWidth
-              label="Search"
-              placeholder="Search employee, status, trip code, reason..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(0);
-              }}
-            />
+           <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                alignItems="center"
+            >
+                <TextField
+                    fullWidth
+                    label="Search"
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setPage(0);
+                    }}
+                />
+
+                <FormControl sx={{ minWidth: 180 }}>
+                    <InputLabel>Filter</InputLabel>
+
+                    <Select
+                        value={filter}
+                        label="Filter"
+                        onChange={(e) => setFilter(e.target.value)}
+                    >
+                        <MenuItem value="today">Today</MenuItem>
+                        <MenuItem value="week">This Week</MenuItem>
+                        <MenuItem value="month">This Month</MenuItem>
+                        <MenuItem value="year">This Year</MenuItem>
+                    </Select>
+                </FormControl>
+
+               <Button
+                  variant="contained"
+                  color="success"
+                  startIcon={<FileDownloadIcon />}
+                  onClick={() =>
+                      window.open(
+                          `/gate-pass-requests/export?filter=${filter}`,
+                          "_blank"
+                      )
+                  }
+              >
+                  CSV
+              </Button>
+            </Stack>
           </Paper>
 
           <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
