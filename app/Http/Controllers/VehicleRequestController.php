@@ -70,15 +70,28 @@ class VehicleRequestController extends Controller
                 'created_at' => optional($ts->created_at)->toDateString(),
 
                 'trip_details' => $latestTrip ? [
-                    'trip_detail_id' => $latestTrip->trip_detail_id,
-                    'trip_start_datetime' => optional($latestTrip->trip_start_datetime)->toDateTimeString(),
-                    'trip_end_datetime' => optional($latestTrip->trip_end_datetime)->toDateTimeString(),
-                    'trip_start_odometer' => $latestTrip->trip_start_odometer,
-                    'trip_end_odometer' => $latestTrip->trip_end_odometer,
-                    'trip_start_odometer_photo' => $this->makePhotoUrl($latestTrip->trip_start_odometer_photo),
-                    'trip_end_odometer_photo' => $this->makePhotoUrl($latestTrip->trip_end_odometer_photo),
-                    'start_trip_fuel' => $latestTrip->start_trip_fuel,
-                    'end_trip_fuel' => $latestTrip->end_trip_fuel,
+                    'trip_detail_id'               => $latestTrip->trip_detail_id,
+                    'trip_start_datetime'          => optional($latestTrip->trip_start_datetime)->toDateTimeString(),
+                    'trip_end_datetime'            => optional($latestTrip->trip_end_datetime)->toDateTimeString(),
+                    'trip_start_odometer'          => $latestTrip->trip_start_odometer,
+                    'trip_end_odometer'            => $latestTrip->trip_end_odometer,
+                    'trip_start_odometer_photo'    => $this->makePhotoUrl($latestTrip->trip_start_odometer_photo),
+                    'trip_end_odometer_photo'      => $this->makePhotoUrl($latestTrip->trip_end_odometer_photo),
+                    'start_trip_fuel'              => $latestTrip->start_trip_fuel,
+                    'end_trip_fuel'                => $latestTrip->end_trip_fuel,
+                    'start_remark'                 => $latestTrip->start_remark,
+                    'end_remark'                   => $latestTrip->end_remark,
+
+                    // ── Vehicle Change fields ──
+                    'change_vehicle_no'             => $latestTrip->change_vehicle_no,
+                    'change_vehicle_datetime'       => optional($latestTrip->change_vehicle_datetime)->toDateTimeString(),
+                    'change_vehicle_start_odometer' => $latestTrip->change_vehicle_start_odometer,
+                    'change_vehicle_end_odometer'   => $latestTrip->change_vehicle_end_odometer,
+                    'change_vehicle_start_photo'    => $this->makePhotoUrl($latestTrip->change_vehicle_start_photo),
+                    'change_vehicle_end_photo'      => $this->makePhotoUrl($latestTrip->change_vehicle_end_photo),
+                    'change_vehicle_start_fuel'     => $latestTrip->change_vehicle_start_fuel,
+                    'change_vehicle_end_fuel'       => $latestTrip->change_vehicle_end_fuel,
+                    'change_vehicle_remark'         => $latestTrip->change_vehicle_remark,
                 ] : null,
             ];
         };
