@@ -28,6 +28,7 @@ import {
   MenuItem,
   Select
 } from "@mui/material";
+
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -43,8 +44,6 @@ function StatusChip({ status }) {
     checked_out: { bg: "#eff6ff", color: "#1d4ed8", border: "#93c5fd" },
     completed: { bg: "#f0fdf4", color: "#166534", border: "#4ade80" },
   };
-
-
 
   const current = config[normalized] || {
     bg: "#f3f4f6",
@@ -97,10 +96,7 @@ function GatePassModal({ open, onClose, row }) {
             <DetailItem label="Vehicle No" value={row.vehicle_no} />
             <DetailItem label="Gate Pass Code" value={row.gate_pass_code} />
             <DetailItem label="Status" value={row.status} />
-            <DetailItem label="Checked Out At" value={row.checked_out_at} />
-            <DetailItem label="Checked Out By" value={ row.checked_out_by_name ? `${row.checked_out_by_name} ` : "-" } />
-            <DetailItem label="Checked In At" value={row.checked_in_at} />
-            <DetailItem label="Checked In By" value={ row.checked_in_by_name ? `${row.checked_in_by_name} ` : "-" } />
+
             <DetailItem label="Created At" value={row.created_at} />
         </Box>
 
