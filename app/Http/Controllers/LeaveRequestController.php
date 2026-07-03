@@ -132,6 +132,8 @@ class LeaveRequestController extends Controller
                         'department' => $employee->job?->department?->name ?? '-',
                         'policy_name' => $policy->name,
 
+                        'no_pay_days' => $employee->no_pay_days ?? 0, 
+
                         'leave_entitlement' => $yearlyBalance?->leave_entitlement ?? 0,
                         'total_taken' => $balance?->total_taken ?? 0,
                         'remaining' => $balance?->remaining 

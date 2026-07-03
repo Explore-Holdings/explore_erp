@@ -418,6 +418,7 @@ function EmployeeLeaveBalanceTable({ rows }) {
           employee_code: row.employee_code,
           employee_name: row.employee_name,
           department: row.department,
+          no_pay_days: row.no_pay_days,
           leaveTypes: [],
         };
       }
@@ -519,6 +520,7 @@ function EmployeeLeaveBalanceTable({ rows }) {
               <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
                 Department
               </TableCell>
+
               {allLeaveTypes.map((type) => (
                 <TableCell
                   key={type}
@@ -529,6 +531,9 @@ function EmployeeLeaveBalanceTable({ rows }) {
                   {type}
                 </TableCell>
               ))}
+              <TableCell rowSpan={2} sx={{ fontWeight: 800, whiteSpace: "nowrap", backgroundColor: "#f9fafb" }}>
+                No Pay Days
+              </TableCell>
             </TableRow>
 
             {/* Row 2: Entitled / Taken / Remaining sub-headers */}
@@ -560,6 +565,7 @@ function EmployeeLeaveBalanceTable({ rows }) {
                     <TableCell>{employee.employee_code || "-"}</TableCell>
                     <TableCell sx={{ fontWeight: 700 }}>{employee.employee_name || "-"}</TableCell>
                     <TableCell>{employee.department || "-"}</TableCell>
+                    
                     {allLeaveTypes.map((type) => {
                       const leave = leaveMap[type];
                       return (
@@ -576,6 +582,9 @@ function EmployeeLeaveBalanceTable({ rows }) {
                         </React.Fragment>
                       );
                     })}
+                    <TableCell align="center">
+                        {employee.no_pay_days ?? 0}
+                    </TableCell>
                   </TableRow>
                 );
               })
