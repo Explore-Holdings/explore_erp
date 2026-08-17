@@ -116,15 +116,15 @@ const SUITE_SETS = {
     },
   ],
 
-  "Higher Management": [
-    {
-      key: "higher-mgt-reports",
-      title: "MANAGEMENT REPORTS",
-      description: "Executive dashboards, performance analytics, operational insights, and strategic reporting.",
-      href: "/higher-management-reports",
-      image: "/images/higher-mgt-reports.webp",
-    },
-  ],
+  // "Higher Management": [
+  //   {
+  //     key: "higher-mgt-reports",
+  //     title: "MANAGEMENT REPORTS",
+  //     description: "Executive dashboards, performance analytics, operational insights, and strategic reporting.",
+  //     href: "/higher-management-reports",
+  //     image: "/images/higher-mgt-reports.webp",
+  //   },
+  // ],
 };
 
 function SuiteCard({ item, disabled, onUnauthorized }) {
