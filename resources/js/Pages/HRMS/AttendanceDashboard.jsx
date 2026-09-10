@@ -187,9 +187,9 @@ export default function AttendanceDashboard({ auth, attendance = [], latestEffec
             <Dialog open={importOpen} onClose={closeImport} fullWidth maxWidth="sm">
             <DialogTitle sx={{ fontWeight: 900 }}>Import Attendance CSV</DialogTitle>
             <DialogContent>
-                <Typography variant="body2" sx={{ color: "#64748b", mb: 2 }}>
+                {/* <Typography variant="body2" sx={{ color: "#64748b", mb: 2 }}>
                 Select a CSV with columns: id, epf, in_time, out_time, effective_date, created_at, updated_at.
-                </Typography>
+                </Typography> */}
                 <Button component="label" variant="outlined" fullWidth disabled={importing} sx={{ py: 2, textTransform: "none" }}>
                 {file ? file.name : "Choose CSV file"}
                 <input
