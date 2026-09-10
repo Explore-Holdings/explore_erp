@@ -652,6 +652,15 @@ export default function VehicleRequestDashboard({
               <ListItemText primary="HRMS Home" primaryTypographyProps={{ fontWeight: 600 }} />
             </ListItemButton>
 
+            <ListItemButton
+              selected={typeFilter === "personal"}
+              onClick={() => setTypeFilter("personal")}
+              sx={{ borderRadius: 2, mb: 0.5 }}
+            >
+              <DirectionsCarOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
+              <ListItemText primary="Personal Vehicle Requests" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
+            </ListItemButton>
+
             <Divider sx={{ my: 1.5 }} />
 
             <Typography sx={{ fontSize: "0.75rem", color: "#6b7280", fontWeight: 700, px: 1.5, mb: 1 }}>
