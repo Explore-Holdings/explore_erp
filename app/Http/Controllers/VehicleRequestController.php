@@ -196,6 +196,53 @@ class VehicleRequestController extends Controller
         ]);
     }
 
+    public function personalRequests()
+    {
+        $requests = TransportService::with('employee')
+            ->where('type', 'personal')
+            ->latest('created_at')
+            ->get()
+            ->map(fn ($request) => [
+                'request_id' => $request->id,
+                'employee_name' => $request->employee?->preferred_name
+                    ?? $request->employee?->name
+                    ?? ($request->employee_id ? 'Employee #' . $request->employee_id : '—'),
+                'employee_id' => $request->employee_id,
+                'vehicle_no' => $request->vehicle_no,
+                'from_date' => $request->assigned_start_at
+                    ? Carbon::parse($request->assigned_start_at)->toDateString()
+                    : null,
+                'to_date' => $request->assigned_end_at
+                    ? Carbon::parse($request->assigned_end_at)->toDateString()
+                    : null,
+                'status' => $request->status,
+                'created_at' => optional($request->created_at)->toDateString(),
+                'invoice_no' => $request->invoice_no,
+                'invoice_status' => $request->invoice_status,
+                'invoice_pdf_path' => $request->invoice_pdf_path,
+                'payment_status' => $request->payment_status,
+            ])
+            ->values();
+
+        return Inertia::render('HRMS/PersonalVehicleRequests', [
+            'requests' => $requests,
+        ]);
+    }
+
+    public function confirmInvoice(Request $request, TransportService $transportService)
+    {
+        $validated = $request->validate([
+            'invoice_no' => ['required', 'string', 'max:60'],
+        ]);
+
+        $transportService->update([
+            'invoice_no' => $validated['invoice_no'],
+            'invoice_status' => 'CONFIRMED',
+        ]);
+
+        return back()->with('success', 'Invoice number saved successfully.');
+    }
+
     public function export(Request $request)
     {
         $today = Carbon::today();

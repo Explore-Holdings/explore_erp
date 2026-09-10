@@ -47,6 +47,12 @@ const MODULE_SETS = {
       image: "/images/vehicle-request-management.webp",
     },
     {
+      title: "Employee Attendance",
+      description: "Track and manage employee attendance records.",
+      href: "/hrms/attendance-dashboard",
+      image: "/images/employee-attendance.jpg",
+    },
+    {
       title: "Customer Handling",
       description: "Manage and track customer handling requests.",
       href: "/hrms/customer-handling",

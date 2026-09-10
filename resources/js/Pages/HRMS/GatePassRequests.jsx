@@ -114,13 +114,13 @@ function GatePassModal({ open, onClose, row }) {
                 >
                 {row.companion_employees.map((employee, index) => (
                     <Box
-                    key={index}
-                    sx={{
-                        p: 1.5,
-                        borderRadius: 2,
-                        border: "1px solid #e5e7eb",
-                        backgroundColor: "#f9fafb",
-                    }}
+                      key={index}
+                      sx={{
+                          p: 1.5,
+                          borderRadius: 2,
+                          border: "1px solid #e5e7eb",
+                          backgroundColor: "#f9fafb",
+                      }}
                     >
                     <Typography
                         fontWeight={800}

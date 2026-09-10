@@ -491,7 +491,7 @@ export default function VehicleRequestDashboard({
 
   // ── NEW: vehicle change dialog state ──
   const [vcOpen, setVcOpen]     = useState(false);
-  const [vcData, setVcData]     = useState(null);   // full row so we have vehicle_no too
+  const [vcData, setVcData]     = useState(null);  
 
   // ── Filters ──
   const [tabValue, setTabValue] = useState(0);
@@ -650,6 +650,14 @@ export default function VehicleRequestDashboard({
             <ListItemButton onClick={() => router.get("/suite-services")} sx={{ borderRadius: 2, mb: 0.5 }}>
               <HomeOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
               <ListItemText primary="HRMS Home" primaryTypographyProps={{ fontWeight: 600 }} />
+            </ListItemButton>
+
+            <ListItemButton
+              onClick={() => router.get("/hrms/personal-vehicle-requests")}
+              sx={{ borderRadius: 2, mb: 0.5 }}
+            >
+              <DirectionsCarOutlinedIcon sx={{ mr: 1.5, color: "#374151" }} />
+              <ListItemText primary="Personal Vehicle Requests" primaryTypographyProps={{ fontWeight: 600, fontSize: "0.9rem" }} />
             </ListItemButton>
 
             <Divider sx={{ my: 1.5 }} />
