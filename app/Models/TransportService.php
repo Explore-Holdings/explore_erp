@@ -29,6 +29,7 @@ class TransportService extends Model
         'delete_note',
         'deleted_by',
         'vehicle_type',
+        'invoice_status',
         'is_vehicle_assigned',
     ];
 

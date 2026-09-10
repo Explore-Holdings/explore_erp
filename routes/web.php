@@ -19,6 +19,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HigherManagmentReportsController;
+use App\Http\Controllers\EmployeeAttendanceController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -68,6 +69,10 @@ Route::prefix('hrms')->name('hrms.')->middleware(['auth', 'verified'])->group(fu
     Route::get('/leave/rejected', [LeaveRequestController::class, 'rejectedLeave'])->name('leave.rejected');
 
     Route::get('/vehicle-request-dashboard', [VehicleRequestController::class, 'dashboard'])->name('vehicle-request-dashboard');
+    Route::get('/personal-vehicle-requests', [VehicleRequestController::class, 'personalRequests'])->name('personal-vehicle-requests');
+    Route::patch('/personal-vehicle-requests/{transportService}/invoice', [VehicleRequestController::class, 'confirmInvoice'])->name('personal-vehicle-requests.invoice');
+    Route::get('/attendance-dashboard', [EmployeeAttendanceController::class, 'index'])->name('attendance-dashboard');
+    Route::post('/attendance-dashboard/import', [EmployeeAttendanceController::class, 'import'])->name('attendance-dashboard.import');
 
     // Route::get('/hrms/meeting-dashboard', [MeetingController::class, 'dashboard'])->name('hrms.meeting-dashboard');
 
