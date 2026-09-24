@@ -91,6 +91,23 @@ export default function CustomerHandling() {
       }));
   }, [customerHandling, searchText, fromDate, toDate]);
 
+  const formatPrice = (value) => {
+    if (value === null || value === undefined || value === "") return "N/A";
+
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue)) return String(value);
+
+    return numericValue.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const getDisplayPrice = (row) => {
+    const value = row.total_price_final ?? row.final_price ?? row.total_price ?? row.price;
+    return formatPrice(value);
+  };
+
   const exportToCsv = () => {
     if (!rows.length) return;
 
@@ -101,6 +118,8 @@ export default function CustomerHandling() {
       "Check Out DateTime",
       "Check Out By",
       "Status",
+      "Total Price Final",
+      "Finance Status",
       "Created At",
     ];
 
@@ -111,6 +130,8 @@ export default function CustomerHandling() {
       row.check_out_datetime || "",
       row.check_out_by_name || "",
       row.status || "",
+      getDisplayPrice(row),
+      row.finance_status || "",
       row.created_at || "",
     ]);
 
@@ -180,6 +201,20 @@ export default function CustomerHandling() {
           color={params.value === "check_in" ? "success" : "error"}
         />
       ),
+    },
+    {
+      field: "total_price_final",
+      headerName: "Total Price Final",
+      flex: 1,
+      minWidth: 170,
+      valueGetter: (_, row) => getDisplayPrice(row),
+    },
+    {
+      field: "finance_status",
+      headerName: "Finance Status",
+      flex: 1,
+      minWidth: 180,
+      valueGetter: (value) => value || "N/A",
     },
     {
       field: "created_at",
