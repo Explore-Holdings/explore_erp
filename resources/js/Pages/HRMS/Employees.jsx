@@ -97,16 +97,24 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  const availableEmployees = useMemo(() => {
-    return employees.filter(emp => emp.availability_status !== "unavailable");
+  const activeEmployees = useMemo(() => {
+    return employees.filter(e => (e.employment_status ?? "Active") === "Active");
   }, [employees]);
+
+  const availableEmployees = useMemo(() => {
+    return activeEmployees.filter(emp => emp.availability_status !== "unavailable");
+  }, [activeEmployees]);
 
   const availableList = useMemo(() => {
-    return employees.filter(e => (e.availability_status ?? "available") !== "unavailable");
-  }, [employees]);
+    return activeEmployees.filter(e => (e.availability_status ?? "available") !== "unavailable");
+  }, [activeEmployees]);
 
   const unavailableList = useMemo(() => {
-    return employees.filter(e => e.availability_status === "unavailable");
+    return activeEmployees.filter(e => e.availability_status === "unavailable");
+  }, [activeEmployees]);
+
+  const resignedList = useMemo(() => {
+    return employees.filter(e => (e.employment_status ?? "").toLowerCase() === "resigned");
   }, [employees]);
 
   // Inertia form
@@ -510,11 +518,18 @@ export default function Employees({ auth, employees, isAdmin  = [] }) {
                   >
                     <Tab label={`Available Employees (${availableList.length})`} />
                     <Tab label={`Unavailable Employees (${unavailableList.length})`} />
+                    <Tab label={`Resigned Employees (${resignedList.length})`} />
                   </Tabs>
                 </Box>
 
                 <DataGrid
-                  rows={tabValue === 0 ? availableList : unavailableList}
+                  rows={
+                    tabValue === 0
+                      ? availableList
+                      : tabValue === 1
+                        ? unavailableList
+                        : resignedList
+                  }
                   columns={columns}
                   disableRowSelectionOnClick
                   checkboxSelection
