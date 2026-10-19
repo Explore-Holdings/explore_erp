@@ -72,7 +72,7 @@ Route::prefix('hrms')->name('hrms.')->middleware(['auth', 'verified'])->group(fu
     Route::get('/personal-vehicle-requests', [VehicleRequestController::class, 'personalRequests'])->name('personal-vehicle-requests');
     Route::patch('/personal-vehicle-requests/{transportService}/invoice', [VehicleRequestController::class, 'confirmInvoice'])->name('personal-vehicle-requests.invoice');
     Route::get('/attendance-dashboard', [EmployeeAttendanceController::class, 'index'])->name('attendance-dashboard');
-    Route::post('/attendance-dashboard/import', [EmployeeAttendanceController::class, 'import'])->name('attendance-dashboard.import');
+    Route::get('/attendance-dashboard/export', [EmployeeAttendanceController::class, 'export'])->name('attendance-dashboard.export');
 
     // Route::get('/hrms/meeting-dashboard', [MeetingController::class, 'dashboard'])->name('hrms.meeting-dashboard');
 
@@ -178,5 +178,8 @@ Route::get('/gate-pass-requests/export', [GatePassRequestController::class, 'exp
 
 
 Route::get('/vehicle-requests/dashboard/export', [VehicleRequestController::class, 'export'])->name('vehicle-requests.export');
+
+Route::get('/attendance-dashboard', [EmployeeAttendanceController::class, 'index'])->middleware(['auth', 'verified']);
+Route::get('/attendance-dashboard/export', [EmployeeAttendanceController::class, 'export'])->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
