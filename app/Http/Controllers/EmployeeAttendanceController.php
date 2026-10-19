@@ -53,11 +53,11 @@ class EmployeeAttendanceController extends Controller
             ->get();
 
         $employeeNames = Employee::query()
-            ->whereIn('epf_number', $attendance->pluck('epf')->filter()->values())
-            ->get(['epf_number', 'preferred_name', 'full_name'])
+            ->whereIn('employee_code', $attendance->pluck('employee_code')->filter()->values())
+            ->get(['employee_code', 'preferred_name', 'full_name'])
             ->mapWithKeys(function ($employee) {
                 return [
-                    (string) $employee->epf_number => $employee->preferred_name
+                    (string) $employee->employee_code => $employee->preferred_name
                         ?: $employee->full_name,
                 ];
             });
@@ -66,8 +66,8 @@ class EmployeeAttendanceController extends Controller
             ->map(function ($record) use ($employeeNames) {
                 return [
                     'id' => $record->id,
-                    'epf' => $record->epf,
-                    'employee_name' => $employeeNames[(string) $record->epf] ?? null,
+                    'employee_code' => $record->employee_code,
+                    'employee_name' => $employeeNames[(string) $record->employee_code] ?? null,
                     'in_time' => $record->in_time,
                     'out_time' => $record->out_time,
                     'effective_date' => optional($record->effective_date)->format('Y-m-d'),
@@ -101,7 +101,7 @@ class EmployeeAttendanceController extends Controller
             return strtolower(trim(str_replace("\xEF\xBB\xBF", '', $header)));
         }, $headers);
 
-        $requiredHeaders = ['epf', 'in_time', 'out_time', 'effective_date'];
+        $requiredHeaders = ['employee_code', 'in_time', 'out_time', 'effective_date'];
         $missingHeaders = array_diff($requiredHeaders, $headers);
 
         if ($missingHeaders) {
@@ -123,7 +123,7 @@ class EmployeeAttendanceController extends Controller
                 $values = array_pad(array_slice($values, 0, count($headers)), count($headers), null);
                 $row = array_combine($headers, $values);
                 $data = [
-                    'epf' => trim((string) ($row['epf'] ?? '')),
+                    'employee_code' => trim((string) ($row['employee_code'] ?? '')),
                     'in_time' => $row['in_time'] ?: null,
                     'out_time' => $row['out_time'] ?: null,
                     'effective_date' => $this->normalizeDate($row['effective_date'] ?? null),

@@ -137,7 +137,7 @@ export default function AttendanceDashboard({ auth, attendance = [], latestEffec
                 <TableHead>
                     <TableRow sx={{ backgroundColor: "#f8fafc" }}>
                     {/* <TableCell sx={{ fontWeight: 900 }}>ID</TableCell> */}
-                    <TableCell sx={{ fontWeight: 900 }}>EPF Number</TableCell>
+                    <TableCell sx={{ fontWeight: 900 }}>Employee Code</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>Employee Name</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>In Time</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>Out Time</TableCell>
@@ -157,7 +157,7 @@ export default function AttendanceDashboard({ auth, attendance = [], latestEffec
                     visibleRows.map((row) => (
                         <TableRow key={row.id} hover>
                         {/* <TableCell>{displayValue(row.id)}</TableCell> */}
-                        <TableCell sx={{ fontWeight: 800 }}>{displayValue(row.epf)}</TableCell>
+                        <TableCell sx={{ fontWeight: 800 }}>{displayValue(row.employee_code)}</TableCell>
                         <TableCell>{displayValue(row.employee_name)}</TableCell>
                         <TableCell>{displayValue(row.in_time)}</TableCell>
                         <TableCell>{displayValue(row.out_time)}</TableCell>
