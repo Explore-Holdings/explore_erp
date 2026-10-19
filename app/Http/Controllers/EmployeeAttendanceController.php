@@ -71,6 +71,7 @@ class EmployeeAttendanceController extends Controller
                     'in_time' => $record->in_time,
                     'out_time' => $record->out_time,
                     'effective_date' => optional($record->effective_date)->format('Y-m-d'),
+                    'late_reason' => $record->late_reason,
                     'created_at' => optional($record->created_at)->format('Y-m-d\\TH:i:s.u\\Z'),
                     'updated_at' => optional($record->updated_at)->format('Y-m-d\\TH:i:s.u\\Z'),
                 ];
@@ -127,6 +128,7 @@ class EmployeeAttendanceController extends Controller
                     'in_time' => $row['in_time'] ?: null,
                     'out_time' => $row['out_time'] ?: null,
                     'effective_date' => $this->normalizeDate($row['effective_date'] ?? null),
+                    'late_reason' => isset($row['late_reason']) && trim((string) $row['late_reason']) !== '' ? trim((string) $row['late_reason']) : null,
                     'updated_at' => $this->normalizeDateTime($row['updated_at'] ?? null, $now),
                 ];
 

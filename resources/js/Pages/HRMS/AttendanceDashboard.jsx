@@ -142,6 +142,7 @@ export default function AttendanceDashboard({ auth, attendance = [], latestEffec
                     <TableCell sx={{ fontWeight: 900 }}>In Time</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>Out Time</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>Effective Date</TableCell>
+                    <TableCell sx={{ fontWeight: 900 }}>Late Reason</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>Created At</TableCell>
                     <TableCell sx={{ fontWeight: 900 }}>Updated At</TableCell>
                     </TableRow>
@@ -162,6 +163,7 @@ export default function AttendanceDashboard({ auth, attendance = [], latestEffec
                         <TableCell>{displayValue(row.in_time)}</TableCell>
                         <TableCell>{displayValue(row.out_time)}</TableCell>
                         <TableCell>{displayValue(row.effective_date)}</TableCell>
+                        <TableCell>{displayValue(row.late_reason)}</TableCell>
                         <TableCell>{formatTimestamp(row.created_at)}</TableCell>
                         <TableCell>{formatTimestamp(row.updated_at)}</TableCell>
                         </TableRow>
