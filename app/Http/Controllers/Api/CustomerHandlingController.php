@@ -12,7 +12,7 @@ class CustomerHandlingController extends Controller
         try {
 
             $response = Http::get(
-                'http://localhost/airport/api/send_customer_handling.php'
+                'https://airportparking.lk/api/send_customer_handling.php'
             );
 
             return response()->json(

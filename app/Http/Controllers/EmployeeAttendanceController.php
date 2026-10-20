@@ -5,59 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeAttendance;
 use App\Models\Employee;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
 class EmployeeAttendanceController extends Controller
 {
-    private function normalizeDate(?string $value): ?string
+    private function buildAttendanceQuery(Request $request)
     {
-        if (!$value = trim((string) $value)) {
-            return null;
-        }
-
-        foreach (['Y-m-d', 'm/d/Y', 'n/j/Y', 'd/m/Y', 'j/n/Y'] as $format) {
-            try {
-                return Carbon::createFromFormat($format, $value)->format('Y-m-d');
-            } catch (\Throwable $exception) {
-                // Try the next supported CSV format.
-            }
-        }
-
-        return Carbon::parse($value)->format('Y-m-d');
-    }
-
-    private function normalizeDateTime(?string $value, $fallback = null): ?string
-    {
-        if (!$value = trim((string) $value)) {
-            return $fallback;
-        }
-
-        foreach (['Y-m-d H:i:s', 'Y-m-d H:i', 'm/d/Y H:i:s', 'm/d/Y H:i', 'n/j/Y H:i:s', 'n/j/Y H:i'] as $format) {
-            try {
-                return Carbon::createFromFormat($format, $value)->format('Y-m-d H:i:s');
-            } catch (\Throwable $exception) {
-                // Try the next supported CSV format.
-            }
-        }
-
-        return Carbon::parse($value)->format('Y-m-d H:i:s');
-    }
-
-    public function index()
-    {
-        $attendance = EmployeeAttendance::query()
+        $query = EmployeeAttendance::query()
             ->latest('effective_date')
-            ->latest('id')
-            ->get();
+            ->latest('id');
+
+        $filter = $request->get('filter', 'all');
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+        $singleDate = $request->get('date');
+
+        if ($filter === 'today') {
+            $query->whereDate('effective_date', Carbon::today()->toDateString());
+        } elseif ($filter === 'this_month') {
+            $query->whereBetween('effective_date', [
+                Carbon::now()->startOfMonth()->toDateString(),
+                Carbon::now()->endOfMonth()->toDateString(),
+            ]);
+        } elseif ($filter === 'custom' || $startDate || $endDate || $singleDate) {
+            if ($singleDate) {
+                $query->whereDate('effective_date', $singleDate);
+            } elseif ($startDate && $endDate) {
+                if ($startDate > $endDate) {
+                    [$startDate, $endDate] = [$endDate, $startDate];
+                }
+                $query->whereBetween('effective_date', [$startDate, $endDate]);
+            } elseif ($startDate) {
+                $query->whereDate('effective_date', '>=', $startDate);
+            } elseif ($endDate) {
+                $query->whereDate('effective_date', '<=', $endDate);
+            }
+        }
+
+        return $query;
+    }
+
+    public function index(Request $request)
+    {
+        $query = $this->buildAttendanceQuery($request);
+        $attendance = $query->get();
 
         $employeeNames = Employee::query()
-            ->whereIn('epf_number', $attendance->pluck('epf')->filter()->values())
-            ->get(['epf_number', 'preferred_name', 'full_name'])
+            ->whereIn('employee_code', $attendance->pluck('employee_code')->filter()->values())
+            ->get(['employee_code', 'preferred_name', 'full_name'])
             ->mapWithKeys(function ($employee) {
                 return [
-                    (string) $employee->epf_number => $employee->preferred_name
+                    (string) $employee->employee_code => $employee->preferred_name
                         ?: $employee->full_name,
                 ];
             });
@@ -66,83 +65,140 @@ class EmployeeAttendanceController extends Controller
             ->map(function ($record) use ($employeeNames) {
                 return [
                     'id' => $record->id,
-                    'epf' => $record->epf,
-                    'employee_name' => $employeeNames[(string) $record->epf] ?? null,
+                    'employee_code' => $record->employee_code,
+                    'employee_name' => $employeeNames[(string) $record->employee_code] ?? null,
                     'in_time' => $record->in_time,
                     'out_time' => $record->out_time,
                     'effective_date' => optional($record->effective_date)->format('Y-m-d'),
-                    'created_at' => optional($record->created_at)->format('Y-m-d\\TH:i:s.u\\Z'),
-                    'updated_at' => optional($record->updated_at)->format('Y-m-d\\TH:i:s.u\\Z'),
+                    'late_reason' => $record->late_reason,
+                    'status' => $record->status,
+                    'updated_by' => $record->updated_by,
+                    'created_at' => optional($record->created_at)->format('Y-m-d\TH:i:s.u\Z'),
+                    'updated_at' => optional($record->updated_at)->format('Y-m-d\TH:i:s.u\Z'),
                 ];
             })
             ->values();
 
+        $latestDate = EmployeeAttendance::max('effective_date');
+
         return Inertia::render('HRMS/AttendanceDashboard', [
             'attendance' => $records,
-            'latestEffectiveDate' => $records->first()['effective_date'] ?? null,
+            'latestEffectiveDate' => $latestDate ? Carbon::parse($latestDate)->format('Y-m-d') : null,
+            'filters' => [
+                'filter' => $request->get('filter', 'all'),
+                'start_date' => $request->get('start_date', ''),
+                'end_date' => $request->get('end_date', ''),
+                'date' => $request->get('date', ''),
+            ],
         ]);
     }
 
-    public function import(Request $request)
+    public function export(Request $request)
     {
-        $request->validate([
-            'file' => ['required', 'file', 'mimes:csv,txt', 'max:10240'],
+        $query = $this->buildAttendanceQuery($request);
+        $attendance = $query->get();
+
+        $employeeNames = Employee::query()
+            ->whereIn('employee_code', $attendance->pluck('employee_code')->filter()->values())
+            ->get(['employee_code', 'preferred_name', 'full_name'])
+            ->mapWithKeys(function ($employee) {
+                return [
+                    (string) $employee->employee_code => $employee->preferred_name
+                        ?: $employee->full_name,
+                ];
+            });
+
+        $filter = $request->get('filter', 'all');
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+        $singleDate = $request->get('date');
+
+        $suffix = match ($filter) {
+            'today' => 'today_' . Carbon::today()->toDateString(),
+            'this_month' => 'month_' . Carbon::now()->format('Y_m'),
+            'custom' => 'custom_' . ($singleDate ?: (($startDate ?: 'start') . '_to_' . ($endDate ?: 'end'))),
+            default => ($startDate || $endDate)
+                ? 'range_' . ($startDate ?: 'start') . '_to_' . ($endDate ?: 'end')
+                : 'all_' . Carbon::today()->toDateString(),
+        };
+
+        $filename = "attendance_{$suffix}.csv";
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = function () use ($attendance, $employeeNames) {
+            $handle = fopen('php://output', 'w');
+            fputs($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, [
+                'Employee Code',
+                'Employee Name',
+                'In Time',
+                'Out Time',
+                'Effective Date',
+                'Late Reason',
+                'Status',
+                'Updated By',
+                'Created At',
+                'Updated At',
+            ]);
+
+            foreach ($attendance as $record) {
+                fputcsv($handle, [
+                    $record->employee_code,
+                    $employeeNames[(string) $record->employee_code] ?? '',
+                    $record->in_time,
+                    $record->out_time,
+                    optional($record->effective_date)->format('Y-m-d') ?: (string) $record->effective_date,
+                    $record->late_reason ?? '',
+                    $record->status ?? '',
+                    $record->updated_by ?? '',
+                    optional($record->created_at)->format('Y-m-d H:i:s') ?: (string) $record->created_at,
+                    optional($record->updated_at)->format('Y-m-d H:i:s') ?: (string) $record->updated_at,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function updateStatus(Request $request, EmployeeAttendance $attendance)
+    {
+        $validated = $request->validate([
+            'status' => ['required', 'string', 'in:justify,reject,Justified,Rejected,pending,Pending'],
         ]);
 
-        $handle = fopen($request->file('file')->getRealPath(), 'rb');
-        $headers = fgetcsv($handle);
+        $statusValue = match (strtolower($validated['status'])) {
+            'justify', 'justified' => 'Justified',
+            'reject', 'rejected' => 'Rejected',
+            default => ucfirst(strtolower($validated['status'])),
+        };
 
-        if (!$headers) {
-            fclose($handle);
-            return back()->withErrors(['file' => 'The CSV file is empty.']);
-        }
+        $user = $request->user();
+        $updatedByName = $user ? ($user->name ?: $user->email) : 'System';
 
-        $headers = array_map(function ($header) {
-            return strtolower(trim(str_replace("\xEF\xBB\xBF", '', $header)));
-        }, $headers);
+        $attendance->update([
+            'status' => $statusValue,
+            'updated_by' => $updatedByName,
+        ]);
 
-        $requiredHeaders = ['epf', 'in_time', 'out_time', 'effective_date'];
-        $missingHeaders = array_diff($requiredHeaders, $headers);
-
-        if ($missingHeaders) {
-            fclose($handle);
-            return back()->withErrors([
-                'file' => 'Missing CSV columns: ' . implode(', ', $missingHeaders),
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'status' => $statusValue,
+                'updated_by' => $updatedByName,
+                'message' => "Attendance status updated to {$statusValue}.",
             ]);
         }
 
-        $imported = 0;
-        $now = now();
-
-        DB::transaction(function () use ($handle, $headers, $now, &$imported) {
-            while (($values = fgetcsv($handle)) !== false) {
-                if (count(array_filter($values, fn ($value) => trim((string) $value) !== '')) === 0) {
-                    continue;
-                }
-
-                $values = array_pad(array_slice($values, 0, count($headers)), count($headers), null);
-                $row = array_combine($headers, $values);
-                $data = [
-                    'epf' => trim((string) ($row['epf'] ?? '')),
-                    'in_time' => $row['in_time'] ?: null,
-                    'out_time' => $row['out_time'] ?: null,
-                    'effective_date' => $this->normalizeDate($row['effective_date'] ?? null),
-                    'updated_at' => $this->normalizeDateTime($row['updated_at'] ?? null, $now),
-                ];
-
-                if (isset($row['created_at']) && $row['created_at']) {
-                    $data['created_at'] = $this->normalizeDateTime($row['created_at']);
-                }
-
-                $data['created_at'] ??= $now;
-                DB::table('employee_attendance')->insert($data);
-
-                $imported++;
-            }
-        });
-
-        fclose($handle);
-
-        return back()->with('success', $imported . ' attendance record(s) imported successfully.');
+        return redirect()->back()->with('success', "Attendance status updated to {$statusValue}.");
     }
 }
