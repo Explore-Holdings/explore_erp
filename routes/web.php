@@ -181,5 +181,6 @@ Route::get('/vehicle-requests/dashboard/export', [VehicleRequestController::clas
 
 Route::get('/attendance-dashboard', [EmployeeAttendanceController::class, 'index'])->middleware(['auth', 'verified']);
 Route::get('/attendance-dashboard/export', [EmployeeAttendanceController::class, 'export'])->middleware(['auth', 'verified']);
+Route::patch('/attendance-dashboard/{attendance}/status', [EmployeeAttendanceController::class, 'updateStatus'])->middleware(['auth', 'verified'])->name('attendance-dashboard.update-status');
 
 require __DIR__.'/auth.php';

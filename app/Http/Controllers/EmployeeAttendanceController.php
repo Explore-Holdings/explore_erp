@@ -71,6 +71,8 @@ class EmployeeAttendanceController extends Controller
                     'out_time' => $record->out_time,
                     'effective_date' => optional($record->effective_date)->format('Y-m-d'),
                     'late_reason' => $record->late_reason,
+                    'status' => $record->status,
+                    'updated_by' => $record->updated_by,
                     'created_at' => optional($record->created_at)->format('Y-m-d\TH:i:s.u\Z'),
                     'updated_at' => optional($record->updated_at)->format('Y-m-d\TH:i:s.u\Z'),
                 ];
@@ -141,6 +143,8 @@ class EmployeeAttendanceController extends Controller
                 'Out Time',
                 'Effective Date',
                 'Late Reason',
+                'Status',
+                'Updated By',
                 'Created At',
                 'Updated At',
             ]);
@@ -153,6 +157,8 @@ class EmployeeAttendanceController extends Controller
                     $record->out_time,
                     optional($record->effective_date)->format('Y-m-d') ?: (string) $record->effective_date,
                     $record->late_reason ?? '',
+                    $record->status ?? '',
+                    $record->updated_by ?? '',
                     optional($record->created_at)->format('Y-m-d H:i:s') ?: (string) $record->created_at,
                     optional($record->updated_at)->format('Y-m-d H:i:s') ?: (string) $record->updated_at,
                 ]);
@@ -162,5 +168,37 @@ class EmployeeAttendanceController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function updateStatus(Request $request, EmployeeAttendance $attendance)
+    {
+        $validated = $request->validate([
+            'status' => ['required', 'string', 'in:justify,reject,Justified,Rejected,pending,Pending'],
+        ]);
+
+        $statusValue = match (strtolower($validated['status'])) {
+            'justify', 'justified' => 'Justified',
+            'reject', 'rejected' => 'Rejected',
+            default => ucfirst(strtolower($validated['status'])),
+        };
+
+        $user = $request->user();
+        $updatedByName = $user ? ($user->name ?: $user->email) : 'System';
+
+        $attendance->update([
+            'status' => $statusValue,
+            'updated_by' => $updatedByName,
+        ]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'status' => $statusValue,
+                'updated_by' => $updatedByName,
+                'message' => "Attendance status updated to {$statusValue}.",
+            ]);
+        }
+
+        return redirect()->back()->with('success', "Attendance status updated to {$statusValue}.");
     }
 }
