@@ -20,6 +20,7 @@ use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HigherManagmentReportsController;
 use App\Http\Controllers\EmployeeAttendanceController;
+use App\Http\Controllers\AssetIssuanceController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -125,13 +126,26 @@ Route::get('/hrms/customer-handling', function () {
 
 Route::get('/hrms/gate-pass-requests', [GatePassRequestController::class, 'index']);
 
-Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
+Route::get('/stocks', function () {
+    return Inertia::render('Inventory/InventoryDashboard');
+})->name('stocks.dashboard');
+
+Route::get('/stocks/items', [StockController::class, 'index'])->name('stocks.index');
 
 Route::get('/stocks/create', [StockController::class, 'create'])->name('stocks.create');
 Route::post('/stocks', [StockController::class, 'store'])->name('stocks.store');
 Route::get('/stocks/{stock}/edit', [StockController::class, 'edit'])->name('stocks.edit');
 Route::put('/stocks/{stock}', [StockController::class, 'update'])->name('stocks.update');
 Route::delete('/stocks/{stock}', [StockController::class, 'destroy'])->name('stocks.destroy');
+
+// Asset Issuance
+Route::get('/stocks/asset-issuance',            [AssetIssuanceController::class, 'index'])->name('asset-issuance.index');
+Route::get('/stocks/asset-issuance/create',     [AssetIssuanceController::class, 'create'])->name('asset-issuance.create');
+Route::post('/stocks/asset-issuance',           [AssetIssuanceController::class, 'store'])->name('asset-issuance.store');
+Route::post('/stocks/asset-issuance/{assetIssuance}/return', [AssetIssuanceController::class, 'markReturned'])->name('asset-issuance.return');
+Route::post('/stocks/asset-issuance/{assetIssuance}/lost',   [AssetIssuanceController::class, 'markLost'])->name('asset-issuance.lost');
+Route::post('/stocks/asset-issuance/items',     [AssetIssuanceController::class, 'storeItem'])->name('asset-issuance.items.store');
+Route::delete('/stocks/asset-issuance/items/{issuableItem}', [AssetIssuanceController::class, 'destroyItem'])->name('asset-issuance.items.destroy');
 
 Route::get('/stock-requests', [StockRequestController::class, 'index'])->name('stock-requests.index');
 Route::get('/stock-requests/create', [StockRequestController::class, 'create'])->name('stock-requests.create');

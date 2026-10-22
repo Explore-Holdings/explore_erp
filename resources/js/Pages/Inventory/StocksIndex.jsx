@@ -77,7 +77,9 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
                         </h2>
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-slate-500 font-semibold">
-                        <Link href={route("suite-services")} className="hover:text-indigo-600 transition">Dashboard</Link>
+                        <Link href={route("suite-services")} className="hover:text-indigo-600 transition">Home</Link>
+                        <span>/</span>
+                        <Link href={route("stocks.dashboard")} className="hover:text-indigo-600 transition">Inventory</Link>
                         <span>/</span>
                         <span className="text-slate-800">Stocks</span>
                     </div>
