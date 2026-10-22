@@ -211,19 +211,8 @@ export default function HRMS({ auth = {} }) {
       allowed.HR = MODULE_SETS.HR;
     }
 
-    // Procurement access
-    if (
-      role === "staff" ||
-      role === "department user" ||
-      role === "hod" ||
-      role === "head of department" ||
-      role === "inventory-manager" ||
-      role === "inventory manager" ||
-      dept === "procurement department" ||
-      dept === "procurement"
-    ) {
-      allowed.PROCUREMENT = MODULE_SETS.PROCUREMENT;
-    }
+    // Inventory Management allowed to all users and departments
+    allowed.PROCUREMENT = MODULE_SETS.PROCUREMENT;
 
     // Finance access
     if (dept === "finance" || dept === "finance department") {
