@@ -181,4 +181,106 @@ class AssetIssuanceController extends Controller
         $issuableItem->delete();
         return back()->with('success', 'Item removed from catalog.');
     }
+
+    // ─── Employee Asset Report (for HRMS / Inventory) ─────────────────────────
+
+    public function employeeReport(Request $request)
+    {
+        $employeeId = $request->query('employee_id');
+
+        // Fetch all active employees for search and directory
+        $employees = Employee::with([
+            'job.department',
+            'job.jobTitle',
+        ])
+        ->where('employment_status', 'active')
+        ->withCount([
+            'assetIssuances as total_assets_count',
+            'assetIssuances as active_assets_count' => fn($q) => $q->where('status', 'issued'),
+            'assetIssuances as returned_assets_count' => fn($q) => $q->where('status', 'returned'),
+            'assetIssuances as lost_assets_count' => fn($q) => $q->where('status', 'lost'),
+        ])
+        ->orderBy('full_name')
+        ->get()
+        ->map(function ($emp) {
+            return [
+                'employee_id'           => $emp->employee_id,
+                'full_name'             => $emp->full_name,
+                'preferred_name'        => $emp->preferred_name ?: $emp->full_name,
+                'employee_code'         => $emp->employee_code,
+                'department'            => $emp->job?->department?->name ?? 'N/A',
+                'job_title'             => $emp->job?->jobTitle?->job_title ?? 'N/A',
+                'total_assets_count'    => (int) $emp->total_assets_count,
+                'active_assets_count'   => (int) $emp->active_assets_count,
+                'returned_assets_count' => (int) $emp->returned_assets_count,
+                'lost_assets_count'     => (int) $emp->lost_assets_count,
+            ];
+        });
+
+        $selectedEmployee = null;
+        $issuances = [];
+        $stats = [
+            'total'    => 0,
+            'issued'   => 0,
+            'returned' => 0,
+            'lost'     => 0,
+        ];
+
+        if ($employeeId) {
+            $emp = Employee::with([
+                'job.department',
+                'job.jobTitle',
+                'contacts' => fn($q) => $q->where('is_primary', true),
+            ])->find($employeeId);
+
+            if ($emp) {
+                $primaryContact = $emp->contacts->first();
+                $selectedEmployee = [
+                    'employee_id'    => $emp->employee_id,
+                    'full_name'      => $emp->full_name,
+                    'preferred_name' => $emp->preferred_name ?: $emp->full_name,
+                    'employee_code'  => $emp->employee_code,
+                    'gender'         => $emp->gender,
+                    'department'     => $emp->job?->department?->name ?? 'N/A',
+                    'job_title'      => $emp->job?->jobTitle?->job_title ?? 'N/A',
+                    'contact'        => $primaryContact?->contact_value ?? 'N/A',
+                    'status'         => $emp->employment_status,
+                ];
+
+                $records = AssetIssuance::with(['item', 'issuedBy'])
+                    ->where('employee_id', $emp->employee_id)
+                    ->orderBy('issued_at', 'desc')
+                    ->get();
+
+                $issuances = $records->map(function ($item) {
+                    return [
+                        'id'                => $item->id,
+                        'item_name'         => $item->item?->name ?? 'Unknown Item',
+                        'quantity'          => $item->quantity,
+                        'status'            => $item->status,
+                        'issued_by'         => $item->issuedBy?->name ?? 'System',
+                        'issued_department' => $item->issued_department ?? 'N/A',
+                        'issued_at'         => $item->issued_at ? $item->issued_at->format('Y-m-d H:i') : null,
+                        'returned_at'       => $item->returned_at ? $item->returned_at->format('Y-m-d H:i') : null,
+                        'purpose'           => $item->purpose,
+                    ];
+                });
+
+                $stats = [
+                    'total'    => (int) $records->sum('quantity'),
+                    'issued'   => (int) $records->where('status', 'issued')->sum('quantity'),
+                    'returned' => (int) $records->where('status', 'returned')->sum('quantity'),
+                    'lost'     => (int) $records->where('status', 'lost')->sum('quantity'),
+                ];
+            }
+        }
+
+        return Inertia::render('HRMS/EmployeeAssetReport', [
+            'employees'        => $employees,
+            'selectedEmployee' => $selectedEmployee,
+            'issuances'        => $issuances,
+            'stats'            => $stats,
+            'initialEmployeeId'=> $employeeId ? (int)$employeeId : null,
+        ]);
+    }
 }

@@ -91,6 +91,8 @@ Route::prefix('hrms')->name('hrms.')->middleware(['auth', 'verified'])->group(fu
         return Inertia::render('HRMS/UsersManagement');
     })->name('users-management');
 
+    Route::get('/employee-assets', [AssetIssuanceController::class, 'employeeReport'])->name('employee-assets');
+
     Route::resource('departments', DepartmentController::class);
     Route::resource('job-titles', JobTitleController::class);
     Route::resource('employees', EmployeeController::class);
@@ -146,6 +148,7 @@ Route::post('/stocks/asset-issuance/{assetIssuance}/return', [AssetIssuanceContr
 Route::post('/stocks/asset-issuance/{assetIssuance}/lost',   [AssetIssuanceController::class, 'markLost'])->name('asset-issuance.lost');
 Route::post('/stocks/asset-issuance/items',     [AssetIssuanceController::class, 'storeItem'])->name('asset-issuance.items.store');
 Route::delete('/stocks/asset-issuance/items/{issuableItem}', [AssetIssuanceController::class, 'destroyItem'])->name('asset-issuance.items.destroy');
+Route::get('/stocks/employee-assets',                        [AssetIssuanceController::class, 'employeeReport'])->name('stocks.employee-assets');
 
 Route::get('/stock-requests', [StockRequestController::class, 'index'])->name('stock-requests.index');
 Route::get('/stock-requests/create', [StockRequestController::class, 'create'])->name('stock-requests.create');

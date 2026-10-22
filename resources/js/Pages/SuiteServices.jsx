@@ -84,8 +84,8 @@ const MODULE_SETS = {
     // },
     {
       title: "Inventory Management",
-      description: "Track stocks, handle stock requests and approval workflows.",
-      href: "/stocks",
+      description: "Search employees and view asset issuance reports, items taken, returned, and lost.",
+      href: "/hrms/employee-assets",
       image: "/images/procurement.webp",
     },
   ],
