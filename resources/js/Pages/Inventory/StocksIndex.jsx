@@ -21,7 +21,6 @@ export default function StocksIndex({ auth = {}, stocks = { data: [] }, stats = 
             const timer = setTimeout(() => {
                 setShowSuccess(false);
             }, 2000);
-            return () => clearTimeout(timer);
         } else {
             setShowSuccess(false);
         }
