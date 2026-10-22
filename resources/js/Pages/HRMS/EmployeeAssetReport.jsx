@@ -15,14 +15,8 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import ReportOutlinedIcon from "@mui/icons-material/ReportOutlined";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
-import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
-import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 
 const drawerWidth = 260;
 
