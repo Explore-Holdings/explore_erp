@@ -24,8 +24,6 @@ const drawerWidth = 260;
 
 const navItems = [
     { label: "Home",               href: "/suites",          icon: <HomeOutlinedIcon /> },
-    // { label: "Inventory",          href: "/stocks",                  icon: <InventoryOutlinedIcon /> },
-    // { label: "Stock List",         href: "/stocks/items",            icon: <AssignmentOutlinedIcon /> },
     { label: "Asset Issuance",     href: "/stocks/asset-issuance",   icon: <AssignmentOutlinedIcon /> },
 ];
 
