@@ -280,21 +280,6 @@ export default function AssetIssuanceIndex({
                             <IconButton edge="start" onClick={toggleMobile} sx={{ mr: 1, color: "#0B1C2D" }} />
                         )}
                         <Typography fontWeight={900}>Asset Issuance</Typography>
-                        <Box sx={{ flex: 1 }} />
-                        {tabValue === 0 && (
-                            <Button variant="contained" startIcon={<AddOutlinedIcon />}
-                                component={Link} href={route("asset-issuance.create")}
-                                sx={{ backgroundColor: "#0B1C2D", "&:hover": { backgroundColor: "#0F2A44" } }}>
-                                Issue Item
-                            </Button>
-                        )}
-                        {tabValue === 1 && (
-                            <Button variant="contained" startIcon={<AddOutlinedIcon />}
-                                onClick={() => setOpenAddItem(true)}
-                                sx={{ backgroundColor: "#0B1C2D", "&:hover": { backgroundColor: "#0F2A44" } }}>
-                                Add Item
-                            </Button>
-                        )}
                     </Toolbar>
                 </AppBar>
 
@@ -346,11 +331,23 @@ export default function AssetIssuanceIndex({
                         {/* DataGrid box */}
                         <Box sx={{ border: "2px solid #0B1C2D", overflow: "hidden", width: "100%" }}>
                             <Box sx={{ height: "calc(100vh - 280px)", backgroundColor: "white" }}>
-                                <Box sx={{ borderBottom: 1, borderColor: "divider", px: 2, pt: 1 }}>
+                                <Box sx={{ borderBottom: 1, borderColor: "divider", px: 2, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 1 }}>
                                     <Tabs value={tabValue} onChange={(_, v) => setTabValue(v)}>
                                         <Tab label={`Issuance Records (${issuances?.total ?? issuances?.data?.length ?? 0})`} />
                                         <Tab label={`Item Catalog (${items.length})`} />
                                     </Tabs>
+                                    <Box sx={{ display: "flex", gap: 1.5, py: 1, alignItems: "center" }}>
+                                        <Button variant="outlined" size="small" startIcon={<AddOutlinedIcon />}
+                                            onClick={() => setOpenAddItem(true)}
+                                            sx={{ borderColor: "#0B1C2D", color: "#0B1C2D", "&:hover": { borderColor: "#0F2A44", backgroundColor: "rgba(11,28,45,0.04)" }, textTransform: "none", fontWeight: 700 }}>
+                                            Add Item
+                                        </Button>
+                                        <Button variant="contained" size="small" startIcon={<AddOutlinedIcon />}
+                                            component={Link} href={route("asset-issuance.create")}
+                                            sx={{ backgroundColor: "#0B1C2D", "&:hover": { backgroundColor: "#0F2A44" }, textTransform: "none", fontWeight: 700 }}>
+                                            Issue Item
+                                        </Button>
+                                    </Box>
                                 </Box>
 
                                 {tabValue === 0 && (
