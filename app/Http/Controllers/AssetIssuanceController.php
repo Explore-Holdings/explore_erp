@@ -16,7 +16,10 @@ class AssetIssuanceController extends Controller
 
     public function index(Request $request)
     {
+        $userId = Auth::id();
+
         $query = AssetIssuance::with(['employee', 'item', 'issuedBy'])
+            ->where('issued_by', $userId)
             ->orderBy('issued_at', 'desc');
 
         if ($request->filled('search')) {
@@ -35,10 +38,10 @@ class AssetIssuanceController extends Controller
 
         // Stats
         $stats = [
-            'total'    => AssetIssuance::count(),
-            'issued'   => AssetIssuance::where('status', 'issued')->count(),
-            'returned' => AssetIssuance::where('status', 'returned')->count(),
-            'lost'     => AssetIssuance::where('status', 'lost')->count(),
+            'total'    => AssetIssuance::where('issued_by', $userId)->count(),
+            'issued'   => AssetIssuance::where('issued_by', $userId)->where('status', 'issued')->count(),
+            'returned' => AssetIssuance::where('issued_by', $userId)->where('status', 'returned')->count(),
+            'lost'     => AssetIssuance::where('issued_by', $userId)->where('status', 'lost')->count(),
         ];
 
         $items    = IssuableItem::orderBy('name')->get(['id', 'name', 'created_at']);
