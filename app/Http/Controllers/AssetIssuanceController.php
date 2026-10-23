@@ -16,11 +16,15 @@ class AssetIssuanceController extends Controller
 
     public function index(Request $request)
     {
-        $userId = Auth::id();
+        $user = Auth::user();
+        $isAdmin = $user && method_exists($user, 'isAdmin') ? $user->isAdmin() : false;
 
         $query = AssetIssuance::with(['employee', 'item', 'issuedBy'])
-            ->where('issued_by', $userId)
             ->orderBy('issued_at', 'desc');
+
+        if (!$isAdmin) {
+            $query->where('issued_by', $user?->id);
+        }
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -37,11 +41,16 @@ class AssetIssuanceController extends Controller
         $issuances = $query->paginate(15)->withQueryString();
 
         // Stats
+        $statsQuery = AssetIssuance::query();
+        if (!$isAdmin) {
+            $statsQuery->where('issued_by', $user?->id);
+        }
+
         $stats = [
-            'total'    => AssetIssuance::where('issued_by', $userId)->count(),
-            'issued'   => AssetIssuance::where('issued_by', $userId)->where('status', 'issued')->count(),
-            'returned' => AssetIssuance::where('issued_by', $userId)->where('status', 'returned')->count(),
-            'lost'     => AssetIssuance::where('issued_by', $userId)->where('status', 'lost')->count(),
+            'total'    => (clone $statsQuery)->count(),
+            'issued'   => (clone $statsQuery)->where('status', 'issued')->count(),
+            'returned' => (clone $statsQuery)->where('status', 'returned')->count(),
+            'lost'     => (clone $statsQuery)->where('status', 'lost')->count(),
         ];
 
         $items    = IssuableItem::orderBy('name')->get(['id', 'name', 'created_at']);
