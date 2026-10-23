@@ -68,12 +68,35 @@ class User extends Authenticatable
     }
 
         /**
+     * Check if user is Admin or Administrator.
+     */
+    public function isAdmin(): bool
+    {
+        if (is_string($this->role) && in_array(strtolower(trim($this->role)), ['admin', 'administrator'])) {
+            return true;
+        }
+
+        if (is_object($this->role) && isset($this->role->name) && in_array(strtolower(trim($this->role->name)), ['admin', 'administrator'])) {
+            return true;
+        }
+
+        if (method_exists($this, 'roles')) {
+            if ($this->relationLoaded('roles')) {
+                return $this->roles->contains(fn($r) => in_array(strtolower(trim($r->name ?? '')), ['admin', 'administrator']));
+            }
+            return $this->roles()->whereIn(\Illuminate\Support\Facades\DB::raw('LOWER(name)'), ['admin', 'administrator'])->exists();
+        }
+
+        return false;
+    }
+
+    /**
      * Check if user is IT HOD or Admin.
      */
     public function isItHod(): bool
     {
         // 1. Check by role: Admin is allowed
-        if ($this->role === 'admin') {
+        if ($this->isAdmin()) {
             return true;
         }
 

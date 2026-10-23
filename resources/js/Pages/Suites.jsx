@@ -90,8 +90,8 @@ const SUITE_SETS = {
     {
       key: "procurement",
       title: "INVENTORY MANAGEMENT",
-      description: "Suppliers, purchase requests, POs, and approvals",
-      href: "/suite-services?type=procurement",
+      description: "Issue items to employees, track what was given, by whom, and when.",
+      href: "/stocks",
       image: "/images/procurement.webp",
     },
   ],
@@ -252,21 +252,12 @@ const authorizedKeys = useMemo(() => {
 
   const allowed = new Set();
 
+  // Inventory Management allowed to all users and departments
+  allowed.add("procurement");
+
   // role-based access
   if (role === "hr-executive") {
     allowed.add("hr");
-  }
-
-  if (
-    role === "staff" ||
-    role === "department user" ||
-    role === "hod" ||
-    role === "head of department" ||
-    role === "inventory-manager" ||
-    role === "inventory manager" ||
-    role === "inventory_manager"
-  ) {
-    allowed.add("procurement");
   }
 
   // department-based access
