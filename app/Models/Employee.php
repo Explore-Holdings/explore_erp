@@ -106,4 +106,9 @@ class Employee extends Model
     {
         return $this->belongsTo(JobTitle::class, 'job_title_id', 'job_title_id');
     }
+
+    public function assetIssuances()
+    {
+        return $this->hasMany(AssetIssuance::class, 'employee_id', 'employee_id');
+    }
 }
